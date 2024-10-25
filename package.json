@@ -4,7 +4,8 @@
   "description": "Fast, lightweight and fully typesafe web framework",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsx",
+    "example:node": "tsx ./examples/node.ts"
   },
   "keywords": [
     "web",
@@ -16,6 +17,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.7.9",
+    "tsx": "^4.19.1",
     "typescript": "^5.6.3"
   }
 }

@@ -1,4 +1,5 @@
-import type { Context, Handler } from "./types";
+import type { Context } from "./context";
+import type { Handler } from "./types";
 
 export class Spectra<BasePath extends string = "/"> {
   private _basePath: BasePath;

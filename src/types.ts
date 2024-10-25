@@ -1,15 +1,9 @@
+import type { Context } from "./context";
+
 export type Handler<Path extends string> = {
   method: HTTPMethod;
   path: string;
   fn: (c: Context<Path>) => void;
-};
-
-export type Context<Path extends string> = {
-  req: {
-    params: ParamKeys<Path> extends never
-      ? undefined
-      : ParamsToRecord<ParamKeys<Path>>;
-  };
 };
 
 export type HTTPMethod =
@@ -31,8 +25,9 @@ type ExtractMethod<T extends string> = T extends `${infer Method} ${string}`
 
 type ParamKey<Component> = Component extends `:${infer Name}` ? Name : never;
 
-type ParamKeys<Path extends string> = Path extends `${infer Key}/${infer Rest}`
-  ? ParamKey<Key> | ParamKeys<Rest>
-  : ParamKey<Path>;
+export type ParamKeys<Path extends string> =
+  Path extends `${infer Key}/${infer Rest}`
+    ? ParamKey<Key> | ParamKeys<Rest>
+    : ParamKey<Path>;
 
-type ParamsToRecord<Param extends string> = { [K in Param]: string };
+export type ParamsToRecord<Param extends string> = { [K in Param]: string };
