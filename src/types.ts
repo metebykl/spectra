@@ -1,10 +1,6 @@
 import type { Context } from "./context";
 
-export type Handler<Path extends string> = {
-  method: HTTPMethod;
-  path: string;
-  fn: (c: Context<Path>) => void;
-};
+export type Handler<Path extends string> = (c: Context<Path>) => void;
 
 export type HTTPMethod =
   | "GET"

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsx",
-    "example:node": "tsx ./examples/node.ts"
+    "example:node": "tsx ./examples/node.ts",
+    "example:dev": "tsx ./examples/dev.ts"
   },
   "keywords": [
     "web",

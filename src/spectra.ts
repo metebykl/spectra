@@ -1,68 +1,61 @@
-import type { Context } from "./context";
-import type { Handler } from "./types";
+import { Router } from "./router";
+
+import type { Handler, HTTPMethod } from "./types";
 
 export class Spectra<BasePath extends string = "/"> {
   private _basePath: BasePath;
-  private handlers: Handler<string>[] = [];
+  private router: Router<Handler<any>>;
 
   constructor(basePath?: BasePath) {
     this._basePath = (basePath ?? "/") as BasePath;
+    this.router = new Router<Handler<any>>();
   }
 
-  get<Path extends string>(path: Path, callbackFn: (c: Context<Path>) => void) {
-    this.handlers.push({ method: "GET", path, fn: callbackFn });
+  all<Path extends string>(path: Path, handler: Handler<Path>) {
+    this.router.add("ALL", path, handler);
   }
 
-  put<Path extends string>(path: Path, callbackFn: (c: Context<Path>) => void) {
-    this.handlers.push({ method: "PUT", path, fn: callbackFn });
+  get<Path extends string>(path: Path, handler: Handler<Path>) {
+    this.router.add("GET", path, handler);
   }
 
-  post<Path extends string>(
-    path: Path,
-    callbackFn: (c: Context<Path>) => void
-  ) {
-    this.handlers.push({ method: "POST", path, fn: callbackFn });
+  put<Path extends string>(path: Path, handler: Handler<Path>) {
+    this.router.add("PUT", path, handler);
   }
 
-  delete<Path extends string>(
-    path: Path,
-    callbackFn: (c: Context<Path>) => void
-  ) {
-    this.handlers.push({ method: "DELETE", path, fn: callbackFn });
+  post<Path extends string>(path: Path, handler: Handler<Path>) {
+    this.router.add("POST", path, handler);
   }
 
-  patch<Path extends string>(
-    path: Path,
-    callbackFn: (c: Context<Path>) => void
-  ) {
-    this.handlers.push({ method: "PATCH", path, fn: callbackFn });
+  delete<Path extends string>(path: Path, handler: Handler<Path>) {
+    this.router.add("DELETE", path, handler);
   }
 
-  head<Path extends string>(
-    path: Path,
-    callbackFn: (c: Context<Path>) => void
-  ) {
-    this.handlers.push({ method: "HEAD", path, fn: callbackFn });
+  patch<Path extends string>(path: Path, handler: Handler<Path>) {
+    this.router.add("PATCH", path, handler);
   }
 
-  options<Path extends string>(
-    path: Path,
-    callbackFn: (c: Context<Path>) => void
-  ) {
-    this.handlers.push({ method: "OPTIONS", path, fn: callbackFn });
+  head<Path extends string>(path: Path, handler: Handler<Path>) {
+    this.router.add("HEAD", path, handler);
   }
 
-  trace<Path extends string>(
-    path: Path,
-    callbackFn: (c: Context<Path>) => void
-  ) {
-    this.handlers.push({ method: "TRACE", path, fn: callbackFn });
+  options<Path extends string>(path: Path, handler: Handler<Path>) {
+    this.router.add("OPTIONS", path, handler);
   }
 
-  connect<Path extends string>(
-    path: Path,
-    callbackFn: (c: Context<Path>) => void
-  ) {
-    this.handlers.push({ method: "CONNECT", path, fn: callbackFn });
+  trace<Path extends string>(path: Path, handler: Handler<Path>) {
+    this.router.add("TRACE", path, handler);
+  }
+
+  connect<Path extends string>(path: Path, handler: Handler<Path>) {
+    this.router.add("CONNECT", path, handler);
+  }
+
+  getHandler<Path extends string>(
+    method: HTTPMethod,
+    path: Path
+  ): Handler<Path> | null {
+    const handler = this.router.match(method, path);
+    return handler;
   }
 }
