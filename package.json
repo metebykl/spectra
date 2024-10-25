@@ -1,0 +1,21 @@
+{
+  "name": "spectra",
+  "version": "0.0.1",
+  "description": "Fast, lightweight and fully typesafe web framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "web",
+    "http",
+    "framework",
+    "router"
+  ],
+  "author": "fly2z",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.7.9",
+    "typescript": "^5.6.3"
+  }
+}
