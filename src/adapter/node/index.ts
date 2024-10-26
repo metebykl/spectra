@@ -17,12 +17,14 @@ export function serve(
     const method = req.method as HTTPMethod;
     const url = req.url || "/";
 
-    const context = new NodeContext<any>(req, res);
-    const handler = app.getHandler(method, url);
-
-    if (handler) {
-      handler(context);
+    const match = app.match(method, url);
+    if (!match) {
+      // TODO: Implement 404
+      return;
     }
+
+    const context = new NodeContext<any>(req, res, match.params);
+    match.handler(context);
   });
 
   server.listen(port, () => {

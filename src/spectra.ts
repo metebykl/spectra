@@ -1,9 +1,14 @@
-import { Router } from "./router";
+import { Router, type RouteMatch } from "./router";
 
 import type { Handler, HTTPMethod } from "./types";
 
 export class Spectra<BasePath extends string = "/"> {
+  /**
+   * Not Implemented!
+   * @todo
+   */
   private _basePath: BasePath;
+
   private router: Router<Handler<any>>;
 
   constructor(basePath?: BasePath) {
@@ -51,11 +56,11 @@ export class Spectra<BasePath extends string = "/"> {
     this.router.add("CONNECT", path, handler);
   }
 
-  getHandler<Path extends string>(
+  match<Path extends string>(
     method: HTTPMethod,
     path: Path
-  ): Handler<Path> | null {
-    const handler = this.router.match(method, path);
-    return handler;
+  ): RouteMatch<Handler<Path>> | null {
+    const match = this.router.match(method, path);
+    return match;
   }
 }

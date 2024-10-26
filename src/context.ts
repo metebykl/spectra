@@ -12,6 +12,6 @@ export interface Context<Path extends string> {
 
   req: ContextRequest<Path>;
 
-  json: (data: unknown, status?: number) => void;
-  text: (data: string, status?: number) => void;
+  json(data: unknown, status?: number): void;
+  text(data: string, status?: number): void;
 }

@@ -7,4 +7,9 @@ app.get("/", (c) => {
   c.json({ message: "Hello World!" });
 });
 
+app.get("/tasks/:taskId", (c) => {
+  const { taskId } = c.req.params;
+  c.json({ taskId });
+});
+
 serve(app);
