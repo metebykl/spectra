@@ -23,7 +23,7 @@ export function serve(
       return;
     }
 
-    const context = new NodeContext<any>(req, res, match.params);
+    const context = new NodeContext(req, res, match.params);
     match.handler(context);
   });
 

@@ -1,16 +1,11 @@
-import type { HTTPMethod, ParamKeys, ParamsToRecord } from "./types";
-
-export type ContextRequest<Path extends string> = {
-  params: ParamKeys<Path> extends never
-    ? undefined
-    : ParamsToRecord<ParamKeys<Path>>;
-};
+import { SpectraRequest } from "./request";
+import type { HTTPMethod } from "./types";
 
 export interface Context<Path extends string> {
   method: HTTPMethod;
   path: Path;
 
-  req: ContextRequest<Path>;
+  req: SpectraRequest<Path>;
 
   json(data: unknown, status?: number): void;
   text(data: string, status?: number): void;

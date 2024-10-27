@@ -8,7 +8,7 @@ app.get("/", (c) => {
 });
 
 app.get("/tasks/:taskId", (c) => {
-  const { taskId } = c.req.params;
+  const taskId = c.req.param("taskId");
   c.json({ taskId });
 });
 

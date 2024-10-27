@@ -5,7 +5,7 @@ import { Spectra } from "../src";
 const app = new Spectra();
 
 app.get("/:id", (c) => {
-  const { id } = c.req.params;
+  const id = c.req.param("id");
   console.log("ID:", id);
 });
 
