@@ -22,7 +22,6 @@ export class NodeRequest<P extends string = "/"> implements SpectraRequest<P> {
 
     this._params = params;
     this._headers = req.headers as Record<string, string>;
-    console.log(this._headers);
 
     this.body = new Promise((resolve, reject) => {
       const chunks: Buffer[] = [];
