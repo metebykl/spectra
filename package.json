@@ -4,7 +4,7 @@
   "description": "Fast, lightweight and fully typesafe web framework",
   "main": "index.js",
   "scripts": {
-    "build": "tsx",
+    "build": "tsc",
     "example:node": "tsx ./examples/node.ts",
     "example:dev": "tsx ./examples/dev.ts"
   },
