@@ -3,12 +3,7 @@ import { Router, type RouteMatch } from "./router";
 import type { Handler, HTTPMethod } from "./types";
 
 export class Spectra<BasePath extends string = "/"> {
-  /**
-   * Not Implemented!
-   * @todo
-   */
   private _basePath: BasePath;
-
   private router: Router<Handler<any>>;
 
   constructor(basePath?: BasePath) {

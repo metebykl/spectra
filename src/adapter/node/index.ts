@@ -10,7 +10,7 @@ export interface NodeServeOptions {
 }
 
 export function serve(
-  app: Spectra,
+  app: Spectra<string>,
   { port }: NodeServeOptions = { port: 8282 }
 ) {
   const server = http.createServer((req, res) => {

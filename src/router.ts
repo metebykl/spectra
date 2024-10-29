@@ -1,4 +1,4 @@
-import { HTTPMethod } from "./types";
+import type { HTTPMethod } from "./types";
 
 type RouterTree<T> = Record<"ALL" | HTTPMethod, RouteMap<T>>;
 
