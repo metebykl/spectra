@@ -2,11 +2,20 @@
   "name": "spectra",
   "version": "0.0.1",
   "description": "Fast, lightweight and fully typesafe web framework",
-  "main": "index.js",
+  "main": "./dist/index.cjs",
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
-    "build": "tsc",
-    "example:node": "tsx ./examples/node.ts",
-    "example:dev": "tsx ./examples/dev.ts"
+    "build": "tsup",
+    "example:node": "tsx ./examples/node.ts"
   },
   "keywords": [
     "web",
@@ -18,6 +27,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.7.9",
+    "tsup": "^8.3.5",
     "tsx": "^4.19.1",
     "typescript": "^5.6.3"
   }
