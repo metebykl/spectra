@@ -47,6 +47,8 @@ export class Router<T> {
   }
 
   match(method: HTTPMethod, path: string): RouteMatch<T> | null {
+    path = path.split("?")[0];
+
     const staticHandler =
       this.routes["ALL"].staticRoutes.get(path) ||
       this.routes[method].staticRoutes.get(path);

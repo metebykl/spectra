@@ -1,6 +1,7 @@
 import http from "http";
 
 import { SpectraRequest } from "../../request";
+import { getQueryParam } from "../../utils/url";
 import type { ParamKeys, ParamsToRecord } from "../../types";
 
 export class NodeRequest<P extends string = "/"> implements SpectraRequest<P> {
@@ -37,6 +38,18 @@ export class NodeRequest<P extends string = "/"> implements SpectraRequest<P> {
 
   params(): ParamsToRecord<ParamKeys<P>> {
     return this._params;
+  }
+
+  query(key: string): string | undefined;
+  query(): Record<string, string>;
+  query(key?: string) {
+    return getQueryParam(this.path, key);
+  }
+
+  queries(key: string): string[] | undefined;
+  queries(): Record<string, string[]>;
+  queries(key?: string) {
+    return getQueryParam(this.path, key, true);
   }
 
   header(name: string): string | undefined {
