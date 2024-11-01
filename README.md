@@ -55,6 +55,7 @@ The handler function receives a context (`c`) object containing request and resp
 
 - `c.json(data, statusCode)`: Send JSON responses.
 - `c.text(text, statusCode)`: Send plain text responses.
+- `c.html(text, statusCode)`: Send HTML responses.
 - `c.req`: Access the request object with methods like `.header()` for headers and `.params()` for URL parameters.
 
 ## Examples

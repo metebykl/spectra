@@ -9,4 +9,5 @@ export interface Context<Path extends string> {
 
   json(data: unknown, status?: number): void;
   text(data: string, status?: number): void;
+  html(data: string, status?: number): void;
 }

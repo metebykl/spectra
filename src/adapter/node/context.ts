@@ -10,8 +10,7 @@ export class NodeContext<Path extends string> implements Context<Path> {
   path: Path;
   req: SpectraRequest<Path>;
 
-  private rawReq: http.IncomingMessage;
-  private rawRes: http.ServerResponse;
+  private _res: http.ServerResponse;
 
   constructor(
     req: http.IncomingMessage,
@@ -21,21 +20,26 @@ export class NodeContext<Path extends string> implements Context<Path> {
     this.method = req.method as HTTPMethod;
     this.path = req.url as Path;
 
-    this.rawReq = req;
-    this.rawRes = res;
+    this._res = res;
 
     this.req = new NodeRequest(req, req.url as Path, params);
   }
 
   json(data: unknown, status = 200) {
-    this.rawRes.statusCode = status;
-    this.rawRes.setHeader("Content-Type", "application/json");
-    this.rawRes.end(JSON.stringify(data));
+    this._res.statusCode = status;
+    this._res.setHeader("Content-Type", "application/json");
+    this._res.end(JSON.stringify(data));
   }
 
   text(data: string, status = 200) {
-    this.rawRes.statusCode = status;
-    this.rawRes.setHeader("Content-Type", "text/plain");
-    this.rawRes.end(data);
+    this._res.statusCode = status;
+    this._res.setHeader("Content-Type", "text/plain");
+    this._res.end(data);
+  }
+
+  html(data: string, status = 200): void {
+    this._res.statusCode = status;
+    this._res.setHeader("Content-Type", "text/html");
+    this._res.end(data);
   }
 }
