@@ -13,6 +13,8 @@ export type HTTPMethod =
   | "TRACE"
   | "CONNECT";
 
+export type Headers = "";
+
 export type URLParams = Record<string, string>;
 
 type ExtractMethod<T extends string> = T extends `${infer Method} ${string}`

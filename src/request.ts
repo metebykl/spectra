@@ -1,4 +1,5 @@
 import type { ParamKeys, ParamsToRecord } from "./types";
+import type { IncomingHttpHeaders } from "./utils/headers";
 
 export interface SpectraRequest<P extends string = "/"> {
   path: P;
@@ -12,7 +13,7 @@ export interface SpectraRequest<P extends string = "/"> {
   queries(key: string): string[] | undefined;
   queries(): Record<string, string[]>;
 
-  header(name: string): string | undefined;
+  header(name: IncomingHttpHeaders | (string & {})): string | undefined;
 
   json(): Promise<any>;
   text(): Promise<string>;

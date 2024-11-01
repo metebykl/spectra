@@ -3,6 +3,7 @@ import http from "http";
 import { SpectraRequest } from "../../request";
 import { getQueryParam } from "../../utils/url";
 import type { ParamKeys, ParamsToRecord } from "../../types";
+import type { IncomingHttpHeaders } from "../../utils/headers";
 
 export class NodeRequest<P extends string = "/"> implements SpectraRequest<P> {
   raw: http.IncomingMessage;
@@ -52,7 +53,7 @@ export class NodeRequest<P extends string = "/"> implements SpectraRequest<P> {
     return getQueryParam(this.path, key, true);
   }
 
-  header(name: string): string | undefined {
+  header(name: IncomingHttpHeaders | (string & {})): string | undefined {
     const key = name.toLowerCase();
     return this._headers[key];
   }
