@@ -33,21 +33,31 @@ export class NodeContext<Path extends string> implements Context<Path> {
     this._res.setHeader(name, value);
   }
 
-  json(data: unknown, status = 200) {
-    this._res.statusCode = status;
+  json(data: unknown, status = 200): void {
     this._res.setHeader("Content-Type", "application/json");
-    this._res.end(JSON.stringify(data));
+    this._res.statusCode = status;
+    this.end(JSON.stringify(data));
   }
 
-  text(data: string, status = 200) {
-    this._res.statusCode = status;
+  text(data: string, status = 200): void {
     this._res.setHeader("Content-Type", "text/plain");
-    this._res.end(data);
+    this._res.statusCode = status;
+    this.end(data);
   }
 
   html(data: string, status = 200): void {
-    this._res.statusCode = status;
     this._res.setHeader("Content-Type", "text/html");
-    this._res.end(data);
+    this._res.statusCode = status;
+    this.end(data);
+  }
+
+  redirect(location: string, status = 302): void {
+    this._res.setHeader("Location", location);
+    this._res.statusCode = status;
+    this.end();
+  }
+
+  end(chunk?: any): void {
+    this._res.end(chunk);
   }
 }
