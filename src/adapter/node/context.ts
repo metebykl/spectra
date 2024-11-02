@@ -25,6 +25,10 @@ export class NodeContext<Path extends string> implements Context<Path> {
     this.req = new NodeRequest(req, req.url as Path, params);
   }
 
+  setHeader(name: string, value: string | number): void {
+    this._res.setHeader(name, value);
+  }
+
   json(data: unknown, status = 200) {
     this._res.statusCode = status;
     this._res.setHeader("Content-Type", "application/json");
