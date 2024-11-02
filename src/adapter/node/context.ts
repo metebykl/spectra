@@ -3,6 +3,7 @@ import http from "http";
 import { Context } from "../../context";
 import { SpectraRequest } from "../../request";
 import { NodeRequest } from "./request";
+import type { OutgoingHttpHeaders } from "../../utils/headers";
 import type { HTTPMethod, ParamKeys, ParamsToRecord } from "../../types";
 
 export class NodeContext<Path extends string> implements Context<Path> {
@@ -25,7 +26,10 @@ export class NodeContext<Path extends string> implements Context<Path> {
     this.req = new NodeRequest(req, req.url as Path, params);
   }
 
-  setHeader(name: string, value: string | number): void {
+  setHeader(
+    name: OutgoingHttpHeaders | (string & {}),
+    value: string | number
+  ): void {
     this._res.setHeader(name, value);
   }
 
