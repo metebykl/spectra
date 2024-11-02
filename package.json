@@ -25,7 +25,7 @@
     "framework",
     "router"
   ],
-  "author": "fly2z",
+  "author": "metebykl",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.7.9",

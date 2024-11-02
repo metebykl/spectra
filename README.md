@@ -92,4 +92,4 @@ serve(app);
 
 ## Author
 
-Developed by [fly2z](https://github.com/fly2z). Contributions are welcome!
+Developed by [metebykl](https://github.com/metebykl). Contributions are welcome!
