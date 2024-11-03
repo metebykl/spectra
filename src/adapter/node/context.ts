@@ -6,7 +6,7 @@ import { NodeRequest } from "./request";
 import type { OutgoingHttpHeaders } from "../../utils/headers";
 import type { HTTPMethod, ParamKeys, ParamsToRecord } from "../../types";
 
-export class NodeContext<Path extends string> implements Context<Path> {
+export class NodeContext<Path extends string = "/"> implements Context<Path> {
   method: HTTPMethod;
   path: Path;
   req: SpectraRequest<Path>;

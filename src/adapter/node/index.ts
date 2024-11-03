@@ -18,11 +18,6 @@ export function serve(
     const url = req.url || "/";
 
     const match = app.match(method, url);
-    if (!match) {
-      // TODO: Implement 404
-      return;
-    }
-
     const context = new NodeContext(req, res, match.params);
     match.handler(context);
   });

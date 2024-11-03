@@ -29,6 +29,9 @@ const app = new Spectra()
     const { userId } = c.req.params();
 
     c.json({ userId });
+  })
+  .notFound((c) => {
+    c.text("Custom Message", 404);
   });
 
 serve(app);

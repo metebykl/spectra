@@ -1,10 +1,17 @@
+import { Context } from "./context";
 import { Router, type RouteMatch } from "./router";
 
 import type { Handler, HTTPMethod } from "./types";
 
+const notFoundHandler = (c: Context) => {
+  return c.text("404 Not Found", 404);
+};
+
 export class Spectra<BasePath extends string = "/"> {
   private _basePath: BasePath;
   private router: Router<Handler<any>>;
+
+  private notFoundHandler: Handler = notFoundHandler;
 
   constructor(basePath?: BasePath) {
     this._basePath = (basePath ?? "/") as BasePath;
@@ -61,11 +68,20 @@ export class Spectra<BasePath extends string = "/"> {
     return this;
   }
 
+  notFound(handler: Handler): this {
+    this.notFoundHandler = handler;
+    return this;
+  }
+
   match<Path extends string>(
     method: HTTPMethod,
     path: Path
-  ): RouteMatch<Handler<Path>> | null {
+  ): RouteMatch<Handler<Path>> | RouteMatch<Handler> {
     const match = this.router.match(method, path);
+    if (!match) {
+      return { handler: this.notFoundHandler, params: {} };
+    }
+
     return match;
   }
 }

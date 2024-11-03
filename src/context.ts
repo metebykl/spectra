@@ -2,7 +2,7 @@ import { SpectraRequest } from "./request";
 import type { OutgoingHttpHeaders } from "./utils/headers";
 import type { HTTPMethod } from "./types";
 
-export interface Context<Path extends string> {
+export interface Context<Path extends string = "/"> {
   method: HTTPMethod;
   path: Path;
   req: SpectraRequest<Path>;
