@@ -49,7 +49,50 @@ Spectra supports `GET`, `POST`, and other HTTP methods, which you can attach to 
 - `.get(path, handler)`: Define a route that listens to `GET` requests.
 - `.post(path, handler)`: Define a route that listens to `POST` requests.
 
-### Context Handling
+### Middleware
+
+Middleware functions are used to perform actions before or after handlers. You can add middleware to your Spectra instance by the `.use()` method. Middleware functions receive the context (`c`) and a `next` function, which should be called to pass control to the next middleware or handler.
+
+```typescript
+app.use(async (c, next) => {
+  console.log(new Date().toISOString(), c.method, c.path);
+  await next();
+});
+```
+
+#### Execution order
+
+The order in which middleware is executed is determined by the order in which it is registered. See below.
+
+```typescript
+app.use(async (_, next) => {
+  console.log("middleware 1 start");
+  await next();
+  console.log("middleware 1 end");
+});
+app.use(async (_, next) => {
+  console.log("middleware 2 start");
+  await next();
+  console.log("middleware 2 end");
+});
+
+app.get("/", (c) => {
+  console.log("handler");
+  return c.text("Hello World!");
+});
+```
+
+The result will be:
+
+```
+middleware 1 start
+  middleware 2 start
+    handler
+  middleware 2 end
+middleware 1 end
+```
+
+### Context
 
 The handler function receives a context (`c`) object containing request and response utilities:
 
