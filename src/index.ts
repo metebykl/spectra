@@ -1,3 +1,6 @@
 import { Spectra } from "./spectra";
 
-export { Spectra };
+import type { Context } from "./context";
+import type { Middleware } from "./types";
+
+export { Spectra, type Context, type Middleware };

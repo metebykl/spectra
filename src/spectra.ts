@@ -1,7 +1,6 @@
 import { Context } from "./context";
 import { Router, type RouteMatch } from "./router";
-
-import type { Handler, HTTPMethod } from "./types";
+import type { Handler, HTTPMethod, Middleware } from "./types";
 
 const notFoundHandler = (c: Context) => {
   return c.text("404 Not Found", 404);
@@ -11,11 +10,17 @@ export class Spectra<BasePath extends string = "/"> {
   private _basePath: BasePath;
   private router: Router<Handler<any>>;
 
+  private middlewares: Middleware<any>[] = [];
   private notFoundHandler: Handler = notFoundHandler;
 
   constructor(basePath?: BasePath) {
     this._basePath = (basePath ?? "/") as BasePath;
     this.router = new Router<Handler<any>>();
+  }
+
+  use(middleware: Middleware<"*">): this {
+    this.middlewares.push(middleware);
+    return this;
   }
 
   all<Path extends string>(path: Path, handler: Handler<Path>): this {
@@ -82,6 +87,29 @@ export class Spectra<BasePath extends string = "/"> {
       return { handler: this.notFoundHandler, params: {} };
     }
 
-    return match;
+    const handlerWithMiddlewares = async (context: Context<Path>) => {
+      await this.executeMiddlewares(context, this.middlewares, match.handler);
+    };
+
+    return { handler: handlerWithMiddlewares, params: match.params };
+  }
+
+  private async executeMiddlewares(
+    context: Context<any>,
+    middlewares: Middleware[],
+    handler: Handler<any>
+  ): Promise<void> {
+    let index = -1;
+
+    const next = async () => {
+      index++;
+      if (index < middlewares.length) {
+        await middlewares[index](context, next);
+      } else {
+        handler(context);
+      }
+    };
+
+    await next();
   }
 }
