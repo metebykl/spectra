@@ -1,6 +1,6 @@
 {
   "name": "spectra",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Fast, lightweight and fully typesafe web framework",
   "main": "./dist/index.cjs",
   "type": "module",
@@ -19,6 +19,10 @@
     "build": "tsup",
     "example:node": "tsx ./examples/node.ts"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metebykl/spectra.git"
+  },
   "keywords": [
     "web",
     "http",
@@ -27,6 +31,7 @@
   ],
   "author": "metebykl",
   "license": "MIT",
+  "homepage": "https://github.com/metebykl/spectra#readme",
   "devDependencies": {
     "@types/node": "^22.7.9",
     "prettier": "^3.3.3",
