@@ -5,7 +5,7 @@ export type HandlerResponse = Response;
 
 export type Handler<P extends string = any> = (
   c: Context<P>
-) => HandlerResponse;
+) => HandlerResponse | Promise<HandlerResponse>;
 
 export type MiddlewareHandler<P extends string = string> = (
   context: Context<P>,

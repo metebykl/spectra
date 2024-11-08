@@ -6,6 +6,7 @@ const tasks = [
     name: "Example Task",
   },
 ];
+
 const app = new Spectra()
   .use(async (c, next) => {
     console.log(new Date().toISOString(), c.method, c.path);
@@ -37,4 +38,6 @@ const app = new Spectra()
     return c.text("Custom Message", 404);
   });
 
-serve(app);
+serve(app, (info) => {
+  console.log(`Server listening on http://localhost:${info.port}`);
+});
