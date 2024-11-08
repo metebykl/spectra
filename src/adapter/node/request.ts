@@ -8,6 +8,7 @@ export const convertIncomingMessageToRequest = (
   const init = {
     method: r.method,
     headers: r.headers,
+    duplex: "half",
   } as RequestInit;
 
   if (r.method === "TRACE") {
