@@ -1,6 +1,6 @@
 {
   "name": "spectra",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Fast, lightweight and fully typesafe web framework",
   "main": "./dist/index.cjs",
   "type": "module",
