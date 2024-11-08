@@ -1,6 +1,5 @@
 import http from "node:http";
 import { AddressInfo } from "node:net";
-
 import { getListener } from "./listener";
 import { FetchCallback } from "./types";
 

@@ -84,6 +84,7 @@ export class Spectra<BasePath extends string = "/"> {
     method: HTTPMethod
   ): Response | Promise<Response> {
     const path = getPath(request);
+    console.log(path);
 
     const match = this.router.match(method, path);
     if (!match) {
@@ -126,7 +127,7 @@ export class Spectra<BasePath extends string = "/"> {
     return response!;
   }
 
-  fetch(request: Request): Response | Promise<Response> {
+  fetch = (request: Request): Response | Promise<Response> => {
     return this.dispatch(request, request.method as HTTPMethod);
-  }
+  };
 }
