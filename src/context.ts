@@ -4,7 +4,7 @@ import type { OutgoingHttpHeaders } from "./utils/headers";
 
 export type Data = string | ArrayBuffer | ReadableStream;
 
-export class Context<P extends string = "/"> {
+export class Context<P extends string = string> {
   path: P;
   method: string;
   req: SpectraRequest<P>;
@@ -12,8 +12,8 @@ export class Context<P extends string = "/"> {
   private rawRequest: Request;
   private headers: Headers;
 
-  constructor(req: Request, params: ParamsToRecord<ParamKeys<P>>) {
-    this.path = req.url as P;
+  constructor(req: Request, path: P, params: ParamsToRecord<ParamKeys<P>>) {
+    this.path = path;
     this.method = req.method;
 
     this.rawRequest = req;

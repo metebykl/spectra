@@ -8,6 +8,44 @@ const _decodeURI = (value: string) => {
   return value.indexOf("%") !== -1 ? decodeURIComponent(value) : value;
 };
 
+export const tryDecode = (
+  str: string,
+  decoder: (str: string) => string
+): string => {
+  try {
+    return decoder(str);
+  } catch {
+    return str.replace(/(?:%[0-9A-Fa-f]{2})+/g, (match) => {
+      try {
+        return decoder(match);
+      } catch {
+        return match;
+      }
+    });
+  }
+};
+
+const tryDecodeURI = (str: string) => tryDecode(str, decodeURI);
+
+export const getPath = (request: Request): string => {
+  const url = request.url;
+  const start = url.indexOf("/", 8);
+  let i = start;
+  for (; i < url.length; i++) {
+    const charCode = url.charCodeAt(i);
+    if (charCode === 37) {
+      const queryIndex = url.indexOf("?", i);
+      const path = url.slice(start, queryIndex === -1 ? undefined : queryIndex);
+      return tryDecodeURI(
+        path.includes("%25") ? path.replace(/%25/g, "%2525") : path
+      );
+    } else if (charCode === 63) {
+      break;
+    }
+  }
+  return url.slice(start, i);
+};
+
 export const mergePath = (...paths: string[]): string => {
   let p: string = "";
   let endsWithSlash = false;

@@ -1,6 +1,7 @@
 import { Context } from "./context";
-import { Router, type RouteMatch } from "./router";
-import type { Handler, HTTPMethod, Middleware } from "./types";
+import { Router } from "./router";
+import { getPath } from "./utils/url";
+import type { Handler, HTTPMethod, MiddlewareHandler } from "./types";
 
 const notFoundHandler = (c: Context) => {
   return c.text("404 Not Found", 404);
@@ -10,7 +11,7 @@ export class Spectra<BasePath extends string = "/"> {
   private _basePath: BasePath;
   private router: Router<Handler<any>>;
 
-  private middlewares: Middleware<any>[] = [];
+  private middlewares: MiddlewareHandler<any>[] = [];
   private notFoundHandler: Handler = notFoundHandler;
 
   constructor(basePath?: BasePath) {
@@ -18,7 +19,7 @@ export class Spectra<BasePath extends string = "/"> {
     this.router = new Router<Handler<any>>();
   }
 
-  use(middleware: Middleware<"*">): this {
+  use(middleware: MiddlewareHandler<"*">): this {
     this.middlewares.push(middleware);
     return this;
   }
@@ -78,38 +79,54 @@ export class Spectra<BasePath extends string = "/"> {
     return this;
   }
 
-  match<Path extends string>(
-    method: HTTPMethod,
-    path: Path
-  ): RouteMatch<Handler<Path>> | RouteMatch<Handler> {
+  private dispatch(
+    request: Request,
+    method: HTTPMethod
+  ): Response | Promise<Response> {
+    const path = getPath(request);
+
     const match = this.router.match(method, path);
     if (!match) {
-      return { handler: this.notFoundHandler, params: {} };
+      const c = new Context(request, path, {});
+      return this.notFoundHandler(c);
     }
 
-    const handlerWithMiddlewares = async (context: Context<Path>) => {
-      await this.executeMiddlewares(context, this.middlewares, match.handler);
+    const c = new Context(request, path, match.params);
+
+    const handlerWithMiddlewares = async (context: Context) => {
+      return await this.executeMiddlewares(
+        context,
+        this.middlewares,
+        match.handler
+      );
     };
 
-    return { handler: handlerWithMiddlewares, params: match.params };
+    return handlerWithMiddlewares(c);
   }
 
   private async executeMiddlewares(
     context: Context<any>,
-    middlewares: Middleware[],
+    middlewares: MiddlewareHandler[],
     handler: Handler<any>
-  ): Promise<void> {
+  ): Promise<Response> {
     let index = -1;
+
+    let response: Response;
 
     const next = async () => {
       index++;
       if (index < middlewares.length) {
         await middlewares[index](context, next);
       } else {
-        handler(context);
+        response = await handler(context);
       }
     };
 
     await next();
+    return response!;
+  }
+
+  fetch(request: Request): Response | Promise<Response> {
+    return this.dispatch(request, request.method as HTTPMethod);
   }
 }

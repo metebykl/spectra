@@ -1,11 +1,18 @@
 import type { Context } from "./context";
 
-export type Handler<Path extends string = "/"> = (c: Context<Path>) => void;
+export type Next = () => Promise<void>;
+export type HandlerResponse = Response;
 
-export type Middleware<Path extends string = "*"> = (
-  context: Context<Path>,
-  next: () => Promise<void>
-) => Promise<void> | void;
+export type Handler<P extends string = any> = (
+  c: Context<P>
+) => HandlerResponse;
+
+export type MiddlewareHandler<P extends string = string> = (
+  context: Context<P>,
+  next: Next
+) => Promise<Response | void>;
+
+export type H<P extends string = any> = Handler<P> | MiddlewareHandler<P>;
 
 export type HTTPMethod =
   | "GET"
