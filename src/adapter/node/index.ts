@@ -1,28 +1,27 @@
-import http from "http";
+import http from "node:http";
+import { AddressInfo } from "node:net";
 
-import { Spectra } from "../../spectra";
-import { NodeContext } from "./context";
+import { getListener } from "./listener";
+import { FetchCallback } from "./types";
 
-import type { HTTPMethod } from "../../types";
+const DEFAULT_PORT = 8282;
 
 export interface NodeServeOptions {
+  fetch: FetchCallback;
   port?: number;
 }
 
 export function serve(
-  app: Spectra<string>,
-  { port }: NodeServeOptions = { port: 8282 }
-) {
-  const server = http.createServer((req, res) => {
-    const method = req.method as HTTPMethod;
-    const url = req.url || "/";
+  options: NodeServeOptions,
+  listenCallback?: (info: AddressInfo) => void
+): http.Server {
+  const requestListener = getListener(options.fetch);
+  const server = http.createServer(requestListener);
 
-    const match = app.match(method, url);
-    const context = new NodeContext(req, res, match.params);
-    match.handler(context);
+  server.listen(options?.port ?? DEFAULT_PORT, () => {
+    const serverInfo = server.address() as AddressInfo;
+    listenCallback && listenCallback(serverInfo);
   });
 
-  server.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-  });
+  return server;
 }
