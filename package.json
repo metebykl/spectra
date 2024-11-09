@@ -15,10 +15,17 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./adapter": {
-      "types": "./dist/adapter/index.d.ts",
-      "import": "./dist/adapter/index.js",
-      "require": "./dist/adapter/index.cjs"
+    "./adapter/node": {
+      "types": "./dist/adapter/node/index.d.ts",
+      "import": "./dist/adapter/node/index.js",
+      "require": "./dist/adapter/node/index.cjs"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "adapter/node": [
+        "./dist/adapter/node/index.d.ts"
+      ]
     }
   },
   "scripts": {
