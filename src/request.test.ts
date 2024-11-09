@@ -2,6 +2,23 @@ import { describe, test, expect } from "vitest";
 import { Spectra } from "./spectra";
 import { SpectraRequest } from "./request";
 
+describe("Headers", () => {
+  const app = new Spectra();
+
+  test("req.header()", () => {
+    app.get("/", (c) => {
+      const message = c.req.header("X-Test-Message");
+      expect(message).toBe("Hello World!");
+
+      return c.text("OK");
+    });
+
+    const request = new Request("http://localhost");
+    request.headers.set("X-Test-Message", "Hello World!");
+    app.fetch(request);
+  });
+});
+
 describe("Path parameters", () => {
   const app = new Spectra();
 
