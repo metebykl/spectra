@@ -84,7 +84,6 @@ export class Spectra<BasePath extends string = "/"> {
     method: HTTPMethod
   ): Response | Promise<Response> {
     const path = getPath(request);
-    console.log(path);
 
     const match = this.router.match(method, path);
     if (!match) {
