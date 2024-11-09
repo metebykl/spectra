@@ -1,5 +1,37 @@
 import { describe, test, expect } from "vitest";
+import { Spectra } from "./spectra";
 import { SpectraRequest } from "./request";
+
+describe("Path parameters", () => {
+  const app = new Spectra();
+
+  test("req.param()", () => {
+    app.get("/users/:id", (c) => {
+      const id = c.req.param("id");
+      expect(id).toBe("1");
+
+      return c.text("OK");
+    });
+
+    app.fetch(new Request("http://localhost/users/1"));
+  });
+
+  test("req.params()", () => {
+    app.get("/users/:userId/posts/:postId", (c) => {
+      const params = c.req.params();
+
+      const expected = {
+        userId: "1",
+        postId: "2",
+      };
+      expect(params).toEqual(expected);
+
+      return c.text("OK");
+    });
+
+    app.fetch(new Request("http://localhost/users/1/posts/2"));
+  });
+});
 
 describe("Query parameters", () => {
   test("req.query()", () => {

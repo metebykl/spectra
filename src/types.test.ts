@@ -2,7 +2,7 @@ import { describe, test } from "vitest";
 import { Spectra } from "./spectra";
 import type { Equal, Expect } from "./utils/types";
 
-describe("With path parameters", () => {
+describe("Path parameter types", () => {
   const app = new Spectra();
 
   test("Should handle single path parameters", () => {

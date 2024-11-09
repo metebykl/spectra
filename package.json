@@ -15,6 +15,7 @@
   },
   "scripts": {
     "test": "tsc --noEmit && vitest run",
+    "test:watch": "vitest watch",
     "format": "prettier --check \"src/**/*.ts\" \"examples/**/*.ts\"",
     "format:fix": "prettier --write \"src/**/*.ts\" \"examples/**/*.ts\"",
     "build": "tsup",
