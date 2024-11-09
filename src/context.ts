@@ -17,7 +17,7 @@ export class Context<P extends string = string> {
     this.method = req.method;
 
     this.rawRequest = req;
-    this.req = new SpectraRequest(req, req.url, params);
+    this.req = new SpectraRequest(req, params);
     this.headers = new Headers();
   }
 

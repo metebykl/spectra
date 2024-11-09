@@ -1,4 +1,4 @@
-import { getQueryParam } from "./utils/url";
+import { getPath, getQueryParam } from "./utils/url";
 import type { ParamKeys, ParamsToRecord } from "./types";
 import type { IncomingHttpHeaders } from "./utils/headers";
 
@@ -8,13 +8,9 @@ export class SpectraRequest<P extends string = "/"> {
 
   private _params: ParamsToRecord<ParamKeys<P>>;
 
-  constructor(
-    request: Request,
-    path: string = "/",
-    params: ParamsToRecord<ParamKeys<P>>
-  ) {
+  constructor(request: Request, params: ParamsToRecord<ParamKeys<P>>) {
     this.raw = request;
-    this.path = path;
+    this.path = getPath(request);
     this._params = params;
   }
 
@@ -29,13 +25,13 @@ export class SpectraRequest<P extends string = "/"> {
   query(key: string): string | undefined;
   query(): Record<string, string>;
   query(key?: string) {
-    return getQueryParam(this.path, key);
+    return getQueryParam(this.raw.url, key);
   }
 
   queries(key: string): string[] | undefined;
   queries(): Record<string, string[]>;
   queries(key?: string) {
-    return getQueryParam(this.path, key, true);
+    return getQueryParam(this.raw.url, key, true);
   }
 
   header(name: IncomingHttpHeaders | (string & {})): string | undefined {
