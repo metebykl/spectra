@@ -15,8 +15,9 @@
 
 ## Installation
 
-> [!WARNING]  
-> As Spectra is still in development, you should clone the repository and import Spectra from the source code directly.
+```bash
+npm install @spectrajs/core
+```
 
 ## Features
 
@@ -30,8 +31,8 @@
 Here’s a quick example to get your Spectra server up and running:
 
 ```typescript
-import { Spectra } from "../src";
-import { serve } from "../src/adapter/node";
+import { Spectra } from "@spectrajs/core";
+import { serve } from "@spectrajs/core/adapter/node";
 
 const app = new Spectra();
 
@@ -108,8 +109,8 @@ The handler function receives a context (`c`) object containing request and resp
 Here’s an example illustrating a simple API that handles basic routing and data manipulation:
 
 ```typescript
-import { Spectra } from "../src";
-import { serve } from "../src/adapter/node";
+import { Spectra } from "@spectrajs/core";
+import { serve } from "@spectrajs/core/adapter/node";
 
 const tasks = [{ name: "Example Task" }];
 

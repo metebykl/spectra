@@ -1,11 +1,14 @@
 {
-  "name": "spectra",
+  "name": "@spectrajs/core",
   "version": "0.2.0",
   "description": "Fast, lightweight and fully typesafe web framework",
   "main": "./dist/index.cjs",
   "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -19,6 +22,8 @@
     "format": "prettier --check \"src/**/*.ts\" \"examples/**/*.ts\"",
     "format:fix": "prettier --write \"src/**/*.ts\" \"examples/**/*.ts\"",
     "build": "tsup",
+    "prerelease": "npm run test && npm run build",
+    "release": "np",
     "example:node": "tsx ./examples/node.ts"
   },
   "repository": {
@@ -36,6 +41,7 @@
   "homepage": "https://github.com/metebykl/spectra#readme",
   "devDependencies": {
     "@types/node": "^22.7.9",
+    "np": "^10.0.7",
     "prettier": "^3.3.3",
     "tsup": "^8.3.5",
     "tsx": "^4.19.1",
