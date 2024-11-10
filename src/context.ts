@@ -9,6 +9,7 @@ export class Context<P extends string = string> {
   method: string;
   req: SpectraRequest<P>;
 
+  #status: number = 200;
   private headers: Headers;
 
   constructor(req: Request, path: P, params: ParamsToRecord<ParamKeys<P>>) {
@@ -23,32 +24,36 @@ export class Context<P extends string = string> {
     this.headers.set(name, value);
   }
 
-  private newResponse(data: Data | null, arg?: ResponseInit): Response {
+  private newResponse(data: Data | null, status?: number): Response {
     return new Response(data, {
-      status: arg?.status,
+      status: status ?? this.#status,
       headers: this.headers,
     });
   }
 
-  json(data: unknown, status = 200): Response {
+  status(code: number): void {
+    this.#status = code;
+  }
+
+  json(data: unknown, status?: number): Response {
     const body = JSON.stringify(data);
 
     this.headers.set("Content-Type", "application/json");
-    return this.newResponse(body, { status });
+    return this.newResponse(body, status);
   }
 
-  text(data: string, status = 200): Response {
+  text(data: string, status?: number): Response {
     this.headers.set("Content-Type", "text/plain");
-    return this.newResponse(data, { status });
+    return this.newResponse(data, status);
   }
 
-  html(data: string, status = 200): Response {
+  html(data: string, status?: number): Response {
     this.headers.set("Content-Type", "text/html");
-    return this.newResponse(data, { status });
+    return this.newResponse(data, status);
   }
 
-  redirect(location: string, status = 302): Response {
+  redirect(location: string, status?: number): Response {
     this.headers.set("Location", location);
-    return this.newResponse(null, { status });
+    return this.newResponse(null, status ?? 302);
   }
 }

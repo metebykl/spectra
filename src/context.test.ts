@@ -4,6 +4,14 @@ import { Context } from "./context";
 describe("Context", () => {
   const request = new Request("http://localhost/");
 
+  test("c.status()", () => {
+    const c = new Context(request, "/", {});
+    c.status(201);
+
+    const response = c.text("Message");
+    expect(response.status).toBe(201);
+  });
+
   test("c.text()", async () => {
     const c = new Context(request, "/", {});
     const response = c.text("Hello World!");
