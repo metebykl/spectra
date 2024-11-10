@@ -1,0 +1,50 @@
+import { describe, test, expect } from "vitest";
+import { Context } from "./context";
+
+describe("Context", () => {
+  const request = new Request("http://localhost/");
+
+  test("c.text()", async () => {
+    const c = new Context(request, "/", {});
+    const response = c.text("Hello World!");
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("Content-Type")).toBe("text/plain");
+    expect(await response.text()).toBe("Hello World!");
+  });
+
+  test("c.text() with status", async () => {
+    const c = new Context(request, "/", {});
+    const response = c.text("Hello World!", 201);
+
+    expect(response.status).toBe(201);
+    expect(response.headers.get("Content-Type")).toBe("text/plain");
+    expect(await response.text()).toBe("Hello World!");
+  });
+
+  test("c.json()", async () => {
+    const c = new Context(request, "/", {});
+    const response = c.json({ message: "Hello" });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("Content-Type")).toBe("application/json");
+    expect(await response.text()).toBe('{"message":"Hello"}');
+  });
+
+  test("c.html()", async () => {
+    const c = new Context(request, "/", {});
+    const response = c.html("<h1>Example</h1>");
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("Content-Type")).toBe("text/html");
+    expect(await response.text()).toBe("<h1>Example</h1>");
+  });
+
+  test("c.redirect()", () => {
+    const c = new Context(request, "/", {});
+    const response = c.redirect("https://example.com");
+
+    expect(response.status).toBe(302);
+    expect(response.headers.get("Location")).toBe("https://example.com");
+  });
+});

@@ -13,7 +13,7 @@ describe("Headers", () => {
       return c.text("OK");
     });
 
-    const request = new Request("http://localhost");
+    const request = new Request("http://localhost/");
     request.headers.set("X-Test-Message", "Hello World!");
     app.fetch(request);
   });

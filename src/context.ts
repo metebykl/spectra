@@ -9,14 +9,12 @@ export class Context<P extends string = string> {
   method: string;
   req: SpectraRequest<P>;
 
-  private rawRequest: Request;
   private headers: Headers;
 
   constructor(req: Request, path: P, params: ParamsToRecord<ParamKeys<P>>) {
     this.path = path;
     this.method = req.method;
 
-    this.rawRequest = req;
     this.req = new SpectraRequest(req, params);
     this.headers = new Headers();
   }

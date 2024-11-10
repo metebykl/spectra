@@ -51,9 +51,3 @@ export type MergePath<A extends string, B extends string> = B extends ""
             ? A
             : `${A}/${Q}`
           : `${A}/${B}`;
-
-// type ExtractMethod<T extends string> = T extends `${infer Method} ${string}`
-//   ? Method extends HTTPMethod
-//     ? Method
-//     : never
-//   : never;
