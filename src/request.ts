@@ -6,20 +6,20 @@ export class SpectraRequest<P extends string = "/"> {
   raw: Request;
   path: string;
 
-  private _params: ParamsToRecord<ParamKeys<P>>;
+  #params: ParamsToRecord<ParamKeys<P>>;
 
   constructor(request: Request, params: ParamsToRecord<ParamKeys<P>>) {
     this.raw = request;
     this.path = getPath(request);
-    this._params = params;
+    this.#params = params;
   }
 
   param<K extends ParamKeys<P>>(key: K): string {
-    return this._params[key];
+    return this.#params[key];
   }
 
   params(): ParamsToRecord<ParamKeys<P>> {
-    return this._params;
+    return this.#params;
   }
 
   query(key: string): string | undefined;

@@ -19,10 +19,10 @@ export type RouteMatch<Handler> = {
 };
 
 export class Router<T> {
-  private routes: RouterTree<T>;
+  #routes: RouterTree<T>;
 
   constructor() {
-    this.routes = {
+    this.#routes = {
       ALL: { staticRoutes: new Map(), paramRoutes: [] },
       GET: { staticRoutes: new Map(), paramRoutes: [] },
       PUT: { staticRoutes: new Map(), paramRoutes: [] },
@@ -38,11 +38,11 @@ export class Router<T> {
 
   add(method: "ALL" | HTTPMethod, path: string, handler: T) {
     if (path.includes(":")) {
-      const { regex, paramNames } = this.createRouteRegex(path);
+      const { regex, paramNames } = this.#createRouteRegex(path);
       const routePattern: RoutePattern<T> = { regex, paramNames, handler };
-      this.routes[method].paramRoutes.push(routePattern);
+      this.#routes[method].paramRoutes.push(routePattern);
     } else {
-      this.routes[method].staticRoutes.set(path, handler);
+      this.#routes[method].staticRoutes.set(path, handler);
     }
   }
 
@@ -50,22 +50,22 @@ export class Router<T> {
     path = path.split("?")[0];
 
     const staticHandler =
-      this.routes["ALL"].staticRoutes.get(path) ||
-      this.routes[method].staticRoutes.get(path);
+      this.#routes["ALL"].staticRoutes.get(path) ||
+      this.#routes[method].staticRoutes.get(path);
 
     if (staticHandler) {
       return { params: {}, handler: staticHandler };
     }
 
     const paramRoutes = [
-      ...this.routes["ALL"].paramRoutes,
-      ...this.routes[method].paramRoutes,
+      ...this.#routes["ALL"].paramRoutes,
+      ...this.#routes[method].paramRoutes,
     ];
 
     for (const route of paramRoutes) {
       const match = route.regex.exec(path);
       if (match) {
-        const params = this.extractParams(match, route.paramNames);
+        const params = this.#extractParams(match, route.paramNames);
         return { params, handler: route.handler };
       }
     }
@@ -73,7 +73,7 @@ export class Router<T> {
     return null;
   }
 
-  private createRouteRegex(path: string): {
+  #createRouteRegex(path: string): {
     regex: RegExp;
     paramNames: string[];
   } {
@@ -86,7 +86,7 @@ export class Router<T> {
     return { regex, paramNames };
   }
 
-  private extractParams(
+  #extractParams(
     match: RegExpExecArray,
     paramNames: string[]
   ): Record<string, string> {
