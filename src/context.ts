@@ -11,6 +11,7 @@ export class Context<P extends string = string> {
 
   #status: number = 200;
   #headers: Headers;
+  #store: Map<string, unknown>;
 
   constructor(req: Request, path: P, params: ParamsToRecord<ParamKeys<P>>) {
     this.path = path;
@@ -18,6 +19,7 @@ export class Context<P extends string = string> {
 
     this.req = new SpectraRequest(req, params);
     this.#headers = new Headers();
+    this.#store = new Map();
   }
 
   setHeader(name: OutgoingHttpHeaders | (string & {}), value: string): void {
@@ -29,6 +31,14 @@ export class Context<P extends string = string> {
       status: status ?? this.#status,
       headers: this.#headers,
     });
+  }
+
+  get<T>(key: string): T {
+    return this.#store.get(key) as T;
+  }
+
+  set(key: string, value: unknown): void {
+    this.#store.set(key, value);
   }
 
   status(code: number): void {

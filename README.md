@@ -56,7 +56,7 @@ Middleware functions are used to perform actions before or after handlers. You c
 
 ```typescript
 app.use(async (c, next) => {
-  console.log(new Date().toISOString(), c.method, c.path);
+  c.set("message", "Hello World!");
   await next();
 });
 ```
@@ -102,6 +102,23 @@ The handler function receives a context (`c`) object containing request and resp
 - `c.html(text, statusCode)`: Send HTML responses.
 - `c.req`: Access the request object with methods like `.header()` for headers and `.params()` for URL parameters.
 
+#### Context Store
+
+- `c.get(key)`: Retrieve a value stored in the context.
+- `c.set(key, value)`: Store a value in the context.
+
+```typescript
+app.use(async (c, next) => {
+  c.set("message", "Message from context!");
+  await next();
+});
+
+app.get("/", (c) => {
+  const message = c.get<string>("message");
+  return c.json({ message });
+});
+```
+
 ## Examples
 
 ### Basic Example
@@ -131,7 +148,9 @@ const app = new Spectra()
     return c.json({ userId });
   });
 
-serve(app);
+serve(app, (info) => {
+  console.log(`Server listening on http://localhost:${info.port}`);
+});
 ```
 
 ## Author

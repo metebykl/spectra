@@ -9,11 +9,12 @@ const tasks = [
 
 const app = new Spectra()
   .use(async (c, next) => {
-    console.log(new Date().toISOString(), c.method, c.path);
+    c.set("message", "Hello World!");
     await next();
   })
   .get("/", (c) => {
-    return c.json({ message: "Hello World!" });
+    const message = c.get<string>("message");
+    return c.json({ message });
   })
   .get("/user-agent", (c) => {
     const ua = c.req.header("User-Agent");
