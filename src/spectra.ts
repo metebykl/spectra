@@ -116,7 +116,10 @@ export class Spectra<BasePath extends string = "/"> {
     const next = async () => {
       index++;
       if (index < middlewares.length) {
-        await middlewares[index](context, next);
+        const res = await middlewares[index](context, next);
+        if (res instanceof Response) {
+          response = res;
+        }
       } else {
         response = await handler(context);
       }
