@@ -55,7 +55,7 @@ export class SpectraRequest<P extends string = "/"> {
     return (this.#body[key] = this.raw[key]());
   }
 
-  async json(): Promise<any> {
+  async json<T = any>(): Promise<T> {
     return await this.#parseBody("json");
   }
 
