@@ -55,4 +55,19 @@ describe("Context", () => {
     expect(response.status).toBe(302);
     expect(response.headers.get("Location")).toBe("https://example.com");
   });
+
+  test("c.set() and c.get()", () => {
+    const c = new Context(request, "/", {});
+    c.set("foo", "bar");
+
+    expect(c.get("foo")).toBe("bar");
+    expect(c.get("other")).toBe(undefined);
+  });
+
+  test("c.set() and c.get() object", () => {
+    const c = new Context(request, "/", {});
+    c.set("user", { id: 1, name: "John" });
+
+    expect(c.get("user")).toEqual({ id: 1, name: "John" });
+  });
 });
