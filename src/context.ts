@@ -1,9 +1,13 @@
 import { SpectraRequest } from "./request";
 import { getPath } from "./utils/url";
-import type { ParamKeys, ParamsToRecord } from "./types";
+import type { Handler, ParamKeys, ParamsToRecord } from "./types";
 import type { OutgoingHttpHeaders } from "./utils/headers";
 
 export type Data = string | ArrayBuffer | ReadableStream;
+
+type ContextOptions = {
+  notFoundHandler?: Handler;
+};
 
 export class Context<P extends string = string> {
   path: P;
@@ -13,14 +17,23 @@ export class Context<P extends string = string> {
   #status: number = 200;
   #headers: Headers;
   #store: Map<string, unknown>;
+  #notFoundHandler: Handler | undefined;
 
-  constructor(req: Request, params: ParamsToRecord<ParamKeys<P>>) {
+  constructor(
+    req: Request,
+    params: ParamsToRecord<ParamKeys<P>>,
+    options?: ContextOptions
+  ) {
     this.path = getPath(req) as P;
     this.method = req.method;
 
     this.req = new SpectraRequest(req, params);
     this.#headers = new Headers();
     this.#store = new Map();
+
+    if (options) {
+      this.#notFoundHandler = options.notFoundHandler;
+    }
   }
 
   setHeader(name: OutgoingHttpHeaders | (string & {}), value: string): void {
@@ -66,5 +79,12 @@ export class Context<P extends string = string> {
   redirect(location: string, status?: number): Response {
     this.#headers.set("Location", location);
     return this.#newResponse(null, status ?? 302);
+  }
+
+  notFound(): Response | Promise<Response> {
+    if (!this.#notFoundHandler) {
+      return new Response();
+    }
+    return this.#notFoundHandler(this);
   }
 }

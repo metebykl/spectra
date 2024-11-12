@@ -91,7 +91,9 @@ export class Spectra<BasePath extends string = "/"> {
       return this.#notFoundHandler(c);
     }
 
-    const c = new Context(request, match.params);
+    const c = new Context(request, match.params, {
+      notFoundHandler: this.#notFoundHandler,
+    });
 
     const handlerWithMiddlewares = async (context: Context) => {
       return await this.#executeMiddlewares(

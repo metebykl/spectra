@@ -70,4 +70,12 @@ describe("Context", () => {
 
     expect(c.get("user")).toEqual({ id: 1, name: "John" });
   });
+
+  test("c.notFound()", async () => {
+    const notFoundHandler = (): Response => new Response(null, { status: 404 });
+    const c = new Context(request, {}, { notFoundHandler });
+
+    const res = await c.notFound();
+    expect(res.status).toBe(404);
+  });
 });

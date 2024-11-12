@@ -101,6 +101,7 @@ The handler function receives a context (`c`) object containing request and resp
 - `c.text(text, statusCode)`: Send plain text responses.
 - `c.html(text, statusCode)`: Send HTML responses.
 - `c.req`: Access the request object with methods like `.header()` for headers and `.params()` for URL parameters.
+- `c.notFound()`: Invokes the notFound handler of the Spectra instance.
 
 #### Context Store
 
