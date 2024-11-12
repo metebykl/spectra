@@ -1,4 +1,5 @@
 import { SpectraRequest } from "./request";
+import { getPath } from "./utils/url";
 import type { ParamKeys, ParamsToRecord } from "./types";
 import type { OutgoingHttpHeaders } from "./utils/headers";
 
@@ -13,8 +14,8 @@ export class Context<P extends string = string> {
   #headers: Headers;
   #store: Map<string, unknown>;
 
-  constructor(req: Request, path: P, params: ParamsToRecord<ParamKeys<P>>) {
-    this.path = path;
+  constructor(req: Request, params: ParamsToRecord<ParamKeys<P>>) {
+    this.path = getPath(req) as P;
     this.method = req.method;
 
     this.req = new SpectraRequest(req, params);

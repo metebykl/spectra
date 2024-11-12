@@ -87,11 +87,11 @@ export class Spectra<BasePath extends string = "/"> {
 
     const match = this.#router.match(method, path);
     if (!match) {
-      const c = new Context(request, path, {});
+      const c = new Context(request, {});
       return this.#notFoundHandler(c);
     }
 
-    const c = new Context(request, path, match.params);
+    const c = new Context(request, match.params);
 
     const handlerWithMiddlewares = async (context: Context) => {
       return await this.#executeMiddlewares(

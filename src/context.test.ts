@@ -5,7 +5,7 @@ describe("Context", () => {
   const request = new Request("http://localhost/");
 
   test("c.status()", () => {
-    const c = new Context(request, "/", {});
+    const c = new Context(request, {});
     c.status(201);
 
     const response = c.text("Message");
@@ -13,7 +13,7 @@ describe("Context", () => {
   });
 
   test("c.text()", async () => {
-    const c = new Context(request, "/", {});
+    const c = new Context(request, {});
     const response = c.text("Hello World!");
 
     expect(response.status).toBe(200);
@@ -22,7 +22,7 @@ describe("Context", () => {
   });
 
   test("c.text() with status", async () => {
-    const c = new Context(request, "/", {});
+    const c = new Context(request, {});
     const response = c.text("Hello World!", 201);
 
     expect(response.status).toBe(201);
@@ -31,7 +31,7 @@ describe("Context", () => {
   });
 
   test("c.json()", async () => {
-    const c = new Context(request, "/", {});
+    const c = new Context(request, {});
     const response = c.json({ message: "Hello" });
 
     expect(response.status).toBe(200);
@@ -40,7 +40,7 @@ describe("Context", () => {
   });
 
   test("c.html()", async () => {
-    const c = new Context(request, "/", {});
+    const c = new Context(request, {});
     const response = c.html("<h1>Example</h1>");
 
     expect(response.status).toBe(200);
@@ -49,7 +49,7 @@ describe("Context", () => {
   });
 
   test("c.redirect()", () => {
-    const c = new Context(request, "/", {});
+    const c = new Context(request, {});
     const response = c.redirect("https://example.com");
 
     expect(response.status).toBe(302);
@@ -57,7 +57,7 @@ describe("Context", () => {
   });
 
   test("c.set() and c.get()", () => {
-    const c = new Context(request, "/", {});
+    const c = new Context(request, {});
     c.set("foo", "bar");
 
     expect(c.get("foo")).toBe("bar");
@@ -65,7 +65,7 @@ describe("Context", () => {
   });
 
   test("c.set() and c.get() object", () => {
-    const c = new Context(request, "/", {});
+    const c = new Context(request, {});
     c.set("user", { id: 1, name: "John" });
 
     expect(c.get("user")).toEqual({ id: 1, name: "John" });
