@@ -6,7 +6,7 @@ type PoweredByOptions = {
 
 export const poweredBy = (options?: PoweredByOptions): MiddlewareHandler => {
   return async function (c, next) {
-    c.setHeader("X-Powered-By", options?.serverName ?? "Spectra");
+    c.header("X-Powered-By", options?.serverName ?? "Spectra");
     await next();
   };
 };

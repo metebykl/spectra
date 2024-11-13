@@ -36,7 +36,15 @@ export class Context<P extends string = string> {
     }
   }
 
-  setHeader(name: OutgoingHttpHeaders | (string & {}), value: string): void {
+  header(
+    name: OutgoingHttpHeaders | (string & {}),
+    value: string | undefined
+  ): void {
+    if (value === undefined) {
+      this.#headers.delete(name);
+      return;
+    }
+
     this.#headers.set(name, value);
   }
 
