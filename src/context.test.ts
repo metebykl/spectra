@@ -78,4 +78,21 @@ describe("Context", () => {
     const res = await c.notFound();
     expect(res.status).toBe(404);
   });
+
+  test("c.header() set", () => {
+    const c = new Context(request, {});
+    c.header("X-Test-Message", "Example");
+
+    const response = c.text("OK");
+    expect(response.headers.get("X-Test-Message")).toBe("Example");
+  });
+
+  test("c.header() clear", () => {
+    const c = new Context(request, {});
+    c.header("X-Test-Message", "Example");
+    c.header("X-Test-Message", undefined);
+
+    const response = c.text("OK");
+    expect(response.headers.get("X-Test-Message")).toBe(null);
+  });
 });
