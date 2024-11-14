@@ -20,19 +20,30 @@
       "import": "./dist/middleware/index.js",
       "require": "./dist/middleware/index.cjs"
     },
-    "./adapter/node": {
-      "types": "./dist/adapter/node/index.d.ts",
-      "import": "./dist/adapter/node/index.js",
-      "require": "./dist/adapter/node/index.cjs"
+    "./middleware/*": {
+      "types": "./dist/middleware/*/index.d.ts",
+      "import": "./dist/middleware/*/index.js",
+      "require": "./dist/middleware/*/index.cjs"
+    },
+    "./adapter/*": {
+      "types": "./dist/adapter/*/index.d.ts",
+      "import": "./dist/adapter/*/index.js",
+      "require": "./dist/adapter/*/index.cjs"
     }
   },
   "typesVersions": {
     "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
       "middleware": [
         "./dist/middleware/index.d.ts"
       ],
-      "adapter/node": [
-        "./dist/adapter/node/index.d.ts"
+      "middleware/*": [
+        "./dist/middleware/*/index.d.ts"
+      ],
+      "adapter/*": [
+        "./dist/adapter/*/index.d.ts"
       ]
     }
   },
