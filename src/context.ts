@@ -9,6 +9,10 @@ type ContextOptions = {
   notFoundHandler?: Handler;
 };
 
+type SetHeaderOptions = {
+  append?: boolean;
+};
+
 export class Context<P extends string = string> {
   path: P;
   method: string;
@@ -38,14 +42,19 @@ export class Context<P extends string = string> {
 
   header(
     name: OutgoingHttpHeaders | (string & {}),
-    value: string | undefined
+    value: string | undefined,
+    options?: SetHeaderOptions
   ): void {
     if (value === undefined) {
       this.#headers.delete(name);
       return;
     }
 
-    this.#headers.set(name, value);
+    if (options?.append) {
+      this.#headers.append(name, value);
+    } else {
+      this.#headers.set(name, value);
+    }
   }
 
   #newResponse(data: Data | null, status?: number): Response {
