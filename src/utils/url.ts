@@ -46,6 +46,14 @@ export const getPath = (request: Request): string => {
   return url.slice(start, i);
 };
 
+export const getNonStrictPath = (request: Request): string => {
+  const result = getPath(request);
+
+  return result.length > 1 && result[result.length - 1] === "/"
+    ? result.slice(0, -1)
+    : result;
+};
+
 export const mergePath = (...paths: string[]): string => {
   let p: string = "";
   let endsWithSlash = false;

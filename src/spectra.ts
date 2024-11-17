@@ -1,6 +1,6 @@
 import { Context } from "./context";
 import { Router } from "./router";
-import { getPath } from "./utils/url";
+import { getNonStrictPath, mergePath } from "./utils/url";
 import type { Handler, HTTPMethod, MiddlewareHandler } from "./types";
 
 const notFoundHandler = (c: Context) => {
@@ -9,14 +9,14 @@ const notFoundHandler = (c: Context) => {
 
 export class Spectra<BasePath extends string = "/"> {
   #basePath: BasePath;
-  #router: Router<Handler<any>>;
+  #router: Router<Handler>;
 
   #middlewares: MiddlewareHandler<any>[] = [];
   #notFoundHandler: Handler = notFoundHandler;
 
   constructor(basePath?: BasePath) {
     this.#basePath = (basePath ?? "/") as BasePath;
-    this.#router = new Router<Handler<any>>();
+    this.#router = new Router<Handler>();
   }
 
   use(middleware: MiddlewareHandler<"*">): this {
@@ -25,52 +25,52 @@ export class Spectra<BasePath extends string = "/"> {
   }
 
   all<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#router.add("ALL", path, handler);
+    this.#addRoute("ALL", path, handler);
     return this;
   }
 
   get<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#router.add("GET", path, handler);
+    this.#addRoute("GET", path, handler);
     return this;
   }
 
   put<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#router.add("PUT", path, handler);
+    this.#addRoute("PUT", path, handler);
     return this;
   }
 
   post<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#router.add("POST", path, handler);
+    this.#addRoute("POST", path, handler);
     return this;
   }
 
   delete<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#router.add("DELETE", path, handler);
+    this.#addRoute("DELETE", path, handler);
     return this;
   }
 
   patch<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#router.add("PATCH", path, handler);
+    this.#addRoute("PATCH", path, handler);
     return this;
   }
 
   head<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#router.add("HEAD", path, handler);
+    this.#addRoute("HEAD", path, handler);
     return this;
   }
 
   options<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#router.add("OPTIONS", path, handler);
+    this.#addRoute("OPTIONS", path, handler);
     return this;
   }
 
   trace<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#router.add("TRACE", path, handler);
+    this.#addRoute("TRACE", path, handler);
     return this;
   }
 
   connect<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#router.add("CONNECT", path, handler);
+    this.#addRoute("CONNECT", path, handler);
     return this;
   }
 
@@ -79,11 +79,16 @@ export class Spectra<BasePath extends string = "/"> {
     return this;
   }
 
+  #addRoute(method: "ALL" | HTTPMethod, path: string, handler: Handler) {
+    path = mergePath(this.#basePath, path);
+    this.#router.add(method, path, handler);
+  }
+
   #dispatch(
     request: Request,
     method: HTTPMethod
   ): Response | Promise<Response> {
-    const path = getPath(request);
+    const path = getNonStrictPath(request);
 
     const match = this.#router.match(method, path);
     if (!match) {
