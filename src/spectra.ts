@@ -100,40 +100,42 @@ export class Spectra<BasePath extends string = "/"> {
       notFoundHandler: this.#notFoundHandler,
     });
 
-    const handlerWithMiddlewares = async (context: Context) => {
-      return await this.#executeMiddlewares(
-        context,
-        this.#middlewares,
-        match.handler
-      );
-    };
-
-    return handlerWithMiddlewares(c);
+    return (async () => {
+      const context = await this.#compose(c, this.#middlewares, match.handler);
+      return context.res;
+    })();
   }
 
-  async #executeMiddlewares(
+  async #compose(
     context: Context<any>,
     middlewares: MiddlewareHandler[],
     handler: Handler<any>
-  ): Promise<Response> {
+  ): Promise<Context> {
     let index = -1;
-
-    let response: Response;
 
     const next = async () => {
       index++;
+
+      let response: Response;
+
       if (index < middlewares.length) {
+        // middleware found, run the middleware
         const res = await middlewares[index](context, next);
         if (res instanceof Response) {
           response = res;
         }
       } else {
+        // no middleware found, run the handler
         response = await handler(context);
+      }
+
+      if (response! && context.finalized === false) {
+        context.res = response;
       }
     };
 
     await next();
-    return response!;
+    return context;
   }
 
   fetch = (request: Request): Response | Promise<Response> => {

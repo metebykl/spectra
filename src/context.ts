@@ -18,8 +18,11 @@ export class Context<P extends string = string> {
   method: string;
   req: SpectraRequest<P>;
 
+  finalized: boolean = false;
   #status: number = 200;
   #headers: Headers;
+  #res: Response | undefined;
+
   #store: Map<string, unknown>;
   #notFoundHandler: Handler | undefined;
 
@@ -57,13 +60,6 @@ export class Context<P extends string = string> {
     }
   }
 
-  #newResponse(data: Data | null, status?: number): Response {
-    return new Response(data, {
-      status: status ?? this.#status,
-      headers: this.#headers,
-    });
-  }
-
   get<T>(key: string): T {
     return this.#store.get(key) as T;
   }
@@ -74,6 +70,22 @@ export class Context<P extends string = string> {
 
   status(code: number): void {
     this.#status = code;
+  }
+
+  get res(): Response {
+    return (this.#res ??= new Response("404 Not Found", { status: 404 }));
+  }
+
+  set res(_res: Response) {
+    this.#res = _res;
+    this.finalized = true;
+  }
+
+  #newResponse(data: Data | null, status?: number): Response {
+    return new Response(data, {
+      status: status ?? this.#status,
+      headers: this.#headers,
+    });
   }
 
   json(data: unknown, status?: number): Response {
