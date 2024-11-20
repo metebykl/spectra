@@ -93,3 +93,70 @@ describe("Query parameters", () => {
     expect(queries).toEqual(["1", "2"]);
   });
 });
+
+describe("Body parsing", () => {
+  test("req.json()", async () => {
+    const req = new SpectraRequest(
+      new Request("http://localhost/", {
+        method: "POST",
+        body: '{"foo":"bar"}',
+      }),
+      {}
+    );
+
+    expect(await req.json()).toEqual({ foo: "bar" });
+  });
+
+  test("req.text()", async () => {
+    const req = new SpectraRequest(
+      new Request("http://localhost/", {
+        method: "POST",
+        body: '{"foo":"bar"}',
+      }),
+      {}
+    );
+
+    expect(await req.text()).toBe('{"foo":"bar"}');
+  });
+
+  test("req.arrayBuffer()", async () => {
+    const buf = new TextEncoder().encode('{"foo":"bar"}').buffer;
+    const req = new SpectraRequest(
+      new Request("http://localhost/", {
+        method: "POST",
+        body: buf,
+      }),
+      {}
+    );
+
+    expect(await req.arrayBuffer()).toEqual(buf);
+  });
+
+  test("req.formData()", async () => {
+    const formData = new FormData();
+    formData.append("foo", "bar");
+
+    const req = new SpectraRequest(
+      new Request("http://localhost/", {
+        method: "POST",
+        body: formData,
+      }),
+      {}
+    );
+
+    expect((await req.formData()).get("foo")).toBe("bar");
+  });
+
+  test("req.blob()", async () => {
+    const blob = new Blob(['{"foo":"bar"}'], { type: "application/json" });
+    const req = new SpectraRequest(
+      new Request("http://localhost/", {
+        method: "POST",
+        body: blob,
+      }),
+      {}
+    );
+
+    expect(await req.blob()).toEqual(blob);
+  });
+});
