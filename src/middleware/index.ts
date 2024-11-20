@@ -1,4 +1,5 @@
-import { poweredBy } from "./powered-by";
+import { timeout } from "./timeout";
 import { logger } from "./logger";
+import { poweredBy } from "./powered-by";
 
-export { poweredBy, logger };
+export { timeout, logger, poweredBy };
