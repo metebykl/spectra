@@ -105,6 +105,10 @@ export class Context<P extends string = string> {
     return this.#newResponse(data, status);
   }
 
+  body(data: Data | null, status?: number): Response {
+    return this.#newResponse(data, status);
+  }
+
   redirect(location: string, status?: number): Response {
     this.#headers.set("Location", location);
     return this.#newResponse(null, status ?? 302);
