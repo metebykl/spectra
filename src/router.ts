@@ -37,7 +37,7 @@ export class Router<T> {
   }
 
   add(method: "ALL" | HTTPMethod, path: string, handler: T) {
-    if (path.includes(":")) {
+    if (path.includes(":") || path.includes("*")) {
       const { regex, paramNames } = this.#createRouteRegex(path);
       const routePattern: RoutePattern<T> = { regex, paramNames, handler };
       this.#routes[method].paramRoutes.push(routePattern);
@@ -78,10 +78,12 @@ export class Router<T> {
     paramNames: string[];
   } {
     const paramNames: string[] = [];
-    const regexPath = path.replace(/:([a-zA-Z0-9_]+)/g, (_, paramName) => {
-      paramNames.push(paramName);
-      return "([^/]+)";
-    });
+    const regexPath = path
+      .replace(/:([a-zA-Z0-9_]+)/g, (_, paramName) => {
+        paramNames.push(paramName);
+        return "([^/]+)";
+      })
+      .replace(/\*/g, ".*");
     const regex = new RegExp(`^${regexPath}$`);
     return { regex, paramNames };
   }
