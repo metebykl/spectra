@@ -96,12 +96,12 @@ export class Spectra<BasePath extends string = "/"> {
       return this.#notFoundHandler(c);
     }
 
-    const c = new Context(request, match.params, {
+    const c = new Context(request, match[1], {
       notFoundHandler: this.#notFoundHandler,
     });
 
     return (async () => {
-      const context = await this.#compose(c, this.#middlewares, match.handler);
+      const context = await this.#compose(c, this.#middlewares, match[0]);
       return context.res;
     })();
   }
