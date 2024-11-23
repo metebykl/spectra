@@ -1,7 +1,8 @@
 import { Context } from "./context";
-import { Router } from "./router";
+import { Params, Router } from "./router";
+import { isMiddleware } from "./utils/handler";
 import { getNonStrictPath, mergePath } from "./utils/url";
-import type { Handler, HTTPMethod, MiddlewareHandler } from "./types";
+import type { H, Handler, HTTPMethod, MiddlewareHandler } from "./types";
 
 const notFoundHandler = (c: Context) => {
   return c.text("404 Not Found", 404);
@@ -9,18 +10,32 @@ const notFoundHandler = (c: Context) => {
 
 export class Spectra<BasePath extends string = "/"> {
   #basePath: BasePath;
-  #router: Router<Handler>;
+  #router: Router<H>;
 
-  #middlewares: MiddlewareHandler<any>[] = [];
   #notFoundHandler: Handler = notFoundHandler;
 
   constructor(basePath?: BasePath) {
     this.#basePath = (basePath ?? "/") as BasePath;
-    this.#router = new Router<Handler>();
+    this.#router = new Router<H>();
   }
 
-  use(middleware: MiddlewareHandler<"*">): this {
-    this.#middlewares.push(middleware);
+  use(
+    arg: string | MiddlewareHandler<any>,
+    ...args: MiddlewareHandler<any>[]
+  ): this {
+    let path;
+
+    if (typeof arg === "string") {
+      path = arg;
+    } else {
+      path = "*";
+      args.unshift(arg);
+    }
+
+    for (const handler of args) {
+      this.#addRoute("ALL", path, handler);
+    }
+
     return this;
   }
 
@@ -79,7 +94,7 @@ export class Spectra<BasePath extends string = "/"> {
     return this;
   }
 
-  #addRoute(method: "ALL" | HTTPMethod, path: string, handler: Handler) {
+  #addRoute(method: "ALL" | HTTPMethod, path: string, handler: H) {
     path = mergePath(this.#basePath, path);
     this.#router.add(method, path, handler);
   }
@@ -90,25 +105,43 @@ export class Spectra<BasePath extends string = "/"> {
   ): Response | Promise<Response> {
     const path = getNonStrictPath(request);
 
-    const match = this.#router.match(method, path);
-    if (!match) {
+    const matches = this.#router.match(method, path);
+    if (matches.length === 0) {
       const c = new Context(request, {});
       return this.#notFoundHandler(c);
     }
 
-    const c = new Context(request, match[1], {
+    const [handler, params] = matches.pop() as [Handler, Params];
+    const stack = matches.map((m) => m[0]).filter(isMiddleware);
+
+    const c = new Context(request, params, {
       notFoundHandler: this.#notFoundHandler,
     });
 
+    if (isMiddleware(handler)) {
+      stack.push(handler);
+
+      return (async () => {
+        const context = await this.#compose(c, stack, async () => {
+          return this.#notFoundHandler(c);
+        });
+        return context.res;
+      })();
+    }
+
+    if (stack.length === 0) {
+      return handler(c);
+    }
+
     return (async () => {
-      const context = await this.#compose(c, this.#middlewares, match[0]);
+      const context = await this.#compose(c, stack, handler);
       return context.res;
     })();
   }
 
   async #compose(
     context: Context<any>,
-    middlewares: MiddlewareHandler[],
+    middleware: MiddlewareHandler[],
     handler: Handler<any>
   ): Promise<Context> {
     let index = -1;
@@ -118,14 +151,13 @@ export class Spectra<BasePath extends string = "/"> {
 
       let response: Response;
 
-      if (index < middlewares.length) {
-        // middleware found, run the middleware
-        const res = await middlewares[index](context, next);
+      if (index < middleware.length) {
+        const handler = await middleware[index];
+        const res = await handler(context, next);
         if (res instanceof Response) {
           response = res;
         }
       } else {
-        // no middleware found, run the handler
         response = await handler(context);
       }
 

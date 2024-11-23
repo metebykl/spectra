@@ -2,36 +2,36 @@ import type { HTTPMethod } from "./types";
 
 type RouterTree<T> = Record<"ALL" | HTTPMethod, RouteMap<T>>;
 
-type RouteMap<Handler> = {
-  static: Map<string, Handler>;
-  dynamic: RoutePattern<Handler>[];
+type RouteMap<T> = {
+  static: [string, T][];
+  dynamic: RoutePattern<T>[];
 };
 
-type RoutePattern<Handler> = {
+type RoutePattern<T> = {
   regex: RegExp;
   paramNames: string[];
-  handler: Handler;
+  handler: T;
 };
 
 export type Params = Record<string, string>;
 
-export type MatchResult<T> = [T, Params];
+export type MatchResult<T> = [T, Params][];
 
 export class Router<T> {
   #routes: RouterTree<T>;
 
   constructor() {
     this.#routes = {
-      ALL: { static: new Map(), dynamic: [] },
-      GET: { static: new Map(), dynamic: [] },
-      PUT: { static: new Map(), dynamic: [] },
-      POST: { static: new Map(), dynamic: [] },
-      DELETE: { static: new Map(), dynamic: [] },
-      PATCH: { static: new Map(), dynamic: [] },
-      HEAD: { static: new Map(), dynamic: [] },
-      OPTIONS: { static: new Map(), dynamic: [] },
-      TRACE: { static: new Map(), dynamic: [] },
-      CONNECT: { static: new Map(), dynamic: [] },
+      ALL: { static: [], dynamic: [] },
+      GET: { static: [], dynamic: [] },
+      PUT: { static: [], dynamic: [] },
+      POST: { static: [], dynamic: [] },
+      DELETE: { static: [], dynamic: [] },
+      PATCH: { static: [], dynamic: [] },
+      HEAD: { static: [], dynamic: [] },
+      OPTIONS: { static: [], dynamic: [] },
+      TRACE: { static: [], dynamic: [] },
+      CONNECT: { static: [], dynamic: [] },
     };
   }
 
@@ -41,35 +41,38 @@ export class Router<T> {
       const routePattern: RoutePattern<T> = { regex, paramNames, handler };
       this.#routes[method].dynamic.push(routePattern);
     } else {
-      this.#routes[method].static.set(path, handler);
+      this.#routes[method].static.push([path, handler]);
     }
   }
 
-  match(method: HTTPMethod, path: string): MatchResult<T> | null {
+  match(method: HTTPMethod, path: string): MatchResult<T> {
     path = path.split("?")[0];
 
-    const staticHandler =
-      this.#routes["ALL"].static.get(path) ||
-      this.#routes[method].static.get(path);
-
-    if (staticHandler) {
-      return [staticHandler, {}];
-    }
-
-    const paramRoutes = [
+    const dynamicRoutes = [
       ...this.#routes["ALL"].dynamic,
       ...this.#routes[method].dynamic,
     ];
 
-    for (const route of paramRoutes) {
+    let handlers: MatchResult<T> = [];
+
+    for (const route of dynamicRoutes) {
       const match = route.regex.exec(path);
       if (match) {
         const params = this.#extractParams(match, route.paramNames);
-        return [route.handler, params];
+        handlers.push([route.handler, params]);
       }
     }
 
-    return null;
+    const staticRoutes = [
+      ...this.#routes["ALL"].static.filter(([p, _]) => p === path),
+      ...this.#routes[method].static.filter(([p, _]) => p === path),
+    ];
+
+    for (const [_, handler] of staticRoutes) {
+      handlers.push([handler, {}]);
+    }
+
+    return handlers;
   }
 
   #createRouteRegex(path: string): {
