@@ -24,7 +24,7 @@ npm install @spectrajs/core
 - **Fast Routing**: Lightweight routing with minimal overhead for fast requests.
 - **Full Type Safety**: Built with TypeScript for strong typing and enhanced reliability.
 - **Minimalistic Core**: Only the essentials for building a solid server, with no unnecessary dependencies.
-- **Multi-runtime**: Works on Node.js for now. More adapters will be developed.
+- **Multi-runtime**: Works on Node.js and Bun for now. More adapters will be developed.
 
 ## Quick Start
 

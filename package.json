@@ -63,7 +63,8 @@
     "build": "tsup",
     "prerelease": "npm run test && npm run build",
     "release": "np",
-    "example:node": "tsx ./examples/node.ts"
+    "example:node": "tsx ./examples/node/index.ts",
+    "example:bun": "bun run ./examples/bun/index.ts"
   },
   "repository": {
     "type": "git",
