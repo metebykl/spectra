@@ -55,7 +55,7 @@ Spectra supports `GET`, `POST`, and other HTTP methods, which you can attach to 
 Middleware functions are used to perform actions before or after handlers. You can add middleware to your Spectra instance by the `.use()` method. Middleware functions receive the context (`c`) and a `next` function, which should be called to pass control to the next middleware or handler.
 
 ```typescript
-app.use(async (c, next) => {
+app.use("/api/*", async (c, next) => {
   c.set("message", "Hello World!");
   await next();
 });
