@@ -2,6 +2,11 @@
 
 ## Table of Contents
 
-- [Getting Started](getting-started.md): How to get started with Spectra.
+### Guides
 
-- [Context](api/context.md): Documentation for the context api.
+- [Getting Started](getting-started.md)
+
+### References
+
+- [Context](api/context.md)
+- [Request](api/request.md)
