@@ -16,3 +16,4 @@
 - [Compression](middleware/compression.md)
 - [Timeout](middleware/timeout.md)
 - [PoweredBy](middleware/powered-by.md)
+- [Logger](middleware/logger.md)
