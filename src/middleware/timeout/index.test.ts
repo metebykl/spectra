@@ -6,11 +6,11 @@ describe("Timeout Middleware", () => {
   test("Default handler", async () => {
     const app = new Spectra();
 
-    app.use(timeout({ duration: 200 }));
+    app.use(timeout({ duration: 100 }));
 
     app.get("/normal", (c) => c.text("Test"));
     app.get("/slow", async (c) => {
-      await new Promise((resolve) => setTimeout(resolve, 400));
+      await new Promise((resolve) => setTimeout(resolve, 125));
       return c.text("Test");
     });
 
@@ -28,14 +28,14 @@ describe("Timeout Middleware", () => {
 
     app.use(
       timeout({
-        duration: 200,
+        duration: 100,
         handler: (c) => c.json({ error: "Gateway Timeout" }, 504),
       })
     );
 
     app.get("/normal", (c) => c.text("Test"));
     app.get("/slow", async (c) => {
-      await new Promise((resolve) => setTimeout(resolve, 400));
+      await new Promise((resolve) => setTimeout(resolve, 125));
       return c.text("Test");
     });
 
