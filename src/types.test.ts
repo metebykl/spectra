@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { describe, test } from "vitest";
 import { Spectra } from "./spectra";
 import type { Equal, Expect } from "./utils/types";

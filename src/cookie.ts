@@ -1,4 +1,4 @@
-import { Context } from "./context";
+import type { Context } from "./context";
 
 type Cookie = Record<string, string>;
 
@@ -28,6 +28,7 @@ export const getCookie: GetCookie = (c, name?) => {
     return cookies[name];
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return cookies as any;
 };
 
@@ -116,7 +117,11 @@ export const deleteCookie = (
   setCookie(c, name, "", { ...options, path: "/", maxAge: 0 });
 };
 
-const addProperty = (cookie: string, property: string, value?: any): string => {
+const addProperty = (
+  cookie: string,
+  property: string,
+  value?: string | number
+): string => {
   if (!value) {
     return cookie + `; ${property}`;
   }

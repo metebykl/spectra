@@ -53,7 +53,7 @@ export class Router<T> {
       ...this.#routes[method].dynamic,
     ];
 
-    let handlers: MatchResult<T> = [];
+    const handlers: MatchResult<T> = [];
 
     for (const route of dynamicRoutes) {
       const match = route.regex.exec(path);
@@ -64,11 +64,11 @@ export class Router<T> {
     }
 
     const staticRoutes = [
-      ...this.#routes["ALL"].static.filter(([p, _]) => p === path),
-      ...this.#routes[method].static.filter(([p, _]) => p === path),
+      ...this.#routes["ALL"].static.filter(([p]) => p === path),
+      ...this.#routes[method].static.filter(([p]) => p === path),
     ];
 
-    for (const [_, handler] of staticRoutes) {
+    for (const [, handler] of staticRoutes) {
       handlers.push([handler, {}]);
     }
 

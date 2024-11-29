@@ -25,8 +25,8 @@ const app = new Spectra()
     return c.json({ tasks });
   })
   .post("/tasks", async (c) => {
-    const body = await c.req.json();
-    tasks.push({ name: body.name });
+    const { name } = await c.req.json<{ name: string }>();
+    tasks.push({ name });
 
     return c.json({ message: "Task created" }, 201);
   })

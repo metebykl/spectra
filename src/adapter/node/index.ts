@@ -1,7 +1,7 @@
 import http from "node:http";
-import { AddressInfo } from "node:net";
+import type { AddressInfo } from "node:net";
 import { getListener } from "./listener";
-import { FetchCallback } from "./types";
+import type { FetchCallback } from "./types";
 
 const DEFAULT_PORT = 8282;
 

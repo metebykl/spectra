@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getPath, getQueryParam } from "./utils/url";
 import type { ParamKeys, ParamsToRecord } from "./types";
 import type { IncomingHttpHeaders } from "./utils/headers";

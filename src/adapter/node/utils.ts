@@ -1,4 +1,4 @@
-import { OutgoingHttpHeaders } from "node:http";
+import type { OutgoingHttpHeaders } from "node:http";
 
 export const buildOutgoingHttpHeaders = (
   headers: Headers | HeadersInit | null | undefined

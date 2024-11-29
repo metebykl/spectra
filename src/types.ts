@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-invalid-void-type */
 import type { Context } from "./context";
 
 export type Next = () => Promise<void>;
@@ -34,7 +36,7 @@ export type ParamKeys<Path extends string> =
     ? ParamKey<Key> | ParamKeys<Rest>
     : ParamKey<Path>;
 
-export type ParamsToRecord<Param extends string> = { [K in Param]: string };
+export type ParamsToRecord<Param extends string> = Record<Param, string>;
 
 export type MergePath<A extends string, B extends string> = B extends ""
   ? MergePath<A, "/">

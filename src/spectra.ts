@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Context } from "./context";
-import { Params, Router } from "./router";
+import { type Params, Router } from "./router";
 import { isMiddleware } from "./utils/handler";
 import { getNonStrictPath, mergePath } from "./utils/url";
 import type { H, Handler, HTTPMethod, MiddlewareHandler } from "./types";
@@ -161,6 +162,7 @@ export class Spectra<BasePath extends string = "/"> {
         response = await handler(context);
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       if (response! && context.finalized === false) {
         context.res = response;
       }
