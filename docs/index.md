@@ -13,7 +13,8 @@
 
 ### Middleware
 
+- [Body Limit](middleware/body-limit.md)
 - [Compression](middleware/compression.md)
 - [Timeout](middleware/timeout.md)
-- [PoweredBy](middleware/powered-by.md)
+- [Powered By](middleware/powered-by.md)
 - [Logger](middleware/logger.md)
