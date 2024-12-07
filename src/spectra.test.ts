@@ -87,3 +87,71 @@ describe("Not Found", () => {
     expect(await res.json()).toEqual({ error: "Not Found" });
   });
 });
+
+describe("Middleware", () => {
+  describe("Basic", () => {
+    const app = new Spectra();
+
+    app.use(async (c, next) => {
+      await next();
+      c.res.headers.set("X-Custom", "Spectra");
+    });
+
+    app.get("/", (c) => c.text("Hello World!"));
+
+    test("Should return correct headers", async () => {
+      const res = await app.fetch(new Request("http://localhost/"));
+      expect(res.status).toBe(200);
+      expect(res.headers.get("X-Custom")).toBe("Spectra");
+      expect(await res.text()).toBe("Hello World!");
+    });
+
+    test("Should return not found", async () => {
+      const res = await app.fetch(new Request("http://localhost/foo"));
+      expect(res.status).toBe(404);
+    });
+  });
+
+  describe("With path", () => {
+    const app = new Spectra();
+
+    app.use("/api/*", async (c, next) => {
+      await next();
+      c.res.headers.set("X-Custom", "Spectra");
+    });
+
+    app.get("/api/test", (c) => c.text("Hello World!"));
+
+    test("Should return correct headers", async () => {
+      const res = await app.fetch(new Request("http://localhost/api/test"));
+      expect(res.status).toBe(200);
+      expect(res.headers.get("X-Custom")).toBe("Spectra");
+      expect(await res.text()).toBe("Hello World!");
+    });
+
+    test("Should return not found", async () => {
+      const res = await app.fetch(new Request("http://localhost/foo"));
+      expect(res.status).toBe(404);
+    });
+  });
+
+  test("Overwrite response", async () => {
+    const app = new Spectra();
+
+    app.use("*", async (c, next) => {
+      await next();
+      c.res = new Response("Middleware", { status: 201 });
+    });
+
+    app.get("/", (c) => c.text("Hello"));
+
+    let res = await app.fetch(new Request("http://localhost/"));
+    expect(res.status).toBe(201);
+    expect(await res.text()).toBe("Middleware");
+
+    // should overwrite if no handler is found too
+    res = await app.fetch(new Request("http://localhost/foo"));
+    expect(res.status).toBe(201);
+    expect(await res.text()).toBe("Middleware");
+  });
+});
