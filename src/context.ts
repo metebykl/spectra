@@ -77,6 +77,18 @@ export class Context<P extends string = string> {
   }
 
   set res(_res: Response) {
+    if (this.#res) {
+      // set existing headers
+      for (const [key, value] of this.#res.headers.entries()) {
+        // skip content type header
+        if (key === "content-type") {
+          continue;
+        }
+
+        _res.headers.set(key, value);
+      }
+    }
+
     this.#res = _res;
     this.finalized = true;
   }
