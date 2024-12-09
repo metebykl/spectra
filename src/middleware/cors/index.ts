@@ -74,7 +74,13 @@ export const cors = (options?: CORSOptions): MiddlewareHandler => {
       https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
     */
     if (opts.origin !== "*") {
-      set("Vary", "Origin", true);
+      const vary = c.req.header("Vary");
+
+      if (vary) {
+        set("Vary", vary);
+      } else {
+        set("Vary", "Origin");
+      }
     }
 
     if (opts.credentials) {
