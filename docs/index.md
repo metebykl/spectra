@@ -14,6 +14,7 @@
 ### Middleware
 
 - [Body Limit](middleware/body-limit.md)
+- [CORS](middleware/cors.md)
 - [Compression](middleware/compression.md)
 - [Timeout](middleware/timeout.md)
 - [Powered By](middleware/powered-by.md)
