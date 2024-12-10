@@ -7,11 +7,8 @@
 - [Installation](#installation)
 - [Features](#features)
 - [Quick Start](#quick-start)
-- [API Reference](#api-reference)
-  - [Routing](#routing)
-  - [Context Handling](#context-handling)
+- [Documentation](docs/index.md)
 - [Examples](#examples)
-  - [Basic Example](#basic-example)
 
 ## Installation
 
@@ -36,89 +33,14 @@ import { serve } from "@spectrajs/core/adapter/node";
 
 const app = new Spectra();
 
-app.get("/", (c) => c.json({ message: "Hello World!" }));
+app.get("/", (c) => c.text("Spectra"));
 
 serve(app);
 ```
 
-## API Reference
+## Documentation
 
-### Routing
-
-Spectra supports `GET`, `POST`, and other HTTP methods, which you can attach to your app instance to define routes:
-
-- `.get(path, handler)`: Define a route that listens to `GET` requests.
-- `.post(path, handler)`: Define a route that listens to `POST` requests.
-
-### Middleware
-
-Middleware functions are used to perform actions before or after handlers. You can add middleware to your Spectra instance by the `.use()` method. Middleware functions receive the context (`c`) and a `next` function, which should be called to pass control to the next middleware or handler.
-
-```typescript
-app.use("/api/*", async (c, next) => {
-  c.set("message", "Hello World!");
-  await next();
-});
-```
-
-#### Execution order
-
-The order in which middleware is executed is determined by the order in which it is registered. See below.
-
-```typescript
-app.use(async (_, next) => {
-  console.log("middleware 1 start");
-  await next();
-  console.log("middleware 1 end");
-});
-app.use(async (_, next) => {
-  console.log("middleware 2 start");
-  await next();
-  console.log("middleware 2 end");
-});
-
-app.get("/", (c) => {
-  console.log("handler");
-  return c.text("Hello World!");
-});
-```
-
-The result will be:
-
-```
-middleware 1 start
-  middleware 2 start
-    handler
-  middleware 2 end
-middleware 1 end
-```
-
-### Context
-
-The handler function receives a context (`c`) object containing request and response utilities:
-
-- `c.json(data, statusCode)`: Send JSON responses.
-- `c.text(text, statusCode)`: Send plain text responses.
-- `c.html(text, statusCode)`: Send HTML responses.
-- `c.req`: Access the request object with methods like `.header()` for headers and `.params()` for URL parameters.
-- `c.notFound()`: Invokes the notFound handler of the Spectra instance.
-
-#### Context Store
-
-- `c.get(key)`: Retrieve a value stored in the context.
-- `c.set(key, value)`: Store a value in the context.
-
-```typescript
-app.use(async (c, next) => {
-  c.set("message", "Message from context!");
-  await next();
-});
-
-app.get("/", (c) => {
-  const message = c.get<string>("message");
-  return c.json({ message });
-});
-```
+The documentation is available [here](docs/index.md).
 
 ## Examples
 
