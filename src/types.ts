@@ -16,6 +16,12 @@ export type MiddlewareHandler<P extends string = string> = (
 
 export type H<P extends string = any> = Handler<P> | MiddlewareHandler<P>;
 
+export interface RouterNode {
+  path: string;
+  method: string;
+  handler: H;
+}
+
 export type HTTPMethod =
   | "GET"
   | "PUT"

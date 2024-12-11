@@ -3,7 +3,13 @@ import { Context } from "./context";
 import { type Params, Router } from "./router";
 import { isMiddleware } from "./utils/handler";
 import { getNonStrictPath, mergePath } from "./utils/url";
-import type { H, Handler, HTTPMethod, MiddlewareHandler } from "./types";
+import type {
+  H,
+  Handler,
+  HTTPMethod,
+  MiddlewareHandler,
+  RouterNode,
+} from "./types";
 
 const notFoundHandler = (c: Context) => {
   return c.text("404 Not Found", 404);
@@ -12,6 +18,7 @@ const notFoundHandler = (c: Context) => {
 export class Spectra<BasePath extends string = "/"> {
   #basePath: BasePath;
   #router: Router<H>;
+  routes: RouterNode[] = [];
 
   #notFoundHandler: Handler = notFoundHandler;
 
@@ -98,6 +105,7 @@ export class Spectra<BasePath extends string = "/"> {
   #addRoute(method: "ALL" | HTTPMethod, path: string, handler: H) {
     path = mergePath(this.#basePath, path);
     this.#router.add(method, path, handler);
+    this.routes.push({ path, method, handler });
   }
 
   #dispatch(
