@@ -20,6 +20,11 @@
       "import": "./dist/cookie.js",
       "require": "./dist/cookie.cjs"
     },
+    "./dev": {
+      "types": "./dist/helpers/dev/index.d.ts",
+      "import": "./dist/helpers/dev/index.js",
+      "require": "./dist/helpers/dev/index.cjs"
+    },
     "./middleware": {
       "types": "./dist/middleware/index.d.ts",
       "import": "./dist/middleware/index.js",
@@ -43,6 +48,9 @@
       ],
       "cookie": [
         "./dist/cookie.d.ts"
+      ],
+      "dev": [
+        "./dist/helpers/dev/index.d.ts"
       ],
       "middleware": [
         "./dist/middleware/index.d.ts"
