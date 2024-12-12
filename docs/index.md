@@ -19,3 +19,7 @@
 - [Timeout](middleware/timeout.md)
 - [Powered By](middleware/powered-by.md)
 - [Logger](middleware/logger.md)
+
+### Helpers
+
+- [Dev](helpers/dev.md)
