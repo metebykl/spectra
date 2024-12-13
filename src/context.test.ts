@@ -79,20 +79,32 @@ describe("Context", () => {
     expect(res.status).toBe(404);
   });
 
-  test("c.header() set", () => {
+  test("c.header()", () => {
     const c = new Context(request, {});
-    c.header("X-Test-Message", "Example");
+    c.header("X-Message", "Example");
 
     const response = c.text("OK");
-    expect(response.headers.get("X-Test-Message")).toBe("Example");
+    expect(response.headers.get("X-Message")).toBe("Example");
   });
 
-  test("c.header() clear", () => {
+  test("c.header() - append", () => {
     const c = new Context(request, {});
-    c.header("X-Test-Message", "Example");
-    c.header("X-Test-Message", undefined);
+    c.header("X-Message", "Hello", { append: true });
+    c.header("X-Message", "World", { append: true });
 
     const response = c.text("OK");
-    expect(response.headers.get("X-Test-Message")).toBe(null);
+    expect(response.headers.get("X-Message")?.split(/\s*,\s*/)).toEqual([
+      "Hello",
+      "World",
+    ]);
+  });
+
+  test("c.header() - clear", () => {
+    const c = new Context(request, {});
+    c.header("X-Message", "Example");
+    c.header("X-Message", undefined);
+
+    const response = c.text("OK");
+    expect(response.headers.get("X-Message")).toBe(null);
   });
 });
