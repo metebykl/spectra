@@ -38,6 +38,19 @@ describe("Routing", () => {
     expect(res.status).toBe(200);
     expect(await res.text()).toBe("Spectra");
   });
+
+  test("Wildcards", async () => {
+    const app = new Spectra();
+
+    app.get("/foo/*", (c) => c.text("Hello World!"));
+
+    let res = await app.fetch(new Request("http://localhost/foo/bar"));
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe("Hello World!");
+
+    res = await app.fetch(new Request("http://localhost/foo"));
+    expect(res.status).toBe(404);
+  });
 });
 
 describe("Not Found", () => {
@@ -153,5 +166,21 @@ describe("Middleware", () => {
     res = await app.fetch(new Request("http://localhost/foo"));
     expect(res.status).toBe(201);
     expect(await res.text()).toBe("Middleware");
+  });
+
+  test("Set response headers", async () => {
+    const app = new Spectra();
+
+    app.use("*", async (c, next) => {
+      c.res.headers.set("X-Message", "Spectra");
+      await next();
+    });
+
+    app.get("/", (c) => c.text("Hello"));
+
+    const res = await app.fetch(new Request("http://localhost/"));
+    expect(res.status).toBe(200);
+    expect(res.headers.get("X-Message")).toBe("Spectra");
+    expect(await res.text()).toBe("Hello");
   });
 });
