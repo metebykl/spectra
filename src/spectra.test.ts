@@ -51,6 +51,37 @@ describe("Routing", () => {
     res = await app.fetch(new Request("http://localhost/foo"));
     expect(res.status).toBe(404);
   });
+
+  describe("Path Parameters", () => {
+    const app = new Spectra();
+
+    app.get("/posts/:postId", (c) => {
+      const { postId } = c.req.params();
+      return c.json({ id: postId });
+    });
+
+    app.get("/users/:userId/posts/:postId", (c) => {
+      const { userId, postId } = c.req.params();
+      return c.json({ userId, postId });
+    });
+
+    test("Should parse single path parameter", async () => {
+      let res = await app.fetch(new Request("http://localhost/posts/1"));
+      expect(res.status).toBe(200);
+      expect(await res.json()).toEqual({ id: "1" });
+
+      res = await app.fetch(new Request("http://localhost/posts"));
+      expect(res.status).toBe(404);
+    });
+
+    test("Should parse multiple path parameters", async () => {
+      const res = await app.fetch(
+        new Request("http://localhost/users/1/posts/2")
+      );
+      expect(res.status).toBe(200);
+      expect(await res.json()).toEqual({ userId: "1", postId: "2" });
+    });
+  });
 });
 
 describe("Not Found", () => {
