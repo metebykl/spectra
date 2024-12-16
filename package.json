@@ -66,6 +66,7 @@
   "scripts": {
     "test": "tsc --noEmit && vitest run",
     "test:watch": "vitest watch",
+    "coverage": "vitest run --coverage",
     "lint": "eslint src",
     "format": "prettier --check \"src/**/*.ts\" \"examples/**/*.ts\"",
     "format:fix": "prettier --write \"src/**/*.ts\" \"examples/**/*.ts\"",
@@ -91,6 +92,7 @@
   "devDependencies": {
     "@eslint/js": "^9.15.0",
     "@types/node": "^22.7.9",
+    "@vitest/coverage-v8": "^2.1.8",
     "eslint": "^9.15.0",
     "np": "^10.0.7",
     "prettier": "^3.3.3",
