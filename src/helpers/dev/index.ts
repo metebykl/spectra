@@ -6,16 +6,26 @@ interface ListRoutesOptions {
   colorize?: boolean;
 }
 
+interface Route {
+  path: string;
+  method: string;
+  tag: string;
+  isMiddleware: boolean;
+}
+
+export const getRoutes = (app: Spectra): Route[] => {
+  return app.routes.map(({ path, method, handler }) => ({
+    path,
+    method,
+    isMiddleware: isMiddleware(handler),
+    tag: handler.name || (isMiddleware(handler) ? "[middleware]" : "[handler]"),
+  }));
+};
+
 export const listRoutes = (app: Spectra, opts?: ListRoutesOptions) => {
-  const routes = app.routes
-    .map(({ path, method, handler }) => ({
-      path,
-      method,
-      isMiddleware: isMiddleware(handler),
-      tag:
-        handler.name || (isMiddleware(handler) ? "[middleware]" : "[handler]"),
-    }))
-    .filter(({ isMiddleware }) => opts?.verbose || !isMiddleware);
+  const routes = getRoutes(app).filter(
+    ({ isMiddleware }) => opts?.verbose || !isMiddleware
+  );
 
   routes.forEach(({ path, method, tag }) => {
     const methodStr = opts?.colorize ? `\x1b[32m${method}\x1b[0m` : method;
