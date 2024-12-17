@@ -16,6 +16,11 @@ export type MiddlewareHandler<P extends string = string> = (
 
 export type H<P extends string = any> = Handler<P> | MiddlewareHandler<P>;
 
+export type ErrorHandler = (
+  c: Context,
+  err: Error
+) => Response | Promise<Response>;
+
 export interface RouterNode {
   path: string;
   method: string;

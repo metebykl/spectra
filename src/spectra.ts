@@ -4,6 +4,7 @@ import { type Params, Router } from "./router";
 import { isMiddleware } from "./utils/handler";
 import { getNonStrictPath, mergePath } from "./utils/url";
 import type {
+  ErrorHandler,
   H,
   Handler,
   HTTPMethod,
@@ -15,12 +16,18 @@ const notFoundHandler = (c: Context) => {
   return c.text("404 Not Found", 404);
 };
 
+const errorHandler = (c: Context, err: Error) => {
+  console.error(err);
+  return c.text("Internal Server Error", 500);
+};
+
 export class Spectra<BasePath extends string = "/"> {
   #basePath: BasePath;
   #router: Router<H>;
   routes: RouterNode[] = [];
 
   #notFoundHandler: Handler = notFoundHandler;
+  #errorHandler: ErrorHandler = errorHandler;
 
   constructor(basePath?: BasePath) {
     this.#basePath = (basePath ?? "/") as BasePath;
@@ -102,6 +109,11 @@ export class Spectra<BasePath extends string = "/"> {
     return this;
   }
 
+  onError(handler: ErrorHandler): this {
+    this.#errorHandler = handler;
+    return this;
+  }
+
   #addRoute(method: "ALL" | HTTPMethod, path: string, handler: H) {
     path = mergePath(this.#basePath, path);
     this.#router.add(method, path, handler);
@@ -131,20 +143,42 @@ export class Spectra<BasePath extends string = "/"> {
       stack.push(handler);
 
       return (async () => {
-        const context = await this.#compose(c, stack, async () => {
-          return this.#notFoundHandler(c);
-        });
-        return context.res;
+        try {
+          const context = await this.#compose(c, stack, async () => {
+            return this.#notFoundHandler(c);
+          });
+          return context.res;
+        } catch (err) {
+          if (err instanceof Error) {
+            return this.#errorHandler(c, err);
+          }
+          throw err;
+        }
       })();
     }
 
     if (stack.length === 0) {
-      return handler(c);
+      try {
+        const res = handler(c);
+        return res;
+      } catch (err) {
+        if (err instanceof Error) {
+          return this.#errorHandler(c, err);
+        }
+        throw err;
+      }
     }
 
     return (async () => {
-      const context = await this.#compose(c, stack, handler);
-      return context.res;
+      try {
+        const context = await this.#compose(c, stack, handler);
+        return context.res;
+      } catch (err) {
+        if (err instanceof Error) {
+          return this.#errorHandler(c, err);
+        }
+        throw err;
+      }
     })();
   }
 
