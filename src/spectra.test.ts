@@ -84,6 +84,89 @@ describe("Routing", () => {
   });
 });
 
+describe("Error Handler", () => {
+  describe("Basic", () => {
+    const app = new Spectra();
+
+    app.get("/", () => {
+      throw new Error("Handler Error");
+    });
+
+    app.use("/middleware", () => {
+      throw new Error("Middleware Error");
+    });
+
+    test("Should return default error message", async () => {
+      let res = await app.fetch(new Request("http://localhost/"));
+      expect(res.status).toBe(500);
+      expect(await res.text()).toBe("Internal Server Error");
+
+      res = await app.fetch(new Request("http://localhost/middleware"));
+      expect(res.status).toBe(500);
+      expect(await res.text()).toBe("Internal Server Error");
+    });
+  });
+
+  describe("Custom Handler", () => {
+    const app = new Spectra();
+
+    app.get("/", () => {
+      throw new Error("Handler Error");
+    });
+
+    app.use("/middleware", () => {
+      throw new Error("Middleware Error");
+    });
+
+    app.onError((c, err) => {
+      c.header("X-Error", err.message);
+      return c.text("Custom Message", 500);
+    });
+
+    test("Should return custom error message", async () => {
+      let res = await app.fetch(new Request("http://localhost/"));
+      expect(res.status).toBe(500);
+      expect(res.headers.get("X-Error")).toBe("Handler Error");
+      expect(await res.text()).toBe("Custom Message");
+
+      res = await app.fetch(new Request("http://localhost/middleware"));
+      expect(res.status).toBe(500);
+      expect(res.headers.get("X-Error")).toBe("Middleware Error");
+      expect(await res.text()).toBe("Custom Message");
+    });
+  });
+
+  describe("Custom Handler Async", () => {
+    const app = new Spectra();
+
+    app.get("/", () => {
+      throw new Error("Handler Error");
+    });
+
+    app.use("/middleware", () => {
+      throw new Error("Middleware Error");
+    });
+
+    app.onError(async (c, err) => {
+      await new Promise((resolve) => setTimeout(resolve, 5));
+      c.header("X-Error", err.message);
+      return c.text("Custom Message", 500);
+    });
+
+    test("Should return custom error message", async () => {
+      let res = await app.fetch(new Request("http://localhost/"));
+      expect(res.status).toBe(500);
+      expect(res.headers.get("X-Error")).toBe("Handler Error");
+      expect(await res.text()).toBe("Custom Message");
+
+      res = await app.fetch(new Request("http://localhost/middleware"));
+      expect(res.status).toBe(500);
+      expect(res.headers.get("X-Error")).toBe("Middleware Error");
+      expect(await res.text()).toBe("Custom Message");
+    });
+  });
+});
+
 describe("Not Found", () => {
   const app = new Spectra();
 
