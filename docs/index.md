@@ -8,6 +8,7 @@
 
 ### References
 
+- [App](api/spectra.md)
 - [Context](api/context.md)
 - [Request](api/request.md)
 
