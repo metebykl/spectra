@@ -1,8 +1,9 @@
 import { bodyLimit } from "./body-limit";
-import { cors } from "./cors";
-import { timeout } from "./timeout";
-import { logger } from "./logger";
 import { compression } from "./compression";
+import { cors } from "./cors";
+import { logger } from "./logger";
 import { poweredBy } from "./powered-by";
+import { requestId } from "./request-id";
+import { timeout } from "./timeout";
 
-export { bodyLimit, cors, timeout, logger, compression, poweredBy };
+export { bodyLimit, compression, cors, logger, poweredBy, requestId, timeout };
