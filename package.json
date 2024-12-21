@@ -1,6 +1,6 @@
 {
   "name": "@spectrajs/core",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "Fast, lightweight and fully typesafe web framework",
   "main": "./dist/index.cjs",
   "type": "module",
