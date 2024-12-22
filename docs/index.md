@@ -15,11 +15,12 @@
 ### Middleware
 
 - [Body Limit](middleware/body-limit.md)
-- [CORS](middleware/cors.md)
 - [Compression](middleware/compression.md)
-- [Timeout](middleware/timeout.md)
-- [Powered By](middleware/powered-by.md)
+- [CORS](middleware/cors.md)
 - [Logger](middleware/logger.md)
+- [Powered By](middleware/powered-by.md)
+- [Request ID](middleware/request-id.md)
+- [Timeout](middleware/timeout.md)
 
 ### Helpers
 
