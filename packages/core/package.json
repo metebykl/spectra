@@ -1,0 +1,93 @@
+{
+  "name": "@spectrajs/core",
+  "version": "0.5.6",
+  "description": "Fast, lightweight and fully typesafe web framework",
+  "main": "./dist/index.cjs",
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./cookie": {
+      "types": "./dist/cookie.d.ts",
+      "import": "./dist/cookie.js",
+      "require": "./dist/cookie.cjs"
+    },
+    "./dev": {
+      "types": "./dist/helpers/dev/index.d.ts",
+      "import": "./dist/helpers/dev/index.js",
+      "require": "./dist/helpers/dev/index.cjs"
+    },
+    "./middleware": {
+      "types": "./dist/middleware/index.d.ts",
+      "import": "./dist/middleware/index.js",
+      "require": "./dist/middleware/index.cjs"
+    },
+    "./middleware/*": {
+      "types": "./dist/middleware/*/index.d.ts",
+      "import": "./dist/middleware/*/index.js",
+      "require": "./dist/middleware/*/index.cjs"
+    },
+    "./adapter/*": {
+      "types": "./dist/adapter/*/index.d.ts",
+      "import": "./dist/adapter/*/index.js",
+      "require": "./dist/adapter/*/index.cjs"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
+      "cookie": [
+        "./dist/cookie.d.ts"
+      ],
+      "dev": [
+        "./dist/helpers/dev/index.d.ts"
+      ],
+      "middleware": [
+        "./dist/middleware/index.d.ts"
+      ],
+      "middleware/*": [
+        "./dist/middleware/*/index.d.ts"
+      ],
+      "adapter/*": [
+        "./dist/adapter/*/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "lint": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metebykl/spectra.git"
+  },
+  "keywords": [
+    "web",
+    "http",
+    "framework",
+    "router"
+  ],
+  "author": "metebykl",
+  "license": "MIT",
+  "homepage": "https://github.com/metebykl/spectra#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.15.0",
+    "prettier": "^3.3.3",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  }
+}

@@ -26,6 +26,9 @@ lib-cov
 coverage
 *.lcov
 
+# Turbo
+.turbo
+
 # nyc test coverage
 .nyc_output
 

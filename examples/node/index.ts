@@ -1,5 +1,5 @@
-import { Spectra } from "../../src";
-import { serve } from "../../src/adapter/node";
+import { Spectra } from "@spectrajs/core";
+import { serve } from "@spectrajs/core/adapter/node";
 
 const tasks = [
   {
