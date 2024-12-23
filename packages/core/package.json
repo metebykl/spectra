@@ -66,9 +66,7 @@
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
-    "lint": "eslint src",
-    "prerelease": "npm run test && npm run build",
-    "release": "np"
+    "lint": "eslint src"
   },
   "repository": {
     "type": "git",
@@ -87,7 +85,6 @@
     "@eslint/js": "^9.15.0",
     "@types/node": "^22.10.2",
     "eslint": "^9.15.0",
-    "np": "^10.0.7",
     "prettier": "^3.3.3",
     "tsup": "^8.3.5",
     "tsx": "^4.19.1",

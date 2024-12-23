@@ -7,9 +7,11 @@
     "coverage": "vitest run --coverage",
     "lint": "turbo run lint",
     "format": "prettier --check \"**/*.ts\"",
-    "format:fix": "prettier --write \"**/*.ts\""
+    "format:fix": "prettier --write \"**/*.ts\"",
+    "publish-packages": "turbo run build lint test && changeset version && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.11",
     "@eslint/js": "^9.17.0",
     "@vitest/coverage-v8": "^2.1.8",
     "prettier": "^3.4.2",
