@@ -1,4 +1,4 @@
-import { Spectra } from "../../src";
+import { Spectra } from "@spectrajs/core";
 
 const tasks = [
   {
