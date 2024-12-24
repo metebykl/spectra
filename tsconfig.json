@@ -10,7 +10,8 @@
     "declaration": true,
     "baseUrl": ".",
     "paths": {
-      "@spectrajs/core": ["packages/core/src"]
+      "@spectrajs/core": ["packages/core/src"],
+      "@spectrajs/node": ["packages/node/src"]
     }
   },
   "include": ["packages", "examples"]
