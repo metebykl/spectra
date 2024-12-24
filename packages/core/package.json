@@ -6,6 +6,24 @@
   "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "lint": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metebykl/spectra.git"
+  },
+  "keywords": [
+    "web",
+    "http",
+    "framework",
+    "router"
+  ],
+  "author": "metebykl",
+  "license": "MIT",
+  "homepage": "https://github.com/metebykl/spectra#readme",
   "files": [
     "dist"
   ],
@@ -63,31 +81,12 @@
       ]
     }
   },
-  "scripts": {
-    "build": "tsup",
-    "test": "vitest run",
-    "lint": "eslint src"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/metebykl/spectra.git"
-  },
-  "keywords": [
-    "web",
-    "http",
-    "framework",
-    "router"
-  ],
-  "author": "metebykl",
-  "license": "MIT",
-  "homepage": "https://github.com/metebykl/spectra#readme",
   "devDependencies": {
     "@eslint/js": "^9.15.0",
     "@types/node": "^22.10.2",
     "eslint": "^9.15.0",
     "prettier": "^3.3.3",
     "tsup": "^8.3.5",
-    "tsx": "^4.19.1",
     "typescript": "^5.6.3"
   }
 }
