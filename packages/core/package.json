@@ -52,11 +52,6 @@
       "types": "./dist/middleware/*/index.d.ts",
       "import": "./dist/middleware/*/index.js",
       "require": "./dist/middleware/*/index.cjs"
-    },
-    "./adapter/*": {
-      "types": "./dist/adapter/*/index.d.ts",
-      "import": "./dist/adapter/*/index.js",
-      "require": "./dist/adapter/*/index.cjs"
     }
   },
   "typesVersions": {
@@ -75,9 +70,6 @@
       ],
       "middleware/*": [
         "./dist/middleware/*/index.d.ts"
-      ],
-      "adapter/*": [
-        "./dist/adapter/*/index.d.ts"
       ]
     }
   },
