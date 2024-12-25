@@ -16,7 +16,7 @@ npm install @spectrajs/core
 
 ```ts
 import { Spectra } from "@spectrajs/core";
-import { serve } from "@spectrajs/core/adapter/node";
+import { serve } from "@spectrajs/node";
 
 const app = new Spectra();
 

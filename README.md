@@ -29,7 +29,7 @@ Here’s a quick example to get your Spectra server up and running:
 
 ```typescript
 import { Spectra } from "@spectrajs/core";
-import { serve } from "@spectrajs/core/adapter/node";
+import { serve } from "@spectrajs/node";
 
 const app = new Spectra();
 
@@ -50,7 +50,7 @@ Here’s an example illustrating a simple API that handles basic routing and dat
 
 ```typescript
 import { Spectra } from "@spectrajs/core";
-import { serve } from "@spectrajs/core/adapter/node";
+import { serve } from "@spectrajs/node";
 
 const tasks = [{ name: "Example Task" }];
 
