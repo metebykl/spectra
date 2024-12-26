@@ -10,12 +10,16 @@ export interface NodeServeOptions {
   port?: number;
 }
 
+export function createAdapter(options: NodeServeOptions): http.Server {
+  const requestListener = getListener(options.fetch);
+  return http.createServer(requestListener);
+}
+
 export function serve(
   options: NodeServeOptions,
   listenCallback?: (info: AddressInfo) => void
 ): http.Server {
-  const requestListener = getListener(options.fetch);
-  const server = http.createServer(requestListener);
+  const server = createAdapter(options);
 
   server.listen(options?.port ?? DEFAULT_PORT, () => {
     const serverInfo = server.address() as AddressInfo;
