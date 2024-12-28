@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 export class StreamAPI {
   private writer: WritableStreamDefaultWriter<Uint8Array>;
   private encoder: TextEncoder;
@@ -35,10 +36,12 @@ export class StreamAPI {
   }
 
   async write(data: Uint8Array | string): Promise<StreamAPI> {
-    if (typeof data === "string") {
-      data = this.encoder.encode(data);
-    }
-    await this.writer.write(data);
+    try {
+      if (typeof data === "string") {
+        data = this.encoder.encode(data);
+      }
+      await this.writer.write(data);
+    } catch {}
 
     return this;
   }
@@ -55,7 +58,10 @@ export class StreamAPI {
   }
 
   async close(): Promise<void> {
-    await this.writer.close();
+    try {
+      await this.writer.close();
+    } catch {}
+
     this.closed = true;
   }
 
