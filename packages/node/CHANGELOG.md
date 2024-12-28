@@ -1,5 +1,11 @@
 # @spectrajs/node
 
+## 0.6.1
+
+### Patch Changes
+
+- 12a82b9: Move HTTP server creation from 'serve' to 'createAdapter' function
+
 ## 0.6.0
 
 ### Minor Changes

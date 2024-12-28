@@ -1,6 +1,6 @@
 {
   "name": "@spectrajs/node",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Node.js Adapter for Spectra",
   "main": "./dist/index.cjs",
   "type": "module",
