@@ -43,6 +43,11 @@
       "import": "./dist/helpers/dev/index.js",
       "require": "./dist/helpers/dev/index.cjs"
     },
+    "./stream": {
+      "types": "./dist/helpers/stream/index.d.ts",
+      "import": "./dist/helpers/stream/index.js",
+      "require": "./dist/helpers/stream/index.cjs"
+    },
     "./middleware": {
       "types": "./dist/middleware/index.d.ts",
       "import": "./dist/middleware/index.js",
@@ -69,6 +74,9 @@
       ],
       "dev": [
         "./dist/helpers/dev/index.d.ts"
+      ],
+      "stream": [
+        "./dist/helpers/stream/index.d.ts"
       ],
       "middleware": [
         "./dist/middleware/index.d.ts"
