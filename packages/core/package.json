@@ -52,6 +52,11 @@
       "types": "./dist/middleware/*/index.d.ts",
       "import": "./dist/middleware/*/index.js",
       "require": "./dist/middleware/*/index.cjs"
+    },
+    "./utils/*": {
+      "types": "./dist/utils/*.d.ts",
+      "import": "./dist/utils/*.js",
+      "require": "./dist/utils/*.cjs"
     }
   },
   "typesVersions": {
@@ -70,6 +75,9 @@
       ],
       "middleware/*": [
         "./dist/middleware/*/index.d.ts"
+      ],
+      "utils/*": [
+        "./dist/utils/*.d.ts"
       ]
     }
   },
