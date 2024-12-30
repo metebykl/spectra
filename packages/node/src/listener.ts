@@ -17,7 +17,7 @@ const handleResponseError = (e: unknown, res: ServerResponse) => {
 
   console.error(e);
   if (!res.headersSent) {
-    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.writeHead(500, { "Content-Type": "text/plain; charset=UTF-8" });
   }
   res.end(`Error: ${err.message}`);
   res.destroy(err);

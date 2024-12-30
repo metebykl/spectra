@@ -13,6 +13,8 @@ type SetHeaderOptions = {
   append?: boolean;
 };
 
+export const TEXT_PLAIN = "text/plain; charset=UTF-8";
+
 export class Context<P extends string = string> {
   path: P;
   method: string;
@@ -108,7 +110,7 @@ export class Context<P extends string = string> {
   }
 
   text(data: string, status?: number): Response {
-    this.#headers.set("Content-Type", "text/plain");
+    this.#headers.set("Content-Type", TEXT_PLAIN);
     return this.#newResponse(data, status);
   }
 

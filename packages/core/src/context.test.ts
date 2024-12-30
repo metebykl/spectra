@@ -17,7 +17,7 @@ describe("Context", () => {
     const response = c.text("Hello World!");
 
     expect(response.status).toBe(200);
-    expect(response.headers.get("Content-Type")).toBe("text/plain");
+    expect(response.headers.get("Content-Type")).toMatch(/^text\/plain/);
     expect(await response.text()).toBe("Hello World!");
   });
 
@@ -26,7 +26,7 @@ describe("Context", () => {
     const response = c.text("Hello World!", 201);
 
     expect(response.status).toBe(201);
-    expect(response.headers.get("Content-Type")).toBe("text/plain");
+    expect(response.headers.get("Content-Type")).toMatch(/^text\/plain/);
     expect(await response.text()).toBe("Hello World!");
   });
 

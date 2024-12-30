@@ -31,7 +31,7 @@ describe("Basic", () => {
   test("Should return response 200 - GET /", async () => {
     const res = await request(server).get("/");
     expect(res.status).toBe(200);
-    expect(res.headers["content-type"]).toBe("text/plain");
+    expect(res.headers["content-type"]).toMatch(/^text\/plain/);
     expect(res.text).toBe("Hello World!");
   });
 
@@ -40,7 +40,7 @@ describe("Basic", () => {
       .get("/user-agent")
       .set("User-Agent", "Test/Spectra");
     expect(res.status).toBe(200);
-    expect(res.headers["content-type"]).toBe("text/plain");
+    expect(res.headers["content-type"]).toMatch(/^text\/plain/);
     expect(res.text).toBe("Test/Spectra");
   });
 
@@ -67,7 +67,7 @@ describe("Basic", () => {
   test("Should return response 500 - GET /error", async () => {
     const res = await request(server).get("/error");
     expect(res.status).toBe(500);
-    expect(res.headers["content-type"]).toBe("text/plain");
+    expect(res.headers["content-type"]).toMatch(/^text\/plain/);
   });
 });
 
