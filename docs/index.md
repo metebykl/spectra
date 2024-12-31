@@ -2,9 +2,10 @@
 
 ## Table of Contents
 
-### Guides
+### Getting Started
 
-- [Getting Started](getting-started.md)
+- [Bun](getting-started/bun.md)
+- [Node.js](getting-started/node.md)
 
 ### References
 
