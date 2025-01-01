@@ -1,5 +1,11 @@
 # @spectrajs/core
 
+## 0.6.2
+
+### Patch Changes
+
+- 32aee2a: Specify UTF-8 charset for text/plain responses
+
 ## 0.6.1
 
 ### Patch Changes
