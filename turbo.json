@@ -8,17 +8,14 @@
     },
     "lint": {
       "dependsOn": ["^build"],
-      "outputs": [],
-      "cache": true
+      "outputs": []
     },
     "test": {
       "dependsOn": ["^build"],
       "cache": false
     },
-    "type-check": {
-      "dependsOn": ["^build"],
-      "outputs": [],
-      "cache": true
+    "typecheck": {
+      "dependsOn": ["^build"]
     }
   }
 }

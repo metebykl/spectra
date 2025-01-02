@@ -8,8 +8,9 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup",
+    "lint": "eslint src",
     "test": "vitest run",
-    "lint": "eslint src"
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",
