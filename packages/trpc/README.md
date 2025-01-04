@@ -12,7 +12,8 @@
 
 The `@spectrajs/trpc` package provides tRPC support.
 
-> [!WARNING] This package is still in development and is not ready for production use.
+> [!WARNING]
+> This package is still in development and is not ready for production use.
 
 ## Installation
 
