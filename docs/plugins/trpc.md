@@ -1,37 +1,16 @@
-<div align="center">
-<h1>
-  Spectra
-</h1>
-<p>
-  Fast, lightweight and fully typesafe web framework
-</p>
+<h1 align="center">Spectra</h1>
 
-</div>
+## tRPC Plugin
 
-# `@spectrajs/trpc`
-
-The `@spectrajs/trpc` package provides tRPC support.
-
-> [!WARNING]
-> This package is still in development and is not ready for production use.
+This plugin adds support for using [tRPC](https://trpc.io).
 
 ## Installation
 
-```bash
-# npm
-npm install @spectrajs/trpc
-
-# yarn
-yarn add @spectrajs/trpc
-
-# pnpm
-pnpm add @spectrajs/trpc
-
-# bun
-bun add @spectrajs/trpc
+```sh
+npm install @spectrajs/trpc @trpc/server
 ```
 
-## Example
+## Usage
 
 ```ts
 import { trpc } from "@spectrajs/trpc";
@@ -56,19 +35,17 @@ app.use(
 );
 ```
 
-## API
+## trpc
 
-### trpc
-
-#### router
+### router
 
 The tRPC Router instance.
 
-#### endpoint
+### endpoint
 
 The path to the exposed tRPC endpoint.
 
-#### createContext
+### createContext
 
 Create custom tRPC context.
 

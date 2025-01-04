@@ -13,6 +13,10 @@
 - [Context](api/context.md)
 - [Request](api/request.md)
 
+### Plugins
+
+- [tRPC](plugins/trpc.md)
+
 ### Middleware
 
 - [Body Limit](middleware/body-limit.md)
