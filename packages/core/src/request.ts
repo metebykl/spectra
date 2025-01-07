@@ -32,16 +32,18 @@ export class SpectraRequest<P extends string = "/"> {
     return this.#params;
   }
 
-  query(key: string): string | undefined;
-  query(): Record<string, string>;
-  query(key?: string) {
-    return getQueryParam(this.raw.url, key);
+  query<T extends Record<string, string | undefined>>(): T;
+  query<T extends Record<string, string | undefined>, K = keyof T>(
+    key: K
+  ): K extends keyof T ? T[K] : undefined;
+  query<T extends Record<string, string | undefined>>(key?: keyof T) {
+    return getQueryParam(this.raw.url, key as string);
   }
 
-  queries(key: string): string[] | undefined;
-  queries(): Record<string, string[]>;
-  queries(key?: string) {
-    return getQueryParam(this.raw.url, key, true);
+  queries<T extends Record<string, string[]>>(): T;
+  queries<T extends Record<string, string[]>>(key: keyof T): string[];
+  queries<T extends Record<string, string[]>>(key?: keyof T) {
+    return getQueryParam(this.raw.url, key as string, true);
   }
 
   header(name: IncomingHttpHeaders | (string & {})): string | undefined {
