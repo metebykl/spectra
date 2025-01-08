@@ -10,7 +10,7 @@ type tRPCOptions = Omit<
   FetchHandlerRequestOptions<AnyRouter>,
   "req" | "createContext" | "endpoint"
 > & {
-  endpoint: string;
+  endpoint?: string;
   createContext?: (
     c: Context,
     opts: FetchCreateContextFnOptions
@@ -18,7 +18,7 @@ type tRPCOptions = Omit<
 };
 
 export const trpc = ({
-  endpoint,
+  endpoint = "/trpc",
   createContext,
   ...options
 }: tRPCOptions): MiddlewareHandler => {

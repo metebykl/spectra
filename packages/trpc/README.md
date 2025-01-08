@@ -50,7 +50,6 @@ const app = new Spectra();
 app.use(
   "/trpc/*",
   trpc({
-    endpoint: "/trpc",
     router,
   })
 );
@@ -68,6 +67,18 @@ The tRPC Router instance.
 
 The path to the exposed tRPC endpoint.
 
+@default `/trpc`
+
+```ts
+app.use(
+  "/api/trpc/*",
+  trpc({
+    endpoint: "/api/trpc",
+    router,
+  })
+);
+```
+
 #### createContext
 
 Create custom tRPC context.
@@ -76,7 +87,6 @@ Create custom tRPC context.
 app.use(
   "/trpc/*",
   trpc({
-    endpoint: "/trpc",
     router,
     createContext: (c, _opts) => ({
       message: c.req.header("X-Message"),
