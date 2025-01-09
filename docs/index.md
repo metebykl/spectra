@@ -13,6 +13,10 @@
 - [Context](api/context.md)
 - [Request](api/request.md)
 
+### Guides
+
+- [Testing](guides/testing.md)
+
 ### Plugins
 
 - [tRPC](plugins/trpc.md)
