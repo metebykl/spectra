@@ -1,5 +1,12 @@
 # @spectrajs/core
 
+## 0.7.0
+
+### Minor Changes
+
+- d85b8bc: Export additional types
+- b3cb9cb: Add types for HTTP status codes
+
 ## 0.6.2
 
 ### Patch Changes
