@@ -2,6 +2,7 @@ import { SpectraRequest } from "./request";
 import { getPath } from "./utils/url";
 import type { Handler, ParamKeys, ParamsToRecord } from "./types";
 import type { OutgoingHttpHeaders } from "./utils/headers";
+import type { RedirectStatusCode, StatusCode } from "./utils/status";
 
 export type Data = string | ArrayBuffer | ReadableStream;
 
@@ -21,7 +22,7 @@ export class Context<P extends string = string> {
   req: SpectraRequest<P>;
 
   finalized: boolean = false;
-  #status: number = 200;
+  #status: StatusCode = 200;
   #headers: Headers;
   #res: Response | undefined;
 
@@ -70,7 +71,7 @@ export class Context<P extends string = string> {
     this.#store.set(key, value);
   }
 
-  status(code: number): void {
+  status(code: StatusCode): void {
     this.#status = code;
   }
 
@@ -95,35 +96,35 @@ export class Context<P extends string = string> {
     this.finalized = true;
   }
 
-  #newResponse(data: Data | null, status?: number): Response {
+  #newResponse(data: Data | null, status?: StatusCode): Response {
     return new Response(data, {
       status: status ?? this.#status,
       headers: this.#headers,
     });
   }
 
-  json(data: unknown, status?: number): Response {
+  json(data: unknown, status?: StatusCode): Response {
     const body = JSON.stringify(data);
 
     this.#headers.set("Content-Type", "application/json");
     return this.#newResponse(body, status);
   }
 
-  text(data: string, status?: number): Response {
+  text(data: string, status?: StatusCode): Response {
     this.#headers.set("Content-Type", TEXT_PLAIN);
     return this.#newResponse(data, status);
   }
 
-  html(data: string, status?: number): Response {
+  html(data: string, status?: StatusCode): Response {
     this.#headers.set("Content-Type", "text/html");
     return this.#newResponse(data, status);
   }
 
-  body(data: Data | null, status?: number): Response {
+  body(data: Data | null, status?: StatusCode): Response {
     return this.#newResponse(data, status);
   }
 
-  redirect(location: string, status?: number): Response {
+  redirect(location: string, status?: RedirectStatusCode): Response {
     this.#headers.set("Location", location);
     return this.#newResponse(null, status ?? 302);
   }
