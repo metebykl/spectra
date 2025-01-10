@@ -4,7 +4,7 @@ import type {
   FetchHandlerRequestOptions,
 } from "@trpc/server/adapters/fetch";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
-import type { Context, MiddlewareHandler } from "@spectrajs/core";
+import type { Context, MiddlewareHandler, StatusCode } from "@spectrajs/core";
 
 type tRPCOptions = Omit<
   FetchHandlerRequestOptions<AnyRouter>,
@@ -38,8 +38,7 @@ export const trpc = ({
         c.header(k, v);
       }
     });
-    c.status(res.status);
-    c.body(res.body);
+    c.body(res.body, res.status as StatusCode);
 
     return res;
   };
