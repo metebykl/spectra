@@ -35,7 +35,7 @@ describe("Context", () => {
     const response = c.json({ message: "Hello" });
 
     expect(response.status).toBe(200);
-    expect(response.headers.get("Content-Type")).toBe("application/json");
+    expect(response.headers.get("Content-Type")).toMatch(/^application\/json/);
     expect(await response.text()).toBe('{"message":"Hello"}');
   });
 
@@ -44,7 +44,7 @@ describe("Context", () => {
     const response = c.html("<h1>Example</h1>");
 
     expect(response.status).toBe(200);
-    expect(response.headers.get("Content-Type")).toBe("text/html");
+    expect(response.headers.get("Content-Type")).toMatch(/^text\/html/);
     expect(await response.text()).toBe("<h1>Example</h1>");
   });
 

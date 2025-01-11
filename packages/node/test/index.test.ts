@@ -53,14 +53,14 @@ describe("Basic", () => {
   test("Should return response 200 - POST /posts/123", async () => {
     const res = await request(server).post("/posts/123");
     expect(res.status).toBe(200);
-    expect(res.headers["content-type"]).toBe("application/json");
+    expect(res.headers["content-type"]).toMatch(/^application\/json/);
     expect(res.text).toBe('{"id":123}');
   });
 
   test("Should return response 200 - DELETE /posts/123", async () => {
     const res = await request(server).delete("/posts/123");
     expect(res.status).toBe(200);
-    expect(res.headers["content-type"]).toBe("application/json");
+    expect(res.headers["content-type"]).toMatch(/^application\/json/);
     expect(res.text).toBe('{"id":123}');
   });
 

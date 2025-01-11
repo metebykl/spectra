@@ -15,6 +15,7 @@ type SetHeaderOptions = {
 };
 
 export const TEXT_PLAIN = "text/plain; charset=UTF-8";
+export const APPLICATION_JSON = "application/json; charset=UTF-8";
 
 export class Context<P extends string = string> {
   path: P;
@@ -106,7 +107,7 @@ export class Context<P extends string = string> {
   json(data: unknown, status?: StatusCode): Response {
     const body = JSON.stringify(data);
 
-    this.#headers.set("Content-Type", "application/json");
+    this.#headers.set("Content-Type", APPLICATION_JSON);
     return this.#newResponse(body, status);
   }
 
@@ -116,7 +117,7 @@ export class Context<P extends string = string> {
   }
 
   html(data: string, status?: StatusCode): Response {
-    this.#headers.set("Content-Type", "text/html");
+    this.#headers.set("Content-Type", "text/html; charset=UTF-8");
     return this.#newResponse(data, status);
   }
 
