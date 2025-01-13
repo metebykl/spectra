@@ -2,6 +2,12 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import type { Context } from "./context";
 
+///////////////////////////////////////
+////                               ////
+////           Handlers            ////
+////                               ////
+///////////////////////////////////////
+
 export type Next = () => Promise<void>;
 export type HandlerResponse = Response;
 
@@ -21,6 +27,12 @@ export type ErrorHandler = (
   err: Error
 ) => Response | Promise<Response>;
 
+///////////////////////////////////////
+////                               ////
+////            Routes             ////
+////                               ////
+///////////////////////////////////////
+
 export interface RouterNode {
   path: string;
   method: string;
@@ -37,6 +49,12 @@ export type HTTPMethod =
   | "OPTIONS"
   | "TRACE"
   | "CONNECT";
+
+///////////////////////////////////////
+////                               ////
+////          URL Utils            ////
+////                               ////
+///////////////////////////////////////
 
 export type URLParams = Record<string, string>;
 
