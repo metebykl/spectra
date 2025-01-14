@@ -82,6 +82,28 @@ describe("Routing", () => {
       expect(await res.json()).toEqual({ userId: "1", postId: "2" });
     });
   });
+
+  describe("Multiple Handlers", () => {
+    const app = new Spectra();
+
+    app.get(
+      "/",
+      async (c, next) => {
+        c.header("X-Test", "foo");
+        await next();
+      },
+      (c) => {
+        return c.text("Spectra");
+      }
+    );
+
+    test("Should execute middleware and return response", async () => {
+      const res = await app.fetch(new Request("http://localhost/"));
+      expect(res.status).toBe(200);
+      expect(await res.text()).toBe("Spectra");
+      expect(res.headers.get("X-Test")).toBe("foo");
+    });
+  });
 });
 
 describe("Error Handler", () => {
