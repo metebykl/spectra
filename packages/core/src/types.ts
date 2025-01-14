@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import type { Context } from "./context";
+import type { Spectra } from "./spectra";
 
 ///////////////////////////////////////
 ////                               ////
@@ -82,3 +83,161 @@ export type MergePath<A extends string, B extends string> = B extends ""
             ? A
             : `${A}/${Q}`
           : `${A}/${B}`;
+
+///////////////////////////////////////
+////                               ////
+////        RouteInterface         ////
+////                               ////
+///////////////////////////////////////
+
+export interface RouteInterface<BasePath extends string = "/"> {
+  // .get(path, handler)
+  <
+    P extends string,
+    MergedPath extends MergePath<BasePath, P> = MergePath<BasePath, P>,
+  >(
+    path: P,
+    handler: Handler<MergedPath>
+  ): Spectra;
+
+  // .get(path, handler x 2)
+  <
+    P extends string,
+    MergedPath extends MergePath<BasePath, P> = MergePath<BasePath, P>,
+  >(
+    path: P,
+    ...handlers: [MiddlewareHandler<MergedPath>, Handler<MergedPath>]
+  ): Spectra<BasePath>;
+
+  // .get(path, handler x 3)
+  <
+    P extends string,
+    MergedPath extends MergePath<BasePath, P> = MergePath<BasePath, P>,
+  >(
+    path: P,
+    ...handlers: [
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      Handler<MergedPath>,
+    ]
+  ): Spectra<BasePath>;
+
+  // .get(path, handler x 4)
+  <
+    P extends string,
+    MergedPath extends MergePath<BasePath, P> = MergePath<BasePath, P>,
+  >(
+    path: P,
+    ...handlers: [
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      Handler<MergedPath>,
+    ]
+  ): Spectra<BasePath>;
+
+  // .get(path, handler x 5)
+  <
+    P extends string,
+    MergedPath extends MergePath<BasePath, P> = MergePath<BasePath, P>,
+  >(
+    path: P,
+    ...handlers: [
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      Handler<MergedPath>,
+    ]
+  ): Spectra<BasePath>;
+
+  // .get(path, handler x 6)
+  <
+    P extends string,
+    MergedPath extends MergePath<BasePath, P> = MergePath<BasePath, P>,
+  >(
+    path: P,
+    ...handlers: [
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      Handler<MergedPath>,
+    ]
+  ): Spectra<BasePath>;
+
+  // .get(path, handler x 7)
+  <
+    P extends string,
+    MergedPath extends MergePath<BasePath, P> = MergePath<BasePath, P>,
+  >(
+    path: P,
+    ...handlers: [
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      Handler<MergedPath>,
+    ]
+  ): Spectra<BasePath>;
+
+  // .get(path, handler x 8)
+  <
+    P extends string,
+    MergedPath extends MergePath<BasePath, P> = MergePath<BasePath, P>,
+  >(
+    path: P,
+    ...handlers: [
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      Handler<MergedPath>,
+    ]
+  ): Spectra<BasePath>;
+
+  // .get(path, handler x 9)
+  <
+    P extends string,
+    MergedPath extends MergePath<BasePath, P> = MergePath<BasePath, P>,
+  >(
+    path: P,
+    ...handlers: [
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      Handler<MergedPath>,
+    ]
+  ): Spectra<BasePath>;
+
+  // .get(path, handler x 10)
+  <
+    P extends string,
+    MergedPath extends MergePath<BasePath, P> = MergePath<BasePath, P>,
+  >(
+    path: P,
+    ...handlers: [
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      MiddlewareHandler<MergedPath>,
+      Handler<MergedPath>,
+    ]
+  ): Spectra<BasePath>;
+}

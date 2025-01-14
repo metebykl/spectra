@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Context } from "./context";
-import { type Params, Router } from "./router";
+import { HTTP_METHODS, type Params, Router } from "./router";
 import { isMiddleware } from "./utils/handler";
 import { getNonStrictPath, mergePath } from "./utils/url";
 import type {
@@ -9,6 +9,7 @@ import type {
   Handler,
   HTTPMethod,
   MiddlewareHandler,
+  RouteInterface,
   RouterNode,
 } from "./types";
 
@@ -22,6 +23,17 @@ const errorHandler = (c: Context, err: Error) => {
 };
 
 export class Spectra<BasePath extends string = "/"> {
+  all!: RouteInterface<BasePath>;
+  get!: RouteInterface<BasePath>;
+  put!: RouteInterface<BasePath>;
+  post!: RouteInterface<BasePath>;
+  delete!: RouteInterface<BasePath>;
+  patch!: RouteInterface<BasePath>;
+  head!: RouteInterface<BasePath>;
+  options!: RouteInterface<BasePath>;
+  trace!: RouteInterface<BasePath>;
+  connect!: RouteInterface<BasePath>;
+
   #basePath: BasePath;
   #router: Router<H>;
   routes: RouterNode[] = [];
@@ -32,6 +44,17 @@ export class Spectra<BasePath extends string = "/"> {
   constructor(basePath?: BasePath) {
     this.#basePath = (basePath ?? "/") as BasePath;
     this.#router = new Router<H>();
+
+    // app.get(path, ...handlers[])
+    const methods = [...HTTP_METHODS, "all"] as const;
+    methods.forEach((method) => {
+      this[method] = (path: string, ...args: H[]) => {
+        args.forEach((handler) => {
+          this.#addRoute(method.toUpperCase() as HTTPMethod, path, handler);
+        });
+        return this as any;
+      };
+    });
   }
 
   use(
@@ -51,56 +74,6 @@ export class Spectra<BasePath extends string = "/"> {
       this.#addRoute("ALL", path, handler);
     }
 
-    return this;
-  }
-
-  all<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#addRoute("ALL", path, handler);
-    return this;
-  }
-
-  get<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#addRoute("GET", path, handler);
-    return this;
-  }
-
-  put<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#addRoute("PUT", path, handler);
-    return this;
-  }
-
-  post<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#addRoute("POST", path, handler);
-    return this;
-  }
-
-  delete<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#addRoute("DELETE", path, handler);
-    return this;
-  }
-
-  patch<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#addRoute("PATCH", path, handler);
-    return this;
-  }
-
-  head<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#addRoute("HEAD", path, handler);
-    return this;
-  }
-
-  options<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#addRoute("OPTIONS", path, handler);
-    return this;
-  }
-
-  trace<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#addRoute("TRACE", path, handler);
-    return this;
-  }
-
-  connect<Path extends string>(path: Path, handler: Handler<Path>): this {
-    this.#addRoute("CONNECT", path, handler);
     return this;
   }
 

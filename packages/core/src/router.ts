@@ -1,5 +1,17 @@
 import type { HTTPMethod } from "./types";
 
+export const HTTP_METHODS = [
+  "get",
+  "put",
+  "post",
+  "delete",
+  "patch",
+  "head",
+  "options",
+  "trace",
+  "connect",
+] as const;
+
 type RouterTree<T> = Record<"ALL" | HTTPMethod, RouteMap<T>>;
 
 type RouteMap<T> = {
