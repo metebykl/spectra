@@ -35,13 +35,6 @@
       "require": "./dist/index.cjs"
     }
   },
-  "typesVersions": {
-    "*": {
-      ".": [
-        "./dist/index.d.ts"
-      ]
-    }
-  },
   "peerDependencies": {
     "@spectrajs/core": ">= 0.6.2"
   },
