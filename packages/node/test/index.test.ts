@@ -98,3 +98,36 @@ describe("Serve", () => {
     });
   });
 });
+
+describe("Request Body", () => {
+  const app = new Spectra();
+
+  app.post("/json", async (c) => {
+    const data = await c.req.json();
+    return c.json(data);
+  });
+  app.post("/form", async (c) => {
+    const data = await c.req.formData();
+    return c.json(Object.fromEntries(data));
+  });
+
+  const server = createAdapter(app);
+
+  test("Should handle json body", async () => {
+    const res = await request(server)
+      .post("/json")
+      .set("Content-Type", "application/json")
+      .send({ id: 1 });
+    expect(res.status).toBe(200);
+    expect(res.text).toBe(`{"id":1}`);
+  });
+
+  test("Should handle form body", async () => {
+    const res = await request(server)
+      .post("/form")
+      .type("form")
+      .send({ name: "Spectra" });
+    expect(res.status).toBe(200);
+    expect(res.text).toBe(`{"name":"Spectra"}`);
+  });
+});

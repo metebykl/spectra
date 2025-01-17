@@ -4,7 +4,7 @@ import { convertIncomingMessageToRequest } from "../src/request";
 
 describe("convertIncomingMessageToRequest", () => {
   test("Should convert to standard Request", () => {
-    const url = new URL(`http://localhost/`);
+    const url = new URL("http://localhost/");
     const req = convertIncomingMessageToRequest(url, {
       method: "GET",
       url: url.pathname,
@@ -17,5 +17,18 @@ describe("convertIncomingMessageToRequest", () => {
     expect(req.method).toBe("GET");
     expect(req.url).toBe("http://localhost/");
     expect(req.headers.get("host")).toBe("localhost");
+  });
+
+  test("Should resolve double dots in URL", async () => {
+    const url = new URL("http://localhost/../foo.png");
+    const req = convertIncomingMessageToRequest(url, {
+      method: "GET",
+      url: "/../foo.png",
+      headers: {
+        host: "localhost",
+      },
+    } as IncomingMessage);
+    expect(req).toBeInstanceOf(Request);
+    expect(req.url).toBe("http://localhost/foo.png");
   });
 });
