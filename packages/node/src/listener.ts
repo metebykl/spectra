@@ -41,8 +41,13 @@ export const getListener = (fetchCallback: FetchCallback) => {
       `http://${process.env.HOST ?? "localhost"}${incoming.url}`
     );
 
+    const controller = new AbortController();
+    outgoing.on("close", () => {
+      controller.abort();
+    });
+
     try {
-      req = convertIncomingMessageToRequest(url, incoming);
+      req = convertIncomingMessageToRequest(url, incoming, controller);
       res = (await fetchCallback(req)) as Response;
     } catch (err) {
       if (!res) {
