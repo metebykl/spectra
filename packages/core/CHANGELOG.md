@@ -1,5 +1,12 @@
 # @spectrajs/core
 
+## 0.7.1
+
+### Patch Changes
+
+- ead1949: Support for registering routes with stacked middleware before the final handler.
+- bdb34bc: Specify UTF-8 charset for application/json and text/html responses
+
 ## 0.7.0
 
 ### Minor Changes

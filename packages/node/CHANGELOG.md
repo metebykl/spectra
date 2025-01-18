@@ -1,5 +1,11 @@
 # @spectrajs/node
 
+## 0.7.1
+
+### Patch Changes
+
+- 91d98aa: Handle abort signals
+
 ## 0.7.0
 
 ## 0.6.2
