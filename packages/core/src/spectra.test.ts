@@ -16,6 +16,65 @@ describe("Routing", () => {
     expect(await res.json()).toEqual({ message: "Test" });
   });
 
+  test("Nested routes", async () => {
+    const app = new Spectra();
+
+    const api = app.basePath("/api");
+    api.get("/", (c) => c.text("GET /api"));
+    api.post("/", (c) => c.text("POST /api"));
+    api.get("/:id", (c) => c.text(`GET /api/${c.req.param("id")}`));
+
+    app.get("/", (c) => c.text("GET /"));
+
+    let res = await app.fetch(new Request("http://localhost/"));
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe("GET /");
+
+    res = await app.fetch(new Request("http://localhost/api"));
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe("GET /api");
+
+    res = await app.fetch(
+      new Request("http://localhost/api", { method: "POST" })
+    );
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe("POST /api");
+
+    res = await app.fetch(new Request("http://localhost/api/1"));
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe("GET /api/1");
+  });
+
+  test("Mounting", async () => {
+    const app = new Spectra();
+    app.get("/", (c) => c.text("GET /"));
+
+    const api = new Spectra();
+    api.get("/", (c) => c.text("GET /api"));
+    api.post("/", (c) => c.text("POST /api"));
+    api.get("/:id", (c) => c.text(`GET /api/${c.req.param("id")}`));
+
+    app.route("/api", api);
+
+    let res = await app.fetch(new Request("http://localhost/"));
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe("GET /");
+
+    res = await app.fetch(new Request("http://localhost/api"));
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe("GET /api");
+
+    res = await app.fetch(
+      new Request("http://localhost/api", { method: "POST" })
+    );
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe("POST /api");
+
+    res = await app.fetch(new Request("http://localhost/api/1"));
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe("GET /api/1");
+  });
+
   test("Chaining", async () => {
     const app = new Spectra();
 
