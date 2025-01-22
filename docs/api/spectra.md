@@ -23,9 +23,34 @@ const app = new Spectra();
 - app.**options**(path, handler)
 - app.**trace**(path, handler)
 - app.**connect**(path, handler)
+- [app.**basePath**(path)](#base-path)
+- [app.**route**(path, app)](#route-grouping)
+- app.**clone**()
 - [app.**notFound**(handler)](#not-found)
 - [app.**onError**(handler)](#error-handling)
 - [app.**fetch**(request)](#fetch)
+
+### Base Path
+
+`app.basePath` is used to modify the base path of a **Spectra** instance.
+
+```ts
+const api = new Spectra().basePath("/api");
+api.get("/posts", (c) => c.text("Posts List"));
+```
+
+### Route Grouping
+
+`app.route` is used to mount sub-apps to a specific path.
+
+```ts
+const api = new Spectra();
+api.get("/", (c) => c.text("GET /api"));
+api.post("/", (c) => c.text("POST /api"));
+
+const app = new Spectra();
+app.route("/api", api);
+```
 
 ### Not Found
 
