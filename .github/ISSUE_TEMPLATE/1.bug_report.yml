@@ -1,0 +1,53 @@
+name: "\U0001F41B Bug Report"
+description: Report an issue
+labels: ["triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for submitting a bug report.
+        Please fill out this form as much as possible.
+  - type: textarea
+    attributes:
+      label: Current vs. Expected behavior
+      description: Please describe the bug as clear and concise as possible (e.g., screenshots, logs, etc.).
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: To reproduce
+      description: A step-by-step description of how to reproduce the issue. If using code blocks, make sure that [syntax highlighting is correct](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-and-highlighting-code-blocks#syntax-highlighting).
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Version
+      description: Which version of @spectrajs/core are you using?
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Package
+      description: Which package (or packages) do you think your issue is related to?
+      options:
+        - label: "I don't know."
+        - label: "@spectrajs/core"
+        - label: "@spectrajs/node"
+        - label: "@spectrajs/trpc"
+        - label: "Other (see below)"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Other package
+      description: If your issue is related to some package that is not listed above, write its name here.
+  - type: textarea
+    attributes:
+      label: Environment information
+      description: What runtime and platform is your app running on?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: Add any other information related to the bug that might help us investigate.
