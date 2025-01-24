@@ -75,6 +75,26 @@ describe("Routing", () => {
     expect(await res.text()).toBe("GET /api/1");
   });
 
+  test("Mounting - multiple apps", async () => {
+    const app = new Spectra();
+
+    const user = new Spectra();
+    user.get("/foo", (c) => c.text("GET /user/foo"));
+
+    const post = new Spectra();
+    post.get("/foo", (c) => c.text("GET /post/foo"));
+
+    app.route("/user", user).route("/post", post);
+
+    let res = await app.fetch(new Request("http://localhost/user/foo"));
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe("GET /user/foo");
+
+    res = await app.fetch(new Request("http://localhost/post/foo"));
+    expect(res.status).toBe(200);
+    expect(await res.text()).toBe("GET /post/foo");
+  });
+
   test("Chaining", async () => {
     const app = new Spectra();
 
@@ -377,5 +397,98 @@ describe("Middleware", () => {
     expect(res.status).toBe(200);
     expect(res.headers.get("X-Message")).toBe("Spectra");
     expect(await res.text()).toBe("Hello");
+  });
+});
+
+describe("With `app.route`", () => {
+  describe("Basic", () => {
+    const app = new Spectra();
+    const api = new Spectra();
+
+    api.use("*", async (c, next) => {
+      await next();
+      c.res.headers.set("X-Message", "Spectra");
+    });
+
+    api.get("/posts", (c) => c.text("List Posts"));
+    api.post("/posts", (c) => c.text("Create Post"));
+    api.get("/posts/:id", (c) => c.text(`Post #${c.req.param("id")}`));
+
+    app.route("/api", api);
+
+    test("GET /posts", async () => {
+      const res = await app.fetch(new Request("http://localhost/api/posts"));
+      expect(res.status).toBe(200);
+      expect(await res.text()).toBe("List Posts");
+    });
+
+    test("POST /posts", async () => {
+      const res = await app.fetch(
+        new Request("http://localhost/api/posts", { method: "POST" })
+      );
+      expect(res.status).toBe(200);
+      expect(await res.text()).toBe("Create Post");
+    });
+
+    test("GET /posts/1", async () => {
+      const res = await app.fetch(new Request("http://localhost/api/posts/1"));
+      expect(res.status).toBe(200);
+      expect(await res.text()).toBe("Post #1");
+    });
+
+    test("Middleware", async () => {
+      const res = await app.fetch(new Request("http://localhost/api/posts"));
+      expect(res.status).toBe(200);
+      expect(res.headers.get("X-Message")).toBe("Spectra");
+    });
+
+    test("Should return not found", async () => {
+      const res = await app.fetch(new Request("http://localhost/"));
+      expect(res.status).toBe(404);
+    });
+
+    test("Should return not found", async () => {
+      const res = await app.fetch(new Request("http://localhost/posts"));
+      expect(res.status).toBe(404);
+    });
+  });
+
+  describe("Nested", () => {
+    const app = new Spectra();
+    const api = new Spectra();
+    const post = new Spectra();
+
+    post.get("/", (c) => c.text("list"));
+    post.get("/:id", (c) => c.text(`post ${c.req.param("id")}`));
+
+    api.get("/", (c) => c.text("api"));
+    api.route("/post", post);
+
+    app.get("/", (c) => c.text("root"));
+    app.route("/api", api);
+
+    test("GET /", async () => {
+      const res = await app.fetch(new Request("http://localhost/"));
+      expect(res.status).toBe(200);
+      expect(await res.text()).toBe("root");
+    });
+
+    test("GET /api", async () => {
+      const res = await app.fetch(new Request("http://localhost/api"));
+      expect(res.status).toBe(200);
+      expect(await res.text()).toBe("api");
+    });
+
+    test("GET /api/post", async () => {
+      const res = await app.fetch(new Request("http://localhost/api/post"));
+      expect(res.status).toBe(200);
+      expect(await res.text()).toBe("list");
+    });
+
+    test("GET /api/post/1", async () => {
+      const res = await app.fetch(new Request("http://localhost/api/post/1"));
+      expect(res.status).toBe(200);
+      expect(await res.text()).toBe("post 1");
+    });
   });
 });
