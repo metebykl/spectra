@@ -1,0 +1,50 @@
+{
+  "name": "@spectrajs/swagger",
+  "version": "0.0.0",
+  "description": "Swagger integration for Spectra",
+  "main": "./dist/index.cjs",
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint src",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metebykl/spectra.git"
+  },
+  "keywords": [
+    "web",
+    "http",
+    "framework",
+    "adapter"
+  ],
+  "author": "metebykl",
+  "license": "MIT",
+  "homepage": "https://github.com/metebykl/spectra#readme",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "peerDependencies": {
+    "@spectrajs/core": ">= 0.7.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@spectrajs/core": "^0.7.1",
+    "@types/node": "^22.10.2",
+    "eslint": "^9.15.0",
+    "prettier": "^3.3.3",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3"
+  }
+}
