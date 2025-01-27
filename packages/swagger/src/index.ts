@@ -49,3 +49,43 @@ export const generateSpecs = (
     paths: schema,
   };
 };
+
+interface SwaggerUIOptions {
+  url: string;
+  title?: string;
+  version?: string;
+}
+
+export const swaggerUI = ({
+  url,
+  title = "SwaggerUI",
+  version = "5.18.2",
+}: SwaggerUIOptions): MiddlewareHandler => {
+  return async function (c) {
+    return c.html(`
+      <!doctype html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>${title}</title>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@${version}/swagger-ui.css" />
+        </head>
+        <body>
+          <div>
+            <div id="swagger-ui"></div>
+            <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@${version}/swagger-ui-bundle.js" crossorigin="anonymous"></script>
+            <script>
+              window.onload = () => {
+                window.ui = SwaggerUIBundle({
+                  url: '${url}',
+                  dom_id: '#swagger-ui'
+                });
+              };
+            </script>
+          </div>
+        </body>
+      </html>
+      `);
+  };
+};
