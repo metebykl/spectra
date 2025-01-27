@@ -13,13 +13,25 @@ export const addToDocs = (schema: OpenAPIOperation): MiddlewareHandler => {
   return mw;
 };
 
-export type GenerateSpecsOptions = {
+export type OpenAPISpecsOptions = {
   documentation?: Partial<OpenAPIDocument>;
+};
+
+export const openAPISpecs = (
+  app: Spectra,
+  opts?: OpenAPISpecsOptions
+): MiddlewareHandler => {
+  let specs: OpenAPIDocument | null = null;
+  return async function (c) {
+    if (specs) return c.json(specs);
+    specs = await generateSpecs(app, opts);
+    return c.json(specs);
+  };
 };
 
 export const generateSpecs = (
   app: Spectra,
-  opts?: GenerateSpecsOptions
+  opts?: OpenAPISpecsOptions
 ): OpenAPIDocument => {
   const documentation = opts?.documentation;
 
