@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface OpenAPISchema {
+export interface OpenAPIDocument {
   openapi: string;
   info: OpenAPIInfo;
   servers?: OpenAPIServer[];
@@ -91,7 +91,7 @@ export type OpenAPIHeader = {
 };
 
 export type OpenAPIMediaType = {
-  schema?: OpenAPISchema;
+  schema?: OpenAPISchemaObject;
   example?: any;
   examples?: Record<string, OpenAPIExample>;
   encoding?: Record<string, OpenAPIEncoding>;
@@ -118,7 +118,7 @@ export type OpenAPIParameter = {
   style?: string;
   explode?: boolean;
   allowReserved?: boolean;
-  schema?: OpenAPISchema;
+  schema?: OpenAPISchemaObject;
   example?: any;
   examples?: Record<string, OpenAPIExample>;
   content?: Record<string, OpenAPIMediaType>;
