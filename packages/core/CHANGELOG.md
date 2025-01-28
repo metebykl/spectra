@@ -1,5 +1,11 @@
 # @spectrajs/core
 
+## 0.8.0
+
+### Minor Changes
+
+- f81791e: Added support for mounting sub-apps to specific paths using the .route method.
+
 ## 0.7.1
 
 ### Patch Changes

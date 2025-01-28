@@ -1,6 +1,6 @@
 {
   "name": "@spectrajs/swagger",
-  "version": "0.0.0",
+  "version": "0.8.0",
   "description": "Swagger integration for Spectra",
   "main": "./dist/index.cjs",
   "type": "module",
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
-    "@spectrajs/core": "^0.7.1",
+    "@spectrajs/core": "^0.8.0",
     "@types/node": "^22.10.2",
     "eslint": "^9.15.0",
     "prettier": "^3.3.3",
