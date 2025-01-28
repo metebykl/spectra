@@ -4,7 +4,7 @@ import { toOpenAPIPath } from "./utils";
 
 const schemaSymbol = Symbol("openapi");
 
-export const addToDocs = (schema: OpenAPIOperation): MiddlewareHandler => {
+export const describeRoute = (schema: OpenAPIOperation): MiddlewareHandler => {
   const mw: MiddlewareHandler = async (_, next) => {
     await next();
   };

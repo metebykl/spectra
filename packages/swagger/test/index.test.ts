@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest";
 import { Spectra } from "@spectrajs/core";
-import { addToDocs, generateSpecs, swaggerUI } from "../src";
+import { describeRoute, generateSpecs, swaggerUI } from "../src";
 
 const req = (path: string) => new Request(`http://localhost${path}`);
 
@@ -11,7 +11,7 @@ describe("OpenAPI", () => {
 
       app.get(
         "/api/users/:userId",
-        addToDocs({
+        describeRoute({
           description: "Get user information",
           parameters: [
             {
