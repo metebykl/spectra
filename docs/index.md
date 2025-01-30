@@ -19,6 +19,7 @@
 
 ### Plugins
 
+- [Swagger](plugins/swagger.md)
 - [tRPC](plugins/trpc.md)
 
 ### Middleware

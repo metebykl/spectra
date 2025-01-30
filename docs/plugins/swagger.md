@@ -1,13 +1,13 @@
-# @spectrajs/swagger
+<h1 align="center">Spectra</h1>
 
-A Spectra plugin for serving [Swagger (OpenAPI v3)](https://swagger.io/specification)
+## Swagger Plugin
+
+A plugin for serving [Swagger (OpenAPI v3)](https://swagger.io/specification)
 schemas, which are automatically generated from your routes.
-
-[![Version](https://img.shields.io/npm/v/@spectrajs/swagger.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/swagger)
 
 ## Installation
 
-```bash
+```sh
 npm install @spectrajs/swagger
 ```
 
@@ -40,7 +40,6 @@ app.get(
   }
 );
 
-// Generate the OpenAPI specification
 app.use(
   "/openapi",
   openAPISpecs(app, {
@@ -60,7 +59,6 @@ app.use(
   })
 );
 
-// Serve the OpenAPI specification with Swagger UI
 app.use("/swagger", swaggerUI({ url: "/openapi" }));
 ```
 
