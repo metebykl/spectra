@@ -1,16 +1,10 @@
-<div align="center">
-<h1>
-  Spectra
-</h1>
-<p>
-  Fast, lightweight and fully typesafe web framework
-</p>
+# @spectrajs/trpc
 
-</div>
+A plugin for [Spectra](https://github.com/metebykl/spectra) that provides [tRPC](https://trpc.io) support.
 
-# `@spectrajs/trpc`
-
-The `@spectrajs/trpc` package provides tRPC support.
+[![Version](https://img.shields.io/npm/v/@spectrajs/trpc.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/trpc)
+[![License](https://img.shields.io/npm/l/@spectrajs/trpc.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/trpc)
+[![Downloads](https://img.shields.io/npm/d18m/@spectrajs/trpc.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/trpc)
 
 > [!WARNING]
 > This package is still in development and is not ready for production use.
@@ -18,18 +12,12 @@ The `@spectrajs/trpc` package provides tRPC support.
 ## Installation
 
 ```bash
-# npm
 npm install @spectrajs/trpc
-
-# yarn
-yarn add @spectrajs/trpc
-
-# pnpm
-pnpm add @spectrajs/trpc
-
-# bun
-bun add @spectrajs/trpc
 ```
+
+## Documentation
+
+The documentation is available [here](../../docs/plugins/trpc.md).
 
 ## Example
 
@@ -94,3 +82,7 @@ app.use(
   })
 );
 ```
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.

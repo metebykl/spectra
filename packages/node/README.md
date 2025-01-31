@@ -1,29 +1,33 @@
-<div align="center">
-<h1>
-  Spectra
-</h1>
-<p>
-  Fast, lightweight and fully typesafe web framework
-</p>
+# @spectrajs/node
 
-</div>
+Adapter for using [Spectra](https://github.com/metebykl/spectra) in Node.js environments.
 
-# `@spectrajs/node`
-
-The `@spectrajs/node` package provides a Node.js adapter.
+[![Version](https://img.shields.io/npm/v/@spectrajs/node.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/node)
+[![License](https://img.shields.io/npm/l/@spectrajs/node.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/node)
+[![Downloads](https://img.shields.io/npm/d18m/@spectrajs/node.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/node)
 
 ## Installation
 
 ```bash
-# npm
 npm install @spectrajs/node
-
-# yarn
-yarn add @spectrajs/node
-
-# pnpm
-pnpm add @spectrajs/node
-
-# bun
-bun add @spectrajs/node
 ```
+
+## Documentation
+
+The documentation is available [here](../../docs/getting-started/node.md).
+
+## Example
+
+```ts
+import { Spectra } from "@spectrajs/core";
+import { serve } from "@spectrajs/node";
+
+const app = new Spectra();
+app.get("/", (c) => c.text("Spectra!"));
+
+serve(app);
+```
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
