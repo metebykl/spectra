@@ -4,12 +4,18 @@ A Spectra plugin for serving [Swagger (OpenAPI v3)](https://swagger.io/specifica
 schemas, which are automatically generated from your routes.
 
 [![Version](https://img.shields.io/npm/v/@spectrajs/swagger.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/swagger)
+[![License](https://img.shields.io/npm/l/@spectrajs/swagger.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/swagger)
+[![Downloads](https://img.shields.io/npm/d18m/@spectrajs/swagger.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/swagger)
 
 ## Installation
 
 ```bash
 npm install @spectrajs/swagger
 ```
+
+## Documentation
+
+The documentation is available [here](../../docs/plugins/swagger.md).
 
 ## Usage
 
@@ -116,3 +122,7 @@ interface SwaggerUIOptions {
   version?: string;
 }
 ```
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
