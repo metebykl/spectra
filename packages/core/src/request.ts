@@ -45,8 +45,7 @@ export class SpectraRequest<P extends string = "/"> {
   }
 
   header(name: IncomingHttpHeaders | (string & {})): string | undefined {
-    const key = name.toLowerCase();
-    return this.raw.headers.get(key) ?? undefined;
+    return this.raw.headers.get(name) ?? undefined;
   }
 
   async #parseBody(key: keyof Body) {

@@ -17,6 +17,18 @@ describe("Headers", () => {
     request.headers.set("X-Test-Message", "Hello World!");
     app.fetch(request);
   });
+
+  test("Header name is case-insensitive", () => {
+    const request = new Request("http://localhost/", {
+      headers: {
+        "Content-Type": "text/plain",
+        lowercase: "value",
+      },
+    });
+    const req = new SpectraRequest(request, {});
+    expect(req.header("Content-Type")).toBe("text/plain");
+    expect(req.header("LowerCase")).toBe("value");
+  });
 });
 
 describe("Path parameters", () => {
