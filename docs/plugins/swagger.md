@@ -108,9 +108,12 @@ interface OpenAPIDocument {
 Generate a [Swagger UI](https://swagger.io/tools/swagger-ui) page documenting your application.
 
 ```ts
-interface SwaggerUIOptions {
+export type SwaggerUIOptions = Omit<
+  Partial<SwaggerUIConfigOptions>,
+  "dom_id" | "dom_node" | "url" | "urls" | "spec"
+> & {
   url: string;
   title?: string;
   version?: string;
-}
+};
 ```
