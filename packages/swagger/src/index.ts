@@ -1,5 +1,6 @@
 import type { Spectra, MiddlewareHandler } from "@spectrajs/core";
 import type { OpenAPIDocument, OpenAPIOperation } from "./openapi";
+import type { SwaggerUIConfigOptions } from "./swagger";
 import { toOpenAPIPath } from "./utils";
 
 const schemaSymbol = Symbol("openapi");
@@ -62,17 +63,25 @@ export const generateSpecs = (
   };
 };
 
-interface SwaggerUIOptions {
+export type SwaggerUIOptions = Omit<
+  Partial<SwaggerUIConfigOptions>,
+  "dom_id" | "dom_node" | "url" | "urls" | "spec"
+> & {
   url: string;
   title?: string;
   version?: string;
-}
+};
 
-export const swaggerUI = ({
-  url,
-  title = "SwaggerUI",
-  version = "5.18.2",
-}: SwaggerUIOptions): MiddlewareHandler => {
+export const swaggerUI = (options: SwaggerUIOptions): MiddlewareHandler => {
+  const title = options.title ?? "SwaggerUI";
+  const version = options.version ?? "5.18.2";
+
+  const swaggerUIOptions = {
+    dom_id: "#swagger-ui",
+    ...options,
+  };
+  const transformedSwaggerUIOptions = JSON.stringify(swaggerUIOptions);
+
   return async function (c) {
     return c.html(`
       <!doctype html>
@@ -89,10 +98,7 @@ export const swaggerUI = ({
             <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@${version}/swagger-ui-bundle.js" crossorigin="anonymous"></script>
             <script>
               window.onload = () => {
-                window.ui = SwaggerUIBundle({
-                  url: '${url}',
-                  dom_id: '#swagger-ui'
-                });
+                window.ui = SwaggerUIBundle(${transformedSwaggerUIOptions});
               };
             </script>
           </div>
