@@ -92,10 +92,10 @@ export const getQueryParam = (
   multiple?: boolean
 ):
   | string
-  | undefined
   | string[]
-  | Record<string, string>
-  | Record<string, string[]> => {
+  | undefined
+  | Record<string, string | undefined>
+  | Record<string, string[] | undefined> => {
   let encoded;
 
   if (!multiple && key && !/[%+]/.test(key)) {
