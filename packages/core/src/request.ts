@@ -33,13 +33,13 @@ export class SpectraRequest<P extends string = "/"> {
   }
 
   query(key: string): string | undefined;
-  query(): Record<string, string>;
+  query(): Record<string, string | undefined>;
   query(key?: string) {
     return getQueryParam(this.raw.url, key);
   }
 
   queries(key: string): string[] | undefined;
-  queries(): Record<string, string[]>;
+  queries(): Record<string, string[] | undefined>;
   queries(key?: string) {
     return getQueryParam(this.raw.url, key, true);
   }
