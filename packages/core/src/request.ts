@@ -44,8 +44,18 @@ export class SpectraRequest<P extends string = "/"> {
     return getQueryParam(this.raw.url, key, true);
   }
 
-  header(name: IncomingHttpHeaders | (string & {})): string | undefined {
-    return this.raw.headers.get(name) ?? undefined;
+  header(name: IncomingHttpHeaders | (string & {})): string | undefined;
+  header(): Record<IncomingHttpHeaders | (string & {}), string | undefined>;
+  header(name?: string) {
+    if (name) {
+      return this.raw.headers.get(name) ?? undefined;
+    }
+
+    const headers: Record<string, string | undefined> = {};
+    this.raw.headers.forEach((v, k) => {
+      headers[k] = v;
+    });
+    return headers;
   }
 
   async #parseBody(key: keyof Body) {
