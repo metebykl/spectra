@@ -70,14 +70,23 @@ app.get("/search", (c) => {
 
 ### header()
 
-Get a header value.
+Get the request headers.
 
 ```ts
 app.get("/", (c) => {
   const userAgent = c.req.header("User-Agent");
   return c.text(userAgent);
 });
+
+app.get("/", (c) => {
+  const headers = c.req.header();
+  const userAgent = headers["user-agent"];
+  return c.text(userAgent);
+});
 ```
+
+> [!WARNING]  
+> When `c.req.header()` is called with no argument, header keys in the returned record are **lowercase**.
 
 ### json()
 
