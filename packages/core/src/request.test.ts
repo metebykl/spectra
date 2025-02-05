@@ -3,19 +3,22 @@ import { Spectra } from "./spectra";
 import { SpectraRequest } from "./request";
 
 describe("Headers", () => {
-  const app = new Spectra();
-
-  test("req.header()", () => {
-    app.get("/", (c) => {
-      const message = c.req.header("X-Test-Message");
-      expect(message).toBe("Hello World!");
-
-      return c.text("OK");
+  test("req.header() - get all", () => {
+    const request = new Request("http://localhost/", {
+      headers: { "X-Message": "Spectra" },
     });
+    const req = new SpectraRequest(request, {});
 
-    const request = new Request("http://localhost/");
-    request.headers.set("X-Test-Message", "Hello World!");
-    app.fetch(request);
+    expect(req.header()).toEqual({ "x-message": "Spectra" });
+  });
+
+  test("req.header() - get by name", () => {
+    const request = new Request("http://localhost/", {
+      headers: { "X-Message": "Spectra" },
+    });
+    const req = new SpectraRequest(request, {});
+
+    expect(req.header("X-Message")).toBe("Spectra");
   });
 
   test("Header name is case-insensitive", () => {
