@@ -1,5 +1,17 @@
 # @spectrajs/core
 
+## 0.9.0
+
+### Minor Changes
+
+- ced315d: Updated header types according to [IANA HTTP Field Name Registry](https://www.iana.org/assignments/http-fields/http-fields.xhtml) and [RFC 4229](https://datatracker.ietf.org/doc/html/rfc4229).
+- 9a5581b: Added MIME type utils
+- d0356f2: Added support for retrieving all request headers when no name is provided
+
+### Patch Changes
+
+- 98299e0: Updated return type of `query` and `queries` to include `undefined` in record values
+
 ## 0.8.0
 
 ### Minor Changes
