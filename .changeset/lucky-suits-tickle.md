@@ -1,5 +1,5 @@
 ---
-"@spectrajs/core": patch
+"@spectrajs/core": minor
 ---
 
 Added MIME type utils

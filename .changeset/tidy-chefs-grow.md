@@ -1,5 +1,5 @@
 ---
-"@spectrajs/core": patch
+"@spectrajs/core": minor
 ---
 
-Add support for retrieving all request headers when no name is provided
+Added support for retrieving all request headers when no name is provided
