@@ -1,7 +1,7 @@
 import { SpectraRequest } from "./request";
 import { getPath } from "./utils/url";
 import type { Handler, ParamKeys, ParamsToRecord } from "./types";
-import type { OutgoingHttpHeaders } from "./utils/headers";
+import type { ResponseHeader } from "./utils/headers";
 import type { RedirectStatusCode, StatusCode } from "./utils/status";
 
 export type Data = string | ArrayBuffer | ReadableStream;
@@ -48,7 +48,7 @@ export class Context<P extends string = string> {
   }
 
   header(
-    name: OutgoingHttpHeaders | (string & {}),
+    name: ResponseHeader | (string & {}),
     value: string | undefined,
     options?: SetHeaderOptions
   ): void {
