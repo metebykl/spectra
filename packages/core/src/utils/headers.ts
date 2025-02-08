@@ -1,3 +1,4 @@
+// https://www.iana.org/assignments/http-fields/http-fields.xhtml
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
 
 export type RequestHeader =
