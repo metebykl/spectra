@@ -7,6 +7,7 @@
 - [Bun](getting-started/bun.md)
 - [Next.js](getting-started/nextjs.md)
 - [Node.js](getting-started/node.md)
+- [SvelteKit](getting-started/sveltekit.md)
 
 ### References
 
