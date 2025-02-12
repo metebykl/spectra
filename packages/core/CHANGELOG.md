@@ -1,5 +1,11 @@
 # @spectrajs/core
 
+## 0.9.1
+
+### Patch Changes
+
+- af94795: Fixed missing `.js` import extensions in ESM files, resolving import errors in certain environments.
+
 ## 0.9.0
 
 ### Minor Changes
