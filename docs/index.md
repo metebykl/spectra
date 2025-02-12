@@ -5,9 +5,10 @@
 ### Getting Started
 
 - [Bun](getting-started/bun.md)
-- [Next.js](getting-started/nextjs.md)
 - [Node.js](getting-started/node.md)
+- [Next.js](getting-started/nextjs.md)
 - [SvelteKit](getting-started/sveltekit.md)
+- [Astro](getting-started/astro.md)
 
 ### References
 
