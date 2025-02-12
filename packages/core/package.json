@@ -93,6 +93,7 @@
   "devDependencies": {
     "@eslint/js": "^9.15.0",
     "@types/node": "^22.10.2",
+    "esbuild": "^0.25.0",
     "eslint": "^9.15.0",
     "prettier": "^3.3.3",
     "tsup": "^8.3.5",
