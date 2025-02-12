@@ -3,7 +3,7 @@ import type { Plugin, PluginBuild } from "esbuild";
 import fs from "node:fs";
 import path from "node:path";
 
-// https://github.com/evanw/esbuild/issues/622#issuecomment-769462611
+// https://github.com/egoist/tsup/issues/953
 const fixImportExtensions = (extension: string = ".js"): Plugin => ({
   name: "fix-import-extensions",
   setup(build: PluginBuild) {
