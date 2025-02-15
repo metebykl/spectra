@@ -1,5 +1,13 @@
 import type { ETagHashFn } from ".";
 
+export const etagCompare = (etag: string, header?: string): boolean => {
+  if (!header) {
+    return false;
+  }
+
+  return header.split(",").some((e) => e.trim() === etag);
+};
+
 export const generateDigest = async (
   stream: ReadableStream<Uint8Array>,
   hashFn: ETagHashFn

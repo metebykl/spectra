@@ -1,5 +1,5 @@
 import type { MiddlewareHandler } from "../../types";
-import { generateDigest } from "./utils";
+import { etagCompare, generateDigest } from "./utils";
 
 interface ETagOptions {
   weak?: boolean;
@@ -10,13 +10,14 @@ export type ETagHashFn = (
   body: Uint8Array
 ) => ArrayBuffer | Promise<ArrayBuffer>;
 
-const etagCompare = (etag: string, header?: string): boolean => {
-  if (!header) {
-    return false;
-  }
-
-  return header.split(",").some((e) => e.trim() === etag);
-};
+export const ALLOWED_HEADERS_304 = [
+  "cache-control",
+  "content-location",
+  "date",
+  "etag",
+  "expires",
+  "vary",
+];
 
 const initializeHashFn = (hashFn?: ETagHashFn) => {
   if (!hashFn) {
@@ -60,6 +61,12 @@ export const etag = (options?: ETagOptions): MiddlewareHandler => {
         headers: {
           ETag: etag,
         },
+      });
+
+      c.res.headers.forEach((_, key) => {
+        if (!ALLOWED_HEADERS_304.includes(key.toLowerCase())) {
+          c.res.headers.delete(key);
+        }
       });
     } else {
       c.res.headers.set("ETag", etag);
