@@ -97,6 +97,24 @@ describe("ETag Middleware", () => {
     );
   });
 
+  test("Should not return etag header when the stream is empty", async () => {
+    const app = new Spectra();
+
+    app.use(etag());
+    app.get("/", (c) => {
+      return c.body(
+        new ReadableStream({
+          start(controller) {
+            controller.close();
+          },
+        })
+      );
+    });
+
+    const res = await app.fetch(new Request("http://localhost/"));
+    expect(res.headers.get("ETag")).toBeNull();
+  });
+
   test("Should not return etag header when body is null", async () => {
     const app = new Spectra();
 

@@ -22,3 +22,15 @@ test("generateDigest", async () => {
     "fd3a48b17d28d0ccb3139406a5ab2bee6bd72af9"
   );
 });
+
+test("generateDigest - Empty stream", async () => {
+  const hashFn = (body: Uint8Array) =>
+    crypto.subtle.digest({ name: "SHA-1" }, body);
+
+  const stream = new ReadableStream({
+    start(controller) {
+      controller.close();
+    },
+  });
+  expect(await generateDigest(stream, hashFn)).toBeNull();
+});
