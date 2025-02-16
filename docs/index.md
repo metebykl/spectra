@@ -30,6 +30,7 @@
 - [Body Limit](middleware/body-limit.md)
 - [Compression](middleware/compression.md)
 - [CORS](middleware/cors.md)
+- [ETag](middleware/etag.md)
 - [Logger](middleware/logger.md)
 - [Powered By](middleware/powered-by.md)
 - [Request ID](middleware/request-id.md)
