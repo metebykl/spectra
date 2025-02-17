@@ -5,7 +5,9 @@ export const etagCompare = (etag: string, header?: string): boolean => {
     return false;
   }
 
-  return header.split(",").some((e) => e.trim() === etag);
+  return (
+    header.split(",").some((e) => e.trim() === etag) || header.includes("*")
+  );
 };
 
 export const generateDigest = async (

@@ -2,6 +2,7 @@ import { test, expect } from "vitest";
 import { etagCompare, generateDigest } from "./utils";
 
 test("etagCompare", () => {
+  expect(etagCompare('"foo"', "*")).toBe(true);
   expect(etagCompare('"foo"', '"foo"')).toBe(true);
   expect(etagCompare('"foo"', '"foo","bar')).toBe(true);
 });

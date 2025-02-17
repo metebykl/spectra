@@ -183,6 +183,16 @@ describe("ETag Middleware", () => {
     expect(res.headers.get("Cache-Control")).toBe("public, max-age=180");
     expect(res.headers.get("Vary")).toBe("Accept");
 
+    // conditional request with matching ETag (*)
+    res = await app.fetch(
+      new Request("http://localhost/", {
+        headers: {
+          "If-None-Match": "*",
+        },
+      })
+    );
+    expect(res.status).toBe(304);
+
     // conditional request with matching ETag (multiple)
     res = await app.fetch(
       new Request("http://localhost/", {
