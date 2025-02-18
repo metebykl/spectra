@@ -28,6 +28,16 @@ When set to `true`, the ETag will be prefixed with `W/`.
 
 @default `false`
 
+### allowedHeaders?: `string[]`
+
+Configures which headers will be preserved from the original response.
+
+@default
+
+```ts
+["cache-control", "content-location", "date", "etag", "expires", "vary"];
+```
+
 ### hashFn?: `(body: Uint8Array) => ArrayBuffer | Promise<ArrayBuffer>`
 
 Option to use a custom hash function. It uses `SHA-1` by default.
