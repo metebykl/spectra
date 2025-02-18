@@ -3,10 +3,11 @@ import { etagCompare, generateDigest } from "./utils";
 
 interface ETagOptions {
   weak?: boolean;
-  hashFn?: ETagHashFn;
+  allowedHeaders?: string[];
+  hashFn?: ETagHashFunction;
 }
 
-export type ETagHashFn = (
+export type ETagHashFunction = (
   body: Uint8Array
 ) => ArrayBuffer | Promise<ArrayBuffer>;
 
@@ -19,7 +20,7 @@ export const ALLOWED_HEADERS_304 = [
   "vary",
 ];
 
-const initializeHashFn = (hashFn?: ETagHashFn) => {
+const initializeHashFn = (hashFn?: ETagHashFunction) => {
   if (!hashFn) {
     if (crypto && crypto.subtle) {
       hashFn = (body: Uint8Array) =>
@@ -32,6 +33,7 @@ const initializeHashFn = (hashFn?: ETagHashFn) => {
 
 export const etag = (options?: ETagOptions): MiddlewareHandler => {
   const weak = options?.weak ?? false;
+  const allowedHeaders = options?.allowedHeaders ?? ALLOWED_HEADERS_304;
   const hashFn = initializeHashFn(options?.hashFn);
 
   return async function (c, next) {
@@ -64,7 +66,7 @@ export const etag = (options?: ETagOptions): MiddlewareHandler => {
       });
 
       c.res.headers.forEach((_, key) => {
-        if (!ALLOWED_HEADERS_304.includes(key.toLowerCase())) {
+        if (!allowedHeaders.includes(key.toLowerCase())) {
           c.res.headers.delete(key);
         }
       });

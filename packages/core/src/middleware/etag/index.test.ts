@@ -1,4 +1,4 @@
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, beforeAll, afterAll } from "vitest";
 import { etag } from ".";
 import { Spectra } from "../../spectra";
 
@@ -230,5 +230,59 @@ describe("ETag Middleware", () => {
     );
     expect(res.headers.get("Cache-Control")).toBe("public, max-age=180");
     expect(res.headers.get("X-Message")).toBeFalsy();
+  });
+
+  test("Should preserve custom allowed headers", async () => {
+    const app = new Spectra();
+
+    app.use(etag({ allowedHeaders: ["x-message"] }));
+    app.get("/", () => {
+      return new Response("Spectra", {
+        headers: {
+          "Cache-Control": "public, max-age=180",
+          "X-Message": "test",
+        },
+      });
+    });
+
+    const res = await app.fetch(
+      new Request("http://localhost/", {
+        headers: {
+          "If-None-Match": `"d99a69e969d1c24f294f8a8fddf071f104cbc47f"`,
+        },
+      })
+    );
+    expect(res.status).toBe(304);
+    expect(res.headers.get("ETag")).toBe(
+      '"d99a69e969d1c24f294f8a8fddf071f104cbc47f"'
+    );
+    expect(res.headers.get("Cache-Control")).toBeFalsy();
+    expect(res.headers.get("X-Message")).toBe("test");
+  });
+
+  describe("Crypto unavailable", () => {
+    let _crypto: Crypto | undefined;
+
+    beforeAll(() => {
+      _crypto = globalThis.crypto;
+      Object.defineProperty(globalThis, "crypto", {
+        value: {},
+      });
+    });
+
+    afterAll(() => {
+      Object.defineProperty(globalThis, "crypto", {
+        value: _crypto,
+      });
+    });
+
+    test("Should not return etag header", async () => {
+      const app = new Spectra();
+      app.use(etag());
+      app.get("/", (c) => c.text("Spectra"));
+
+      const res = await app.fetch(new Request("http://localhost/"));
+      expect(res.headers.get("ETag")).toBeFalsy();
+    });
   });
 });
