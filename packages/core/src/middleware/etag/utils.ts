@@ -1,4 +1,4 @@
-import type { ETagHashFn } from ".";
+import type { ETagHashFunction } from ".";
 
 export const etagCompare = (etag: string, header?: string): boolean => {
   if (!header) {
@@ -12,7 +12,7 @@ export const etagCompare = (etag: string, header?: string): boolean => {
 
 export const generateDigest = async (
   stream: ReadableStream<Uint8Array>,
-  hashFn: ETagHashFn
+  hashFn: ETagHashFunction
 ): Promise<string | null> => {
   let buffer: ArrayBuffer | undefined = undefined;
 
