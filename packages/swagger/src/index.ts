@@ -1,7 +1,12 @@
 import type { Spectra, MiddlewareHandler } from "@spectrajs/core";
 import type { OpenAPIDocument, OpenAPIOperation } from "./openapi";
 import type { SwaggerUIConfigOptions } from "./swagger";
-import { toOpenAPIPath } from "./utils";
+import {
+  ALLOWED_METHODS,
+  filterPaths,
+  registerPath,
+  toOpenAPIPath,
+} from "./utils";
 
 const schemaSymbol = Symbol("openapi");
 
@@ -16,6 +21,9 @@ export const describeRoute = (schema: OpenAPIOperation): MiddlewareHandler => {
 
 export type OpenAPISpecsOptions = {
   documentation?: Partial<OpenAPIDocument>;
+  exclude?: string[];
+  excludeMethods?: (typeof ALLOWED_METHODS)[number][];
+  excludeTags?: string[];
 };
 
 export const openAPISpecs = (
@@ -35,31 +43,47 @@ export const generateSpecs = (
   opts?: OpenAPISpecsOptions
 ): OpenAPIDocument => {
   const documentation = opts?.documentation;
+  const exclude = opts?.exclude ?? [];
+  const excludeMethods: string[] = opts?.excludeMethods ?? ["OPTIONS"];
+  const excludeTags = opts?.excludeTags ?? [];
 
   const schema: OpenAPIDocument["paths"] = {};
 
   for (const route of app.routes) {
     if (!(schemaSymbol in route.handler)) continue;
 
+    if (
+      (ALLOWED_METHODS as readonly string[]).includes(route.method) === false &&
+      route.method !== "ALL"
+    )
+      continue;
+
+    if (excludeMethods.includes(route.method)) continue;
+
     const path = toOpenAPIPath(route.path);
     const method = route.method.toLowerCase();
     const docs = route.handler[schemaSymbol] as OpenAPIOperation;
 
-    schema[path] = {
-      ...(schema[path] ?? {}),
-      [method]: docs,
-    };
+    registerPath({ path, method, data: docs, schema });
   }
 
   return {
-    ...documentation,
     openapi: documentation?.openapi ?? "3.0.3",
-    info: {
-      title: "Spectra Documentation",
-      version: "0.0.0",
-      ...documentation?.info,
+    ...{
+      ...documentation,
+      tags: documentation?.tags?.filter(
+        (tag) => !excludeTags.includes(tag.name)
+      ),
+      info: {
+        title: "Spectra Documentation",
+        version: "0.0.0",
+        ...documentation?.info,
+      },
+      paths: {
+        ...filterPaths(schema, exclude),
+        ...documentation?.paths,
+      },
     },
-    paths: schema,
   };
 };
 
