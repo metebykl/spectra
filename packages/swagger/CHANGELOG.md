@@ -1,5 +1,11 @@
 # @spectrajs/swagger
 
+## 0.10.0
+
+### Minor Changes
+
+- d386e31: Added support for filtering out specific endpoints, HTTP methods, and tags from the OpenAPI documentation.
+
 ## 0.9.1
 
 ## 0.9.0

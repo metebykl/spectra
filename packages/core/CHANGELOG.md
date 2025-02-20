@@ -1,5 +1,11 @@
 # @spectrajs/core
 
+## 0.10.0
+
+### Minor Changes
+
+- 3ae73ea: Added ETag middleware.
+
 ## 0.9.1
 
 ### Patch Changes
