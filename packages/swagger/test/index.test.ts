@@ -1,6 +1,6 @@
-import { describe, test, expect } from "vitest";
-import { Spectra } from "@spectrajs/core";
-import { describeRoute, generateSpecs, swaggerUI } from "../src";
+import { describe, expect, test, vi } from "vitest";
+import { Spectra, type Context } from "@spectrajs/core";
+import { describeRoute, generateSpecs, openAPISpecs, swaggerUI } from "../src";
 
 const req = (path: string) => new Request(`http://localhost${path}`);
 
@@ -51,6 +51,153 @@ describe("OpenAPI", () => {
           },
         },
       });
+    });
+
+    test("Exclude paths", () => {
+      const app = new Spectra();
+
+      app.get(
+        "/api/users",
+        describeRoute({
+          description: "Get all users",
+          responses: { 200: { description: "Success" } },
+        }),
+        (c) => c.json([])
+      );
+
+      app.get(
+        "/api/users/:userId",
+        describeRoute({
+          description: "Get user information",
+          responses: { 200: { description: "Success" } },
+        }),
+        (c) => c.json({ userId: c.req.param("userId") })
+      );
+
+      const specs = generateSpecs(app, { exclude: ["/api/users/{userId}"] });
+
+      expect(specs.paths["/api/users"]).toEqual({
+        get: {
+          description: "Get all users",
+          responses: { 200: { description: "Success" } },
+        },
+      });
+      expect(specs.paths["/api/users/{userId}"]).toBeFalsy();
+    });
+
+    test("Exclude methods", () => {
+      const app = new Spectra();
+
+      app.get(
+        "/api/users",
+        describeRoute({
+          description: "Get all users",
+          responses: { 200: { description: "Success" } },
+        }),
+        (c) => c.json([])
+      );
+
+      app.put(
+        "/api/users/:userId",
+        describeRoute({
+          description: "Create or update user information",
+          responses: { 200: { description: "Success" } },
+        }),
+        (c) => c.json({ userId: c.req.param("userId") })
+      );
+
+      const specs = generateSpecs(app, { excludeMethods: ["PUT"] });
+
+      expect(specs.paths["/api/users"]).toEqual({
+        get: {
+          description: "Get all users",
+          responses: { 200: { description: "Success" } },
+        },
+      });
+      expect(specs.paths["/api/users/{userId}"]).toBeFalsy();
+    });
+
+    test("Exclude tags", () => {
+      const app = new Spectra();
+      const specs = generateSpecs(app, {
+        documentation: { tags: [{ name: "posts" }, { name: "users" }] },
+        excludeTags: ["users"],
+      });
+      expect(specs.tags).toEqual([{ name: "posts" }]);
+    });
+
+    test("Allowed methods", () => {
+      const app = new Spectra();
+      app.get(
+        "/",
+        describeRoute({
+          responses: { 200: { description: "Success" } },
+        }),
+        (c) => c.text("GET")
+      );
+      app.connect(
+        "/",
+        describeRoute({
+          responses: { 200: { description: "Success" } },
+        }),
+        (c) => c.text("CONNECT")
+      );
+
+      const specs = generateSpecs(app);
+
+      expect(specs.paths["/"]["get"]).toEqual({
+        responses: { 200: { description: "Success" } },
+      });
+      expect(specs.paths["/"]["connect"]).toBeFalsy();
+    });
+  });
+
+  describe("openAPISpecs", () => {
+    test("Should return correct specs", async () => {
+      const app = new Spectra();
+      app.use("/openapi", openAPISpecs(app));
+      app.get(
+        "/api/posts",
+        describeRoute({
+          description: "Get all posts",
+          responses: { 200: { description: "Success" } },
+        }),
+        (c) => c.json([])
+      );
+
+      const res = await app.fetch(req("/openapi"));
+      expect(res.status).toBe(200);
+      expect(res.headers.get("Content-Type")).toBe(
+        "application/json; charset=UTF-8"
+      );
+      expect(await res.json()).toEqual({
+        info: {
+          title: "Spectra Documentation",
+          version: "0.0.0",
+        },
+        openapi: "3.0.3",
+        paths: {
+          "/api/posts": {
+            get: {
+              description: "Get all posts",
+              responses: {
+                "200": {
+                  description: "Success",
+                },
+              },
+            },
+          },
+        },
+      });
+    });
+  });
+
+  describe("describeRoute", () => {
+    test("Should call next()", async () => {
+      const next = vi.fn();
+      const middleware = describeRoute({ responses: [] });
+      await middleware({} as Context, next);
+      expect(next).toHaveBeenCalled();
     });
   });
 });
