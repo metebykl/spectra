@@ -90,18 +90,21 @@ interface OpenAPIOperation {
 Generate an [OpenAPI](https://spec.openapis.org/oas/v3.1.0.html)
 specification for your application.
 
-```ts
-interface OpenAPIDocument {
-  openapi: string;
-  info: OpenAPIInfo;
-  servers?: OpenAPIServer[];
-  paths: Record<string, OpenAPIPathItem>;
-  components?: OpenAPIComponents;
-  security?: OpenAPISecurityRequirement[];
-  tags?: OpenAPITag[];
-  externalDocs?: OpenAPIExternalDocumentation;
-}
-```
+#### documentation?: `OpenAPIDocument`
+
+Customize the documentation.
+
+#### exclude?: `string[]`
+
+Paths to exclude from the documentation.
+
+#### excludeMethods?: `HttpMethod[]`
+
+Methods to exclude from the documentation.
+
+#### excludeTags?: `string[]`
+
+Tags to exclude from the documentation.
 
 ### swaggerUI
 
