@@ -44,7 +44,7 @@ describe("Body Limit Middleware", () => {
   };
 
   describe("POST request", () => {
-    test("Should return 200 response", async () => {
+    test("Should return 200 response - string", async () => {
       const res = await app.fetch(
         buildRequest("http://localhost/", { body: text })
       );
@@ -52,10 +52,41 @@ describe("Body Limit Middleware", () => {
       expect(await res.text()).toBe(text);
     });
 
-    test("Should return 413 response", async () => {
+    test("Should return 413 response - string", async () => {
       const res = await app.fetch(
         buildRequest("http://localhost/", { body: longText })
       );
+      expect(res.status).toBe(413);
+      expect(await res.text()).toBe("Content Too Large");
+    });
+
+    test("Should return 200 response - ReadableStream", async () => {
+      const stream = new ReadableStream({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode("Spec"));
+          controller.enqueue(new TextEncoder().encode("tra"));
+          controller.close();
+        },
+      });
+      const res = await app.fetch(
+        buildRequest("http://localhost/", { body: stream })
+      );
+
+      expect(res.status).toBe(200);
+      expect(await res.text()).toBe("Spectra");
+    });
+
+    test("Should return 413 response - ReadableStream", async () => {
+      const stream = new ReadableStream({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode(longText));
+          controller.close();
+        },
+      });
+      const res = await app.fetch(
+        buildRequest("http://localhost/", { body: stream })
+      );
+
       expect(res.status).toBe(413);
       expect(await res.text()).toBe("Content Too Large");
     });
