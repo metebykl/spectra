@@ -1,81 +1,55 @@
 # Spectra
 
-**Spectra** is a fast, lightweight, and fully typesafe web framework designed to simplify the creation of web applications. Spectra integrates type safety at every layer, providing great developer experience and minimizing runtime errors.
+[![npm](https://img.shields.io/npm/v/@spectrajs/core.svg)](https://www.npmjs.com/package/@spectrajs/core)
+[![License](https://img.shields.io/github/license/metebykl/spectra)](https://github.com/metebykl/spectra/blob/main/LICENSE)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/metebykl/spectra/ci.yml?branch=main)](https://github.com/metebykl/spectra/actions)
+[![npm](https://img.shields.io/npm/d18m/@spectrajs/core.svg)](https://www.npmjs.com/package/@spectrajs/core)
+[![Bundle Size](https://img.shields.io/bundlephobia/min/@spectrajs/core)](https://bundlephobia.com/result?p=@spectrajs/core)
 
-## Table of Contents
-
-- [Installation](#installation)
-- [Features](#features)
-- [Quick Start](#quick-start)
-- [Documentation](docs/index.md)
-- [Examples](#examples)
-
-## Installation
-
-```bash
-npm install @spectrajs/core
-```
+**Spectra** is a fast, lightweight, and fully type-safe web framework designed
+to simplify the creation of efficent and reliable web applications.
 
 ## Features
 
-- **Fast Routing**: Lightweight routing with minimal overhead for fast requests.
-- **Full Type Safety**: Built with TypeScript for strong typing and enhanced reliability.
-- **Minimalistic Core**: Only the essentials for building a solid server, with no unnecessary dependencies.
-- **Multi-runtime**: Works on Node.js and Bun for now. More adapters will be developed.
+- 🚀 Optimized for speed and efficiency.
+- ✅ Well-tested and production ready.
+- 🔨 Full typesafety.
+- 🍃 Lightweight - zero dependencies.
+- 🔋 Batteries included - built-in middleware, framework integrations and lots of plugins.
+- 🌍 Works on Bun, Node.js, Cloudflare Workers, and more runtimes.
 
-## Quick Start
+## Installation
 
-Here’s a quick example to get your Spectra server up and running:
+```sh
+npm install @spectrajs/core
+```
 
-```typescript
+## Example
+
+```ts
 import { Spectra } from "@spectrajs/core";
-import { serve } from "@spectrajs/node";
-
 const app = new Spectra();
 
-app.get("/", (c) => c.text("Spectra"));
+app.get("/", (c) => c.text("Spectra!"));
 
-serve(app);
+export default app;
 ```
 
 ## Documentation
 
 The documentation is available [here](docs/index.md).
 
-## Examples
+## Packages
 
-### Basic Example
-
-Here’s an example illustrating a simple API that handles basic routing and data manipulation:
-
-```typescript
-import { Spectra } from "@spectrajs/core";
-import { serve } from "@spectrajs/node";
-
-const tasks = [{ name: "Example Task" }];
-
-const app = new Spectra()
-  .get("/", (c) => c.json({ message: "Hello World!" }))
-  .get("/user-agent", (c) => {
-    const ua = c.req.header("User-Agent");
-    return c.text(ua || "Unknown");
-  })
-  .get("/tasks", (c) => c.json({ tasks }))
-  .post("/tasks", async (c) => {
-    const body = await c.req.json();
-    tasks.push({ name: body.name });
-    return c.json({ message: "Task created" }, 201);
-  })
-  .get("/users/:userId", (c) => {
-    const { userId } = c.req.params();
-    return c.json({ userId });
-  });
-
-serve(app, (info) => {
-  console.log(`Server listening on http://localhost:${info.port}`);
-});
-```
+- [@spectrajs/core](https://www.npmjs.com/package/@spectrajs/core)
+- [@spectrajs/node](https://www.npmjs.com/package/@spectrajs/node)
+- [@spectrajs/trpc](https://www.npmjs.com/package/@spectrajs/trpc)
+- [@spectrajs/swagger](https://www.npmjs.com/package/@spectrajs/swagger)
 
 ## Author
 
 Developed by [metebykl](https://github.com/metebykl). Contributions are welcome!
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
