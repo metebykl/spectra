@@ -158,7 +158,7 @@ export const swaggerEditor = (
         return `${key}: '${value}'`;
       }
       if (Array.isArray(value)) {
-        return `${key}: ${value.map((v) => `${v}`).join(",")}`;
+        return `${key}: [${value.map((v) => `${v}`).join(",")}]`;
       }
       if (typeof value === "object") {
         return `${key}: ${JSON.stringify(value)}`;
