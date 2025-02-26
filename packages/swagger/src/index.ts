@@ -134,7 +134,7 @@ export const swaggerUI = (options: SwaggerUIOptions): MiddlewareHandler => {
 
 export type SwaggerEditorOptions = Omit<
   Partial<SwaggerUIConfigOptions>,
-  "dom_id" | "dom_node" | "url" | "urls" | "spec" | "presets"
+  "dom_id" | "dom_node" | "url" | "urls" | "spec" | "presets" | "layout"
 > & {
   title?: string;
   version?: string;
@@ -155,13 +155,13 @@ export const swaggerEditor = (
   const transformedEditorOptions = Object.entries(editorOptions)
     .map(([key, value]) => {
       if (typeof value === "string") {
-        return `${key}:'${value}'`;
+        return `${key}: '${value}'`;
       }
       if (Array.isArray(value)) {
-        return `${key}:${value.map((v) => `${v}`).join(",")}`;
+        return `${key}: ${value.map((v) => `${v}`).join(",")}`;
       }
       if (typeof value === "object") {
-        return `${key}:${JSON.stringify(value)}`;
+        return `${key}: ${JSON.stringify(value)}`;
       }
 
       return `${key}: ${value}`;
