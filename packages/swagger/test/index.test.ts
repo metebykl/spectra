@@ -1,6 +1,12 @@
 import { describe, expect, test, vi } from "vitest";
 import { Spectra, type Context } from "@spectrajs/core";
-import { describeRoute, generateSpecs, openAPISpecs, swaggerUI } from "../src";
+import {
+  describeRoute,
+  generateSpecs,
+  openAPISpecs,
+  swaggerEditor,
+  swaggerUI,
+} from "../src";
 
 const req = (path: string) => new Request(`http://localhost${path}`);
 
@@ -190,6 +196,49 @@ describe("OpenAPI", () => {
         },
       });
     });
+
+    test("Should cache the specs", async () => {
+      const app = new Spectra();
+      app.use("/openapi", openAPISpecs(app));
+      app.get(
+        "/api/posts",
+        describeRoute({
+          description: "Get all posts",
+          responses: { 200: { description: "Success" } },
+        }),
+        (c) => c.json([])
+      );
+
+      const expected = {
+        info: {
+          title: "Spectra Documentation",
+          version: "0.0.0",
+        },
+        openapi: "3.0.3",
+        paths: {
+          "/api/posts": {
+            get: {
+              description: "Get all posts",
+              responses: {
+                "200": {
+                  description: "Success",
+                },
+              },
+            },
+          },
+        },
+      };
+
+      let res = await app.fetch(req("/openapi"));
+      expect(res.status).toBe(200);
+      expect(res.headers.get("Content-Type")).toBe(
+        "application/json; charset=UTF-8"
+      );
+      expect(await res.json()).toEqual(expected);
+
+      res = await app.fetch(req("/openapi"));
+      expect(await res.json()).toEqual(expected);
+    });
   });
 
   describe("describeRoute", () => {
@@ -251,5 +300,80 @@ describe("SwaggerUI Middleware", async () => {
         "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.17.0/swagger-ui-bundle.js"
       )
     ).toBe(true);
+  });
+});
+
+describe("Swagger Editor Middleware", async () => {
+  test("Basic", async () => {
+    const app = new Spectra();
+    app.use("/editor", swaggerEditor());
+
+    const res = await app.fetch(req("/editor"));
+    expect(res.headers.get("Content-Type")).toBe("text/html; charset=UTF-8");
+    expect(res.status).toBe(200);
+  });
+
+  test("Custom title", async () => {
+    const app = new Spectra();
+    app.use(
+      "/editor",
+      swaggerEditor({
+        title: "Editor",
+      })
+    );
+
+    const res = await app.fetch(req("/editor"));
+    expect(res.status).toBe(200);
+
+    const html = await res.text();
+    expect(html.includes("<title>Editor</title>")).toBe(true);
+  });
+
+  test("Custom version", async () => {
+    const app = new Spectra();
+    app.use(
+      "/editor",
+      swaggerEditor({
+        version: "4.13.0",
+      })
+    );
+
+    const res = await app.fetch(req("/editor"));
+    expect(res.status).toBe(200);
+
+    const html = await res.text();
+    expect(
+      html.includes(
+        "https://cdn.jsdelivr.net/npm/swagger-editor-dist@4.13.0/swagger-editor-bundle.js"
+      )
+    ).toBe(true);
+    expect(
+      html.includes(
+        "https://cdn.jsdelivr.net/npm/swagger-editor-dist@4.13.0/swagger-editor-standalone-preset.js"
+      )
+    ).toBe(true);
+  });
+
+  test("Transform options", async () => {
+    const app = new Spectra();
+    app.use(
+      "/editor",
+      swaggerEditor({
+        version: "4.13.0",
+        showCommonExtensions: true,
+        syntaxHighlight: { theme: "tomorrow-night" },
+        plugins: [],
+      })
+    );
+
+    const res = await app.fetch(req("/editor"));
+    expect(res.status).toBe(200);
+
+    const html = await res.text();
+    expect(html.includes('syntaxHighlight: {"theme":"tomorrow-night"}')).toBe(
+      true
+    );
+    expect(html.includes("showCommonExtensions: true")).toBe(true);
+    expect(html.includes("plugins: []")).toBe(true);
   });
 });
