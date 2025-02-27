@@ -111,11 +111,25 @@ Tags to exclude from the documentation.
 Generate a [Swagger UI](https://swagger.io/tools/swagger-ui) page documenting your application.
 
 ```ts
-export type SwaggerUIOptions = Omit<
+type SwaggerUIOptions = Omit<
   Partial<SwaggerUIConfigOptions>,
   "dom_id" | "dom_node" | "url" | "urls" | "spec"
 > & {
   url: string;
+  title?: string;
+  version?: string;
+};
+```
+
+### swaggerEditor
+
+Serve [Swagger Editor](https://editor.swagger.io) on a specific route.
+
+```ts
+type SwaggerEditorOptions = Omit<
+  Partial<SwaggerUIConfigOptions>,
+  "dom_id" | "dom_node" | "url" | "urls" | "spec" | "presets"
+> & {
   title?: string;
   version?: string;
 };
