@@ -6,7 +6,7 @@
 
 ```ts
 import { Spectra } from "@spectrajs/core";
-import { cors } from "@spectrajs/core/middleware";
+import { cors } from "@spectrajs/core/cors";
 ```
 
 ## Usage

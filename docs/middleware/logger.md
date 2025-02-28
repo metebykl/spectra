@@ -8,7 +8,7 @@ The logger middleware logs the request and response details to the console.
 
 ```ts
 import { Spectra } from "@spectrajs/core";
-import { logger } from "@spectrajs/core/middleware";
+import { logger } from "@spectrajs/core/logger";
 ```
 
 ## Usage

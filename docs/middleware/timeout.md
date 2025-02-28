@@ -9,7 +9,7 @@ can take before it is terminated and supports custom timeout handlers.
 
 ```ts
 import { Spectra } from "@spectrajs/core";
-import { timeout } from "@spectrajs/core/middleware";
+import { timeout } from "@spectrajs/core/timeout";
 ```
 
 ## Usage

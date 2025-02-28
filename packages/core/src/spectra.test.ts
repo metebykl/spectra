@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest";
 import { Spectra } from "./spectra";
-import { poweredBy } from "./middleware";
+import { poweredBy } from "./middleware/powered-by";
 
 describe("Routing", () => {
   test("Base path", async () => {
