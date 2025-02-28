@@ -1,5 +1,11 @@
 # @spectrajs/swagger
 
+## 0.11.0
+
+### Minor Changes
+
+- a01d19c: Added Swagger Editor middleware.
+
 ## 0.10.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @spectrajs/core
 
+## 0.11.0
+
+### Minor Changes
+
+- d6abc8b: Updated middleware import paths to be referenced directly from `@spectrajs/core/<middleware-name>` (e.g., `@spectrajs/core/cors`). The old import paths (`@spectrajs/core/middleware` and `@spectrajs/core/middleware/<middleware-name>`) are deprecated.
+
 ## 0.10.0
 
 ### Minor Changes
