@@ -9,7 +9,7 @@ By default, it is set to `Spectra` and can be customized.
 
 ```ts
 import { Spectra } from "@spectrajs/core";
-import { poweredBy } from "@spectrajs/core/middleware";
+import { poweredBy } from "@spectrajs/core/powered-by";
 ```
 
 ## Usage

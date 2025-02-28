@@ -49,15 +49,45 @@
       "import": "./dist/helpers/stream/index.js",
       "require": "./dist/helpers/stream/index.cjs"
     },
-    "./middleware": {
-      "types": "./dist/middleware/index.d.ts",
-      "import": "./dist/middleware/index.js",
-      "require": "./dist/middleware/index.cjs"
+    "./body-limit": {
+      "types": "./dist/middleware/body-limit/index.d.ts",
+      "import": "./dist/middleware/body-limit/index.js",
+      "require": "./dist/middleware/body-limit/index.cjs"
     },
-    "./middleware/*": {
-      "types": "./dist/middleware/*/index.d.ts",
-      "import": "./dist/middleware/*/index.js",
-      "require": "./dist/middleware/*/index.cjs"
+    "./compression": {
+      "types": "./dist/middleware/compression/index.d.ts",
+      "import": "./dist/middleware/compression/index.js",
+      "require": "./dist/middleware/compression/index.cjs"
+    },
+    "./cors": {
+      "types": "./dist/middleware/cors/index.d.ts",
+      "import": "./dist/middleware/cors/index.js",
+      "require": "./dist/middleware/cors/index.cjs"
+    },
+    "./etag": {
+      "types": "./dist/middleware/etag/index.d.ts",
+      "import": "./dist/middleware/etag/index.js",
+      "require": "./dist/middleware/etag/index.cjs"
+    },
+    "./logger": {
+      "types": "./dist/middleware/logger/index.d.ts",
+      "import": "./dist/middleware/logger/index.js",
+      "require": "./dist/middleware/logger/index.cjs"
+    },
+    "./powered-by": {
+      "types": "./dist/middleware/powered-by/index.d.ts",
+      "import": "./dist/middleware/powered-by/index.js",
+      "require": "./dist/middleware/powered-by/index.cjs"
+    },
+    "./request-id": {
+      "types": "./dist/middleware/request-id/index.d.ts",
+      "import": "./dist/middleware/request-id/index.js",
+      "require": "./dist/middleware/request-id/index.cjs"
+    },
+    "./timeout": {
+      "types": "./dist/middleware/timeout/index.d.ts",
+      "import": "./dist/middleware/timeout/index.js",
+      "require": "./dist/middleware/timeout/index.cjs"
     },
     "./utils/*": {
       "types": "./dist/utils/*.d.ts",
@@ -79,11 +109,29 @@
       "stream": [
         "./dist/helpers/stream/index.d.ts"
       ],
-      "middleware": [
-        "./dist/middleware/index.d.ts"
+      "body-limit": [
+        "./dist/middleware/body-limit/index.d.ts"
       ],
-      "middleware/*": [
-        "./dist/middleware/*/index.d.ts"
+      "compression": [
+        "./dist/middleware/compression/index.d.ts"
+      ],
+      "cors": [
+        "./dist/middleware/cors/index.d.ts"
+      ],
+      "etag": [
+        "./dist/middleware/etag/index.d.ts"
+      ],
+      "logger": [
+        "./dist/middleware/logger/index.d.ts"
+      ],
+      "powered-by": [
+        "./dist/middleware/powered-by/index.d.ts"
+      ],
+      "request-id": [
+        "./dist/middleware/request-id/index.d.ts"
+      ],
+      "timeout": [
+        "./dist/middleware/timeout/index.d.ts"
       ],
       "utils/*": [
         "./dist/utils/*.d.ts"

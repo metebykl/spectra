@@ -11,7 +11,7 @@ the provided handler or send a 413 status code with a default message.
 
 ```ts
 import { Spectra } from "@spectrajs/core";
-import { bodyLimit } from "@spectrajs/core/middleware";
+import { bodyLimit } from "@spectrajs/core/body-limit";
 ```
 
 ## Usage

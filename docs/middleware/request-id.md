@@ -9,7 +9,7 @@ every request, which will be used in handlers.
 
 ```ts
 import { Spectra } from "@spectrajs/core";
-import { requestId } from "@spectrajs/core/middleware";
+import { requestId } from "@spectrajs/core/request-id";
 ```
 
 ## Usage

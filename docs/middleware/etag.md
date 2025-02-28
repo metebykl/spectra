@@ -10,7 +10,7 @@ from overwriting each other [("mid-air collisions")](https://developer.mozilla.o
 
 ```ts
 import { Spectra } from "@spectrajs/core";
-import { etag } from "@spectrajs/core/middleware";
+import { etag } from "@spectrajs/core/etag";
 ```
 
 ## Usage

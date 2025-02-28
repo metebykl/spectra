@@ -10,7 +10,7 @@ encoding based on the `Accept-Encoding` headers if not specified.
 
 ```ts
 import { Spectra } from "@spectrajs/core";
-import { compression } from "@spectrajs/core/middleware";
+import { compression } from "@spectrajs/core/compression";
 ```
 
 ## Usage
