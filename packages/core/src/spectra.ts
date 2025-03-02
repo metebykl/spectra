@@ -195,16 +195,11 @@ export class Spectra<BasePath extends string = "/"> {
     middleware: MiddlewareHandler[],
     handler: Handler<any>
   ): Promise<Context> {
-    let index = -1;
+    let response: Response;
 
-    const next = async () => {
-      index++;
-
-      let response: Response;
-
+    const dispatch = async (index: number) => {
       if (index < middleware.length) {
-        const handler = await middleware[index];
-        const res = await handler(context, next);
+        const res = await middleware[index](context, () => dispatch(index + 1));
         if (res instanceof Response) {
           response = res;
         }
@@ -212,13 +207,12 @@ export class Spectra<BasePath extends string = "/"> {
         response = await handler(context);
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      if (response! && context.finalized === false) {
+      if (response && context.finalized === false) {
         context.res = response;
       }
     };
 
-    await next();
+    await dispatch(0);
     return context;
   }
 
