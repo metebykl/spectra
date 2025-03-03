@@ -1,14 +1,17 @@
 # @spectrajs/node
 
-Adapter for using [Spectra](https://github.com/metebykl/spectra) in Node.js environments.
+[![codecov](https://codecov.io/gh/metebykl/spectra/graph/badge.svg)](https://codecov.io/gh/metebykl/spectra)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/metebykl/spectra/ci.yml?branch=main)](https://github.com/metebykl/spectra/actions)
+[![License](https://img.shields.io/github/license/metebykl/spectra)](https://github.com/metebykl/spectra/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/@spectrajs/node.svg)](https://www.npmjs.com/package/@spectrajs/node)
+[![npm](https://img.shields.io/npm/d18m/@spectrajs/node.svg)](https://www.npmjs.com/package/@spectrajs/node)
+[![Bundle Size](https://img.shields.io/bundlephobia/min/@spectrajs/node)](https://bundlephobia.com/result?p=@spectrajs/node)
 
-[![Version](https://img.shields.io/npm/v/@spectrajs/node.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/node)
-[![License](https://img.shields.io/npm/l/@spectrajs/node.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/node)
-[![Downloads](https://img.shields.io/npm/d18m/@spectrajs/node.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/node)
+Adapter for using [Spectra](https://github.com/metebykl/spectra) in Node.js environments.
 
 ## Installation
 
-```bash
+```sh
 npm install @spectrajs/node
 ```
 

@@ -1,17 +1,17 @@
 # @spectrajs/trpc
 
+[![codecov](https://codecov.io/gh/metebykl/spectra/graph/badge.svg)](https://codecov.io/gh/metebykl/spectra)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/metebykl/spectra/ci.yml?branch=main)](https://github.com/metebykl/spectra/actions)
+[![License](https://img.shields.io/github/license/metebykl/spectra)](https://github.com/metebykl/spectra/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/@spectrajs/trpc.svg)](https://www.npmjs.com/package/@spectrajs/trpc)
+[![npm](https://img.shields.io/npm/d18m/@spectrajs/trpc.svg)](https://www.npmjs.com/package/@spectrajs/trpc)
+[![Bundle Size](https://img.shields.io/bundlephobia/min/@spectrajs/trpc)](https://bundlephobia.com/result?p=@spectrajs/trpc)
+
 A plugin for [Spectra](https://github.com/metebykl/spectra) that provides [tRPC](https://trpc.io) support.
-
-[![Version](https://img.shields.io/npm/v/@spectrajs/trpc.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/trpc)
-[![License](https://img.shields.io/npm/l/@spectrajs/trpc.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/trpc)
-[![Downloads](https://img.shields.io/npm/d18m/@spectrajs/trpc.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/trpc)
-
-> [!WARNING]
-> This package is still in development and is not ready for production use.
 
 ## Installation
 
-```bash
+```sh
 npm install @spectrajs/trpc
 ```
 
