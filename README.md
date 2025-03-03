@@ -1,8 +1,9 @@
 # Spectra
 
-[![npm](https://img.shields.io/npm/v/@spectrajs/core.svg)](https://www.npmjs.com/package/@spectrajs/core)
-[![License](https://img.shields.io/github/license/metebykl/spectra)](https://github.com/metebykl/spectra/blob/main/LICENSE)
+[![codecov](https://codecov.io/gh/metebykl/spectra/graph/badge.svg)](https://codecov.io/gh/metebykl/spectra)
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/metebykl/spectra/ci.yml?branch=main)](https://github.com/metebykl/spectra/actions)
+[![License](https://img.shields.io/github/license/metebykl/spectra)](https://github.com/metebykl/spectra/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/@spectrajs/core.svg)](https://www.npmjs.com/package/@spectrajs/core)
 [![npm](https://img.shields.io/npm/d18m/@spectrajs/core.svg)](https://www.npmjs.com/package/@spectrajs/core)
 [![Bundle Size](https://img.shields.io/bundlephobia/min/@spectrajs/core)](https://bundlephobia.com/result?p=@spectrajs/core)
 

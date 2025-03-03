@@ -1,15 +1,18 @@
 # @spectrajs/swagger
 
+[![codecov](https://codecov.io/gh/metebykl/spectra/graph/badge.svg)](https://codecov.io/gh/metebykl/spectra)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/metebykl/spectra/ci.yml?branch=main)](https://github.com/metebykl/spectra/actions)
+[![License](https://img.shields.io/github/license/metebykl/spectra)](https://github.com/metebykl/spectra/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/@spectrajs/swagger.svg)](https://www.npmjs.com/package/@spectrajs/swagger)
+[![npm](https://img.shields.io/npm/d18m/@spectrajs/swagger.svg)](https://www.npmjs.com/package/@spectrajs/swagger)
+[![Bundle Size](https://img.shields.io/bundlephobia/min/@spectrajs/swagger)](https://bundlephobia.com/result?p=@spectrajs/swagger)
+
 A Spectra plugin for serving [Swagger (OpenAPI v3)](https://swagger.io/specification)
 schemas, which are automatically generated from your routes.
 
-[![Version](https://img.shields.io/npm/v/@spectrajs/swagger.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/swagger)
-[![License](https://img.shields.io/npm/l/@spectrajs/swagger.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/swagger)
-[![Downloads](https://img.shields.io/npm/d18m/@spectrajs/swagger.svg?style=flat)](https://www.npmjs.com/package/@spectrajs/swagger)
-
 ## Installation
 
-```bash
+```sh
 npm install @spectrajs/swagger
 ```
 
