@@ -1,6 +1,12 @@
 {
   "name": "spectrajs",
   "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20",
+    "pnpm": "^10.3.0"
+  },
+  "packageManager": "pnpm@10.3.0",
   "scripts": {
     "build": "turbo run build",
     "build:core": "turbo run build --filter=@spectrajs/core",
@@ -24,7 +30,6 @@
     "typescript-eslint": "^8.18.1",
     "vitest": "^2.1.9"
   },
-  "packageManager": "npm@10.0.0",
   "workspaces": {
     "packages": [
       "packages/*"
