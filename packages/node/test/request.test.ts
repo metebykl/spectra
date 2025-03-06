@@ -31,4 +31,20 @@ describe("convertIncomingMessageToRequest", () => {
     expect(req).toBeInstanceOf(Request);
     expect(req.url).toBe("http://localhost/foo.png");
   });
+
+  test("Should convert TRACE request", async () => {
+    const url = new URL("http://localhost/");
+    const req = convertIncomingMessageToRequest(url, {
+      method: "TRACE",
+      url: url.pathname,
+      headers: {
+        host: "localhost",
+      },
+    } as IncomingMessage);
+
+    expect(req).toBeInstanceOf(Request);
+    expect(req.method).toBe("TRACE");
+    expect(req.url).toBe("http://localhost/");
+    expect(req.headers.get("host")).toBe("localhost");
+  });
 });
