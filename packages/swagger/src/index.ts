@@ -21,7 +21,7 @@ export const describeRoute = (schema: OpenAPIOperation): MiddlewareHandler => {
 
 export type OpenAPISpecsOptions = {
   documentation?: Partial<OpenAPIDocument>;
-  exclude?: string[];
+  exclude?: (string | RegExp)[];
   excludeMethods?: (typeof ALLOWED_METHODS)[number][];
   excludeTags?: string[];
 };
@@ -80,7 +80,7 @@ export const generateSpecs = (
         ...documentation?.info,
       },
       paths: {
-        ...filterPaths(schema, exclude),
+        ...filterPaths(schema, { exclude }),
         ...documentation?.paths,
       },
     },
