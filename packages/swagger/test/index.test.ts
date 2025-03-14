@@ -63,6 +63,15 @@ describe("OpenAPI", () => {
       const app = new Spectra();
 
       app.get(
+        "/api/posts",
+        describeRoute({
+          description: "Get all posts",
+          responses: { 200: { description: "Success" } },
+        }),
+        (c) => c.json([])
+      );
+
+      app.get(
         "/api/users",
         describeRoute({
           description: "Get all users",
@@ -80,8 +89,11 @@ describe("OpenAPI", () => {
         (c) => c.json({ userId: c.req.param("userId") })
       );
 
-      const specs = generateSpecs(app, { exclude: ["/api/users/{userId}"] });
+      const specs = generateSpecs(app, {
+        exclude: [/posts/, "/api/users/{userId}"],
+      });
 
+      expect(specs.paths["/api/posts"]).toBeFalsy();
       expect(specs.paths["/api/users"]).toEqual({
         get: {
           description: "Get all users",

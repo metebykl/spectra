@@ -1,3 +1,4 @@
+import type { OpenAPISpecsOptions } from ".";
 import type { OpenAPIDocument, OpenAPIOperation } from "./openapi";
 
 export const ALLOWED_METHODS = [
@@ -46,13 +47,20 @@ export const registerPath = ({
 
 export const filterPaths = (
   paths: OpenAPIDocument["paths"],
-  exclude: string[]
+  { exclude = [] }: Pick<OpenAPISpecsOptions, "exclude">
 ): OpenAPIDocument["paths"] => {
   const filteredPaths: OpenAPIDocument["paths"] = {};
 
   for (const [path, schema] of Object.entries(paths)) {
-    // TODO: implement regex matchers
-    if (exclude.includes(path)) continue;
+    const matches = exclude.some((e) => {
+      if (typeof e === "string") {
+        return path === e;
+      }
+
+      return e.test(path);
+    });
+
+    if (matches || path.includes("*")) continue;
 
     // TODO: auto generate some route fields
     filteredPaths[path] = schema;
