@@ -19,6 +19,7 @@
 ### Guides
 
 - [Testing](guides/testing.md)
+- [Validation](guides/validation.md)
 
 ### Plugins
 
