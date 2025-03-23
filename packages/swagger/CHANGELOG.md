@@ -1,5 +1,11 @@
 # @spectrajs/swagger
 
+## 0.12.0
+
+### Minor Changes
+
+- b1a497b: Added RegExp support for path exclusion.
+
 ## 0.11.0
 
 ### Minor Changes

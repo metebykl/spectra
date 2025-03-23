@@ -1,5 +1,11 @@
 # @spectrajs/core
 
+## 0.12.0
+
+### Minor Changes
+
+- 8ff3e94: Added built-in request validator.
+
 ## 0.11.0
 
 ### Minor Changes
