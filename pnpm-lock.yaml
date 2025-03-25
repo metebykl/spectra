@@ -63,8 +63,8 @@ importers:
         specifier: ^9.15.0
         version: 9.21.0
       '@spectrajs/core':
-        specifier: ^0.11.0
-        version: 0.11.0
+        specifier: ^0.12.0
+        version: 0.12.0
       '@types/node':
         specifier: ^22.10.2
         version: 22.13.9
@@ -93,8 +93,8 @@ importers:
         specifier: ^9.15.0
         version: 9.21.0
       '@spectrajs/core':
-        specifier: ^0.11.0
-        version: 0.11.0
+        specifier: ^0.12.0
+        version: 0.12.0
       '@types/node':
         specifier: ^22.10.2
         version: 22.13.9
@@ -117,8 +117,8 @@ importers:
         specifier: ^9.15.0
         version: 9.21.0
       '@spectrajs/core':
-        specifier: ^0.11.0
-        version: 0.11.0
+        specifier: ^0.12.0
+        version: 0.12.0
       '@trpc/server':
         specifier: ^10.45.2
         version: 10.45.2
@@ -708,8 +708,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@spectrajs/core@0.11.0':
-    resolution: {integrity: sha512-MISJtodXI8bjtTjffS7KICUqCnVoVHQvcv+ROVNOeXqqroGGjg1wmLumD4KQcgU7pp1JsjnYdBlcgvXuyKwEdQ==}
+  '@spectrajs/core@0.12.0':
+    resolution: {integrity: sha512-muvCsraQbw7qS92ouuy+XHNE91+Bx/4aJXehS7R4SjQEtn6avKIBgXy7F/vBrR1EWa4xqrKbyRfr/56WbrAjoQ==}
 
   '@trpc/server@10.45.2':
     resolution: {integrity: sha512-wOrSThNNE4HUnuhJG6PfDRp4L2009KDVxsd+2VYH8ro6o/7/jwYZ8Uu5j+VaW+mOmc8EHerHzGcdbGNQSAUPgg==}
@@ -2458,7 +2458,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.34.9':
     optional: true
 
-  '@spectrajs/core@0.11.0': {}
+  '@spectrajs/core@0.12.0': {}
 
   '@trpc/server@10.45.2': {}
 

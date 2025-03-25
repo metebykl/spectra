@@ -105,6 +105,9 @@
       ".": [
         "./dist/index.d.ts"
       ],
+      "validator": [
+        "./dist/validator.d.ts"
+      ],
       "cookie": [
         "./dist/cookie.d.ts"
       ],
