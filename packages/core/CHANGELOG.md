@@ -1,5 +1,11 @@
 # @spectrajs/core
 
+## 0.12.1
+
+### Patch Changes
+
+- 29b8247: Fixed missing type resolution for `@spectrajs/core/validator`.
+
 ## 0.12.0
 
 ### Minor Changes
