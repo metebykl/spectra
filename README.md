@@ -46,6 +46,7 @@ The documentation is available [here](docs/index.md).
 - [@spectrajs/node](https://www.npmjs.com/package/@spectrajs/node)
 - [@spectrajs/trpc](https://www.npmjs.com/package/@spectrajs/trpc)
 - [@spectrajs/swagger](https://www.npmjs.com/package/@spectrajs/swagger)
+- [@spectrajs/zod](https://www.npmjs.com/package/@spectrajs/zod)
 
 ## Author
 

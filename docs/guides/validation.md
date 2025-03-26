@@ -44,3 +44,39 @@ The validated values are stored in `c.get("valid")` and can be safely
 accessed in the next middleware.
 
 Validation targets include `json`, `form`, `query`, `params`, and `headers`.
+
+### Zod Validator
+
+The Zod Validator is a middleware that uses [Zod](https://zod.dev) to
+validate incoming data. It uses [Core Validator](#core-validator) under the hood.
+
+Start by installing `zod` and `@spectrajs/zod`:
+
+```sh
+npm install zod @spectrajs/zod
+```
+
+Import `zodValidator` from `@spectrajs/zod` and `z` from `zod`:
+
+```ts
+import { zodValidator } from "@spectrajs/zod";
+import { z } from "zod";
+```
+
+Then, define your schema:
+
+```ts
+const schema = z.object({
+  name: z.string(),
+  age: z.number(),
+});
+```
+
+Finally, use `zodValidator` to validate incoming data:
+
+```ts
+app.post("/post", zodValidator("json", schema), async (c) => {
+  const { name, age } = c.get<z.infer<typeof schema>>("valid");
+  return c.json({ name, age });
+});
+```
