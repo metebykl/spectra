@@ -63,8 +63,8 @@ importers:
         specifier: ^9.15.0
         version: 9.21.0
       '@spectrajs/core':
-        specifier: ^0.12.0
-        version: 0.12.0
+        specifier: ^0.12.1
+        version: 0.12.1
       '@types/node':
         specifier: ^22.10.2
         version: 22.13.9
@@ -93,8 +93,8 @@ importers:
         specifier: ^9.15.0
         version: 9.21.0
       '@spectrajs/core':
-        specifier: ^0.12.0
-        version: 0.12.0
+        specifier: ^0.12.1
+        version: 0.12.1
       '@types/node':
         specifier: ^22.10.2
         version: 22.13.9
@@ -117,8 +117,8 @@ importers:
         specifier: ^9.15.0
         version: 9.21.0
       '@spectrajs/core':
-        specifier: ^0.12.0
-        version: 0.12.0
+        specifier: ^0.12.1
+        version: 0.12.1
       '@trpc/server':
         specifier: ^10.45.2
         version: 10.45.2
@@ -137,6 +137,33 @@ importers:
       typescript:
         specifier: ^5.6.3
         version: 5.8.2
+
+  packages/zod:
+    devDependencies:
+      '@eslint/js':
+        specifier: ^9.15.0
+        version: 9.21.0
+      '@spectrajs/core':
+        specifier: ^0.12.1
+        version: 0.12.1
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.13.9
+      eslint:
+        specifier: ^9.15.0
+        version: 9.21.0
+      prettier:
+        specifier: ^3.3.3
+        version: 3.5.3
+      tsup:
+        specifier: ^8.3.5
+        version: 8.4.0(postcss@8.5.3)(typescript@5.8.2)
+      typescript:
+        specifier: ^5.6.3
+        version: 5.8.2
+      zod:
+        specifier: ^3.24.2
+        version: 3.24.2
 
 packages:
 
@@ -708,8 +735,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@spectrajs/core@0.12.0':
-    resolution: {integrity: sha512-muvCsraQbw7qS92ouuy+XHNE91+Bx/4aJXehS7R4SjQEtn6avKIBgXy7F/vBrR1EWa4xqrKbyRfr/56WbrAjoQ==}
+  '@spectrajs/core@0.12.1':
+    resolution: {integrity: sha512-RPO4hqGQ7lYWvuKG7KxSkuiAymtm1JLZhhiU493ktdJtTQ3dizbNbIaHGQzpRfaHROf9yDz4GF71Ybbk1MZlSQ==}
 
   '@trpc/server@10.45.2':
     resolution: {integrity: sha512-wOrSThNNE4HUnuhJG6PfDRp4L2009KDVxsd+2VYH8ro6o/7/jwYZ8Uu5j+VaW+mOmc8EHerHzGcdbGNQSAUPgg==}
@@ -1975,6 +2002,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -2458,7 +2488,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.34.9':
     optional: true
 
-  '@spectrajs/core@0.12.0': {}
+  '@spectrajs/core@0.12.1': {}
 
   '@trpc/server@10.45.2': {}
 
@@ -3766,3 +3796,5 @@ snapshots:
   wrappy@1.0.2: {}
 
   yocto-queue@0.1.0: {}
+
+  zod@3.24.2: {}
