@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getPath, getQueryParam } from "./utils/url";
 import type { ParamKeys, ParamsToRecord } from "./types";
-import type { RequestHeader } from "./utils/headers";
+import type { CustomHeader, RequestHeader } from "./utils/headers";
 
 type Body = {
   text?: string;
@@ -44,8 +44,8 @@ export class SpectraRequest<P extends string = "/"> {
     return getQueryParam(this.raw.url, key, true);
   }
 
-  header(name: RequestHeader | (string & {})): string | undefined;
-  header(): Record<RequestHeader | (string & {}), string | undefined>;
+  header(name: RequestHeader | CustomHeader): string | undefined;
+  header(): Record<RequestHeader | CustomHeader, string | undefined>;
   header(name?: string) {
     if (name) {
       return this.raw.headers.get(name) ?? undefined;

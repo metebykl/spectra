@@ -162,3 +162,5 @@ export type ResponseHeader =
   | "X-Permitted-Cross-Domain-Policies"
   | "X-Powered-By"
   | "X-Robots-Tag";
+
+export type CustomHeader = string & {};

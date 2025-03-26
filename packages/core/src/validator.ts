@@ -1,6 +1,6 @@
 import type { Context } from "./context";
 import type { MiddlewareHandler } from "./types";
-import type { RequestHeader } from "./utils/headers";
+import type { CustomHeader, RequestHeader } from "./utils/headers";
 
 export type ValidationTargets = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -8,7 +8,7 @@ export type ValidationTargets = {
   form: FormData;
   query: Record<string, string | string[]>;
   params: Record<string, string>;
-  headers: Record<RequestHeader | (string & {}), string>;
+  headers: Record<RequestHeader | CustomHeader, string>;
 };
 
 export type ValidationFunction<I, O> = (
