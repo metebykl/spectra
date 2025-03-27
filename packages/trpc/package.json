@@ -1,6 +1,6 @@
 {
   "name": "@spectrajs/trpc",
-  "version": "0.12.1",
+  "version": "0.13.0",
   "description": "tRPC Adapter for Spectra",
   "main": "./dist/index.cjs",
   "type": "module",
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
-    "@spectrajs/core": "^0.12.1",
+    "@spectrajs/core": "^0.13.0",
     "@trpc/server": "^10.45.2",
     "@types/node": "^22.10.2",
     "eslint": "^9.15.0",

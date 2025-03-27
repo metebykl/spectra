@@ -1,5 +1,12 @@
 # @spectrajs/core
 
+## 0.13.0
+
+### Minor Changes
+
+- 9a491f2: Added CustomHeader type.
+- da57167: Updated validator `form` target to transform `FormData` into typed object.
+
 ## 0.12.1
 
 ### Patch Changes
