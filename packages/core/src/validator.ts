@@ -5,7 +5,7 @@ import type { CustomHeader, RequestHeader } from "./utils/headers";
 export type ValidationTargets = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any;
-  form: FormData;
+  form: Record<string, string | File | (string | File)[]>;
   query: Record<string, string | string[]>;
   params: Record<string, string>;
   headers: Record<RequestHeader | CustomHeader, string>;
@@ -32,13 +32,30 @@ export const validator = <U extends keyof ValidationTargets, O>(
           return c.text("Bad Request", 400);
         }
         break;
-      case "form":
+      case "form": {
+        let formData: FormData;
         try {
-          value = await c.req.formData();
+          formData = await c.req.formData();
         } catch {
           return c.text("Bad Request", 400);
         }
+
+        const result: Record<string, string | File | (string | File)[]> = {};
+        formData.forEach((v, k) => {
+          if (k in result) {
+            if (Array.isArray(result[k])) {
+              (result[k] as (string | File)[]).push(v);
+            } else {
+              result[k] = [result[k] as string | File, v];
+            }
+          } else {
+            result[k] = v;
+          }
+        });
+
+        value = result;
         break;
+      }
       case "query":
         value = c.req.queries();
         break;

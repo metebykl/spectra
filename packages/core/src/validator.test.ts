@@ -88,16 +88,9 @@ describe("FormData", () => {
   const app = new Spectra();
   app.post(
     "/greet",
-    validator("form", (value, c) => {
-      const name = value.get("name");
-      if (!name || typeof name !== "string") {
-        return c.text("Bad Request", 400);
-      }
-      return value;
-    }),
+    validator("form", (value) => value),
     (c) => {
-      const formData = c.get("valid") as FormData;
-      return c.text(`Hi ${formData.get("name")}!`);
+      return c.json(c.get("valid"));
     }
   );
 
@@ -111,19 +104,23 @@ describe("FormData", () => {
       })
     );
     expect(res.status).toBe(200);
-    expect(await res.text()).toBe("Hi Spectra!");
+    expect(await res.json()).toEqual({ name: "Spectra" });
   });
 
-  test("Should return response 400", async () => {
+  test("Should return array if multiple values are appended", async () => {
     const formData = new FormData();
-    formData.append("foo", "bar");
+    formData.append("data", "foo");
+    formData.append("data", "bar");
+    formData.append("data", "baz");
+
     const res = await app.fetch(
       new Request("http://localhost/greet", {
         method: "POST",
         body: formData,
       })
     );
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ data: ["foo", "bar", "baz"] });
   });
 });
 
