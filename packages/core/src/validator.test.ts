@@ -34,7 +34,7 @@ describe("JSON", () => {
   });
 
   test("Should return response 400", async () => {
-    const res = await app.fetch(
+    let res = await app.fetch(
       new Request("http://localhost/greet", {
         method: "POST",
         headers: {
@@ -44,10 +44,8 @@ describe("JSON", () => {
       })
     );
     expect(res.status).toBe(400);
-  });
 
-  test("Should return response 400", async () => {
-    const res = await app.fetch(
+    res = await app.fetch(
       new Request("http://localhost/greet", {
         method: "POST",
         headers: {
@@ -237,6 +235,72 @@ describe("Headers", () => {
 
   test("Should return response 400", async () => {
     const res = await app.fetch(new Request("http://localhost/"));
+    expect(res.status).toBe(400);
+  });
+});
+
+describe("Multiple", () => {
+  const app = new Spectra();
+  app.post(
+    "/post",
+    validator("json", (value, c) => {
+      const name = value["name"];
+      if (!name || typeof name !== "string") {
+        return c.text("Bad Request", 400);
+      }
+      return { name };
+    }),
+    validator("headers", (value, c) => {
+      const reqId = value["x-request-id"];
+      if (!reqId) {
+        return c.text("Bad Request", 400);
+      }
+      return { reqId };
+    }),
+    (c) => {
+      const { name } = c.req.valid<{ name: string }>("json");
+      const { reqId } = c.req.valid<{ reqId: string }>("headers");
+      return c.json({ name, reqId });
+    }
+  );
+
+  test("Should return response 200 with valid data", async () => {
+    const res = await app.fetch(
+      new Request("http://localhost/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Request-Id": "1",
+        },
+        body: JSON.stringify({ name: "Spectra" }),
+      })
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ name: "Spectra", reqId: "1" });
+  });
+
+  test("Should return response 400", async () => {
+    let res = await app.fetch(
+      new Request("http://localhost/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Request-Id": "1",
+        },
+        body: JSON.stringify({ foo: "bar" }),
+      })
+    );
+    expect(res.status).toBe(400);
+
+    res = await app.fetch(
+      new Request("http://localhost/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: "Spectra" }),
+      })
+    );
     expect(res.status).toBe(400);
   });
 });
