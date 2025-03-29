@@ -3,7 +3,13 @@ import { Spectra } from "./spectra";
 /**
  * Types for handlers, middleware handlers, error handlers, and more.
  */
-export type { Handler, MiddlewareHandler, Next, ErrorHandler } from "./types";
+export type {
+  Handler,
+  MiddlewareHandler,
+  Next,
+  ErrorHandler,
+  ValidationTargets,
+} from "./types";
 
 /**
  * Type for context.

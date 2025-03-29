@@ -1,5 +1,5 @@
-import type { MiddlewareHandler } from "@spectrajs/core";
-import { validator, type ValidationTargets } from "@spectrajs/core/validator";
+import type { MiddlewareHandler, ValidationTargets } from "@spectrajs/core";
+import { validator } from "@spectrajs/core/validator";
 import { ZodObject, type ZodSchema } from "zod";
 
 export const zodValidator = <

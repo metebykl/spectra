@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getPath, getQueryParam } from "./utils/url";
-import type { ParamKeys, ParamsToRecord } from "./types";
+import type { ParamKeys, ParamsToRecord, ValidationTargets } from "./types";
 import type { CustomHeader, RequestHeader } from "./utils/headers";
 
 type Body = {
@@ -17,11 +17,13 @@ export class SpectraRequest<P extends string = "/"> {
 
   #params: ParamsToRecord<ParamKeys<P>>;
   #body: Body = {};
+  #validData: { [K in keyof ValidationTargets]?: unknown };
 
   constructor(request: Request, params: ParamsToRecord<ParamKeys<P>>) {
     this.raw = request;
     this.path = getPath(request);
     this.#params = params;
+    this.#validData = {};
   }
 
   param<K extends ParamKeys<P>>(key: K): string {
@@ -56,6 +58,14 @@ export class SpectraRequest<P extends string = "/"> {
       headers[k] = v;
     });
     return headers;
+  }
+
+  setValidData(target: keyof ValidationTargets, data: unknown): void {
+    this.#validData[target] = data;
+  }
+
+  valid<T>(target: keyof ValidationTargets): T {
+    return this.#validData[target] as T;
   }
 
   async #parseBody(key: keyof Body) {

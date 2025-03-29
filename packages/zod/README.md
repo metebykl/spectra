@@ -34,7 +34,7 @@ const schema = z.object({
 });
 
 app.post("/post", zodValidator("json", schema), async (c) => {
-  const { name, age } = c.get<z.infer<typeof schema>>("valid");
+  const { name, age } = c.req.valid<z.infer<typeof schema>>("json");
   return c.json({ name, age });
 });
 

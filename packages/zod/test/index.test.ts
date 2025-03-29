@@ -12,7 +12,7 @@ describe("Basic", () => {
   });
 
   app.post("/greet", zodValidator("json", schema), (c) => {
-    const { name, age } = c.get<z.infer<typeof schema>>("valid");
+    const { name, age } = c.req.valid<z.infer<typeof schema>>("json");
     return c.json({ name, age });
   });
 
@@ -69,7 +69,7 @@ describe("Headers", () => {
   });
 
   app.get("/user", zodValidator("headers", schema), (c) => {
-    const { authorization } = c.get<z.infer<typeof schema>>("valid");
+    const { authorization } = c.req.valid<z.infer<typeof schema>>("headers");
     return c.json({ authorization });
   });
 
