@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-invalid-void-type */
 import type { Context } from "./context";
 import type { Spectra } from "./spectra";
+import type { CustomHeader, RequestHeader } from "./utils/headers";
 
 ///////////////////////////////////////
 ////                               ////
@@ -241,3 +242,17 @@ export interface RouteInterface<BasePath extends string = "/"> {
     ]
   ): Spectra<BasePath>;
 }
+
+///////////////////////////////////////
+////                               ////
+////          Validation           ////
+////                               ////
+///////////////////////////////////////
+
+export type ValidationTargets = {
+  json: any;
+  form: Record<string, string | File | (string | File)[]>;
+  query: Record<string, string | string[]>;
+  params: Record<string, string>;
+  headers: Record<RequestHeader | CustomHeader, string>;
+};

@@ -14,7 +14,7 @@ describe("JSON", () => {
       return { name };
     }),
     (c) => {
-      const { name } = c.get("valid") as { name: string };
+      const { name } = c.req.valid<{ name: string }>("json");
       return c.json({ message: `Hi ${name}!` });
     }
   );
@@ -66,7 +66,7 @@ describe("Malformed JSON request", () => {
     "/post",
     validator("json", (value) => value),
     (c) => {
-      return c.json(c.get("valid"));
+      return c.json(c.req.valid("json"));
     }
   );
 
@@ -90,7 +90,7 @@ describe("FormData", () => {
     "/greet",
     validator("form", (value) => value),
     (c) => {
-      return c.json(c.get("valid"));
+      return c.json(c.req.valid("form"));
     }
   );
 
@@ -130,7 +130,7 @@ describe("Malformed FormData request", () => {
     "/post",
     validator("form", (value) => value),
     (c) => {
-      return c.json(c.get("valid"));
+      return c.json(c.req.valid("form"));
     }
   );
 
@@ -160,7 +160,7 @@ describe("Query", () => {
       return { q };
     }),
     (c) => {
-      const { q } = c.get("valid") as { q: string };
+      const { q } = c.req.valid<{ q: string }>("query");
       return c.text(q);
     }
   );
@@ -189,7 +189,7 @@ describe("Params", () => {
       return { id };
     }),
     (c) => {
-      const { id } = c.get("valid") as { id: string };
+      const { id } = c.req.valid<{ id: string }>("params");
       return c.text(id);
     }
   );
@@ -218,7 +218,7 @@ describe("Headers", () => {
       return { reqId };
     }),
     (c) => {
-      const { reqId } = c.get("valid") as { reqId: string };
+      const { reqId } = c.req.valid<{ reqId: string }>("headers");
       return c.text(reqId);
     }
   );

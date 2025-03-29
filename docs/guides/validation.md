@@ -34,13 +34,13 @@ app.post(
     };
   }),
   (c) => {
-    const { name } = c.get<{ name: string }>("valid");
+    const { name } = c.req.valid<{ name: string }>("json");
     return c.json({ message: `Hi ${name}!` });
   }
 );
 ```
 
-The validated values are stored in `c.get("valid")` and can be safely
+The validated values are stored in `c.req.valid(target)` and can be safely
 accessed in the next middleware.
 
 Validation targets include `json`, `form`, `query`, `params`, and `headers`.
@@ -76,7 +76,7 @@ Finally, use `zodValidator` to validate incoming data:
 
 ```ts
 app.post("/post", zodValidator("json", schema), async (c) => {
-  const { name, age } = c.get<z.infer<typeof schema>>("valid");
+  const { name, age } = c.req.valid<z.infer<typeof schema>>("json");
   return c.json({ name, age });
 });
 ```

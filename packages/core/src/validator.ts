@@ -1,15 +1,5 @@
 import type { Context } from "./context";
-import type { MiddlewareHandler } from "./types";
-import type { CustomHeader, RequestHeader } from "./utils/headers";
-
-export type ValidationTargets = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any;
-  form: Record<string, string | File | (string | File)[]>;
-  query: Record<string, string | string[]>;
-  params: Record<string, string>;
-  headers: Record<RequestHeader | CustomHeader, string>;
-};
+import type { MiddlewareHandler, ValidationTargets } from "./types";
 
 export type ValidationFunction<I, O> = (
   value: I,
@@ -23,7 +13,6 @@ export const validator = <U extends keyof ValidationTargets, O>(
   return async function (c, next) {
     let value;
 
-    // TODO: check content-type for json and form targets
     switch (target) {
       case "json":
         try {
@@ -72,7 +61,7 @@ export const validator = <U extends keyof ValidationTargets, O>(
       return res;
     }
 
-    c.set("valid", res);
+    c.req.setValidData(target, res);
     await next();
   };
 };
