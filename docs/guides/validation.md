@@ -80,3 +80,39 @@ app.post("/post", zodValidator("json", schema), async (c) => {
   return c.json({ name, age });
 });
 ```
+
+### ArkType Validator
+
+The ArkType Validator is a middleware that uses [ArkType](https://arktype.io) to
+validate incoming data. It uses [Core Validator](#core-validator) under the hood.
+
+Start by installing `arktype` and `@spectrajs/arktype`:
+
+```sh
+npm install arktype @spectrajs/arktype
+```
+
+Import `arktypeValidator` from `@spectrajs/arktype` and `type` from `arktype`:
+
+```ts
+import { arktypeValidator } from "@spectrajs/arktype";
+import { type } from "arktype";
+```
+
+Then, define your schema:
+
+```ts
+const User = type({
+  name: "string",
+  age: "number",
+});
+```
+
+Finally, use `arktypeValidator` to validate incoming data:
+
+```ts
+app.post("/post", arktypeValidator("json", User), async (c) => {
+  const { name, age } = c.req.valid<typeof User.infer>("json");
+  return c.json({ name, age });
+});
+```
