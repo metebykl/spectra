@@ -1,6 +1,6 @@
 {
   "name": "@spectrajs/trpc",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "tRPC Adapter for Spectra",
   "main": "./dist/index.cjs",
   "type": "module",
