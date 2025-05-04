@@ -166,15 +166,17 @@ export class Spectra<BasePath extends string = "/"> {
     }
 
     if (stack.length === 0) {
-      try {
-        const res = handler(c);
-        return res;
-      } catch (err) {
-        if (err instanceof Error) {
-          return this.#errorHandler(c, err);
+      return (async () => {
+        try {
+          const res = await handler(c);
+          return res;
+        } catch (err) {
+          if (err instanceof Error) {
+            return this.#errorHandler(c, err);
+          }
+          throw err;
         }
-        throw err;
-      }
+      })();
     }
 
     return (async () => {
