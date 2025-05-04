@@ -1,6 +1,6 @@
 {
   "name": "@spectrajs/arktype",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "ArkType Validator for Spectra",
   "main": "./dist/index.cjs",
   "type": "module",

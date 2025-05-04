@@ -1,6 +1,6 @@
 {
   "name": "@spectrajs/swagger",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "Swagger integration for Spectra",
   "main": "./dist/index.cjs",
   "type": "module",

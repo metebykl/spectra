@@ -1,5 +1,11 @@
 # @spectrajs/core
 
+## 0.14.1
+
+### Patch Changes
+
+- 0b819fd: Fixed error handling for async route handlers.
+
 ## 0.14.0
 
 ### Minor Changes
