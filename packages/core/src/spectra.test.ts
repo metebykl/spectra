@@ -197,8 +197,16 @@ describe("Error Handler", () => {
       throw new Error("Handler Error");
     });
 
+    app.get("/unexpected", () => {
+      throw "Handler Error";
+    });
+
     app.use("/middleware", () => {
       throw new Error("Middleware Error");
+    });
+
+    app.use("/middleware-unexpected", () => {
+      throw "Middleware Error";
     });
 
     test("Should return default error message", async () => {
@@ -213,6 +221,16 @@ describe("Error Handler", () => {
       res = await app.fetch(new Request("http://localhost/middleware"));
       expect(res.status).toBe(500);
       expect(await res.text()).toBe("Internal Server Error");
+    });
+
+    test("Should throw if not instanceof Error", async () => {
+      await expect(
+        async () => await app.fetch(new Request("http://localhost/unexpected"))
+      ).rejects.toThrow();
+      await expect(
+        async () =>
+          await app.fetch(new Request("http://localhost/middleware-unexpected"))
+      ).rejects.toThrow();
     });
   });
 
@@ -272,6 +290,59 @@ describe("Error Handler", () => {
       expect(res.status).toBe(500);
       expect(res.headers.get("X-Error")).toBe("Middleware Error");
       expect(await res.text()).toBe("Custom Message");
+    });
+  });
+
+  describe("With stack", () => {
+    const app = new Spectra();
+
+    app.use("*", async (_, next) => {
+      await next();
+    });
+
+    app.use("*", async (_, next) => {
+      await next();
+    });
+
+    app.get("/", () => {
+      throw new Error("Handler Error");
+    });
+
+    app.get("/async", async () => {
+      throw new Error("Handler Error");
+    });
+
+    app.get("/unexpected", () => {
+      throw "Handler Error";
+    });
+
+    app.use("/middleware", () => {
+      throw new Error("Middleware Error");
+    });
+
+    app.onError((c) => {
+      return c.text("Custom Message", 500);
+    });
+
+    test("Should return custom error message", async () => {
+      let res = await app.fetch(new Request("http://localhost/"));
+      expect(res.status).toBe(500);
+      expect(await res.text()).toBe("Custom Message");
+
+      res = await app.fetch(new Request("http://localhost/async"));
+      expect(res.status).toBe(500);
+      expect(await res.text()).toBe("Custom Message");
+
+      res = await app.fetch(new Request("http://localhost/middleware"));
+      expect(res.status).toBe(500);
+      expect(await res.text()).toBe("Custom Message");
+    });
+
+    test("Should throw if not instanceof Error", async () => {
+      const fn = async () => {
+        await app.fetch(new Request("http://localhost/unexpected"));
+      };
+      await expect(fn()).rejects.toThrow();
     });
   });
 });
