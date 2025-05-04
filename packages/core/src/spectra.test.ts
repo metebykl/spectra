@@ -193,12 +193,20 @@ describe("Error Handler", () => {
       throw new Error("Handler Error");
     });
 
+    app.get("/async", async () => {
+      throw new Error("Handler Error");
+    });
+
     app.use("/middleware", () => {
       throw new Error("Middleware Error");
     });
 
     test("Should return default error message", async () => {
       let res = await app.fetch(new Request("http://localhost/"));
+      expect(res.status).toBe(500);
+      expect(await res.text()).toBe("Internal Server Error");
+
+      res = await app.fetch(new Request("http://localhost/async"));
       expect(res.status).toBe(500);
       expect(await res.text()).toBe("Internal Server Error");
 
@@ -489,6 +497,37 @@ describe("With `app.route`", () => {
       const res = await app.fetch(new Request("http://localhost/api/post/1"));
       expect(res.status).toBe(200);
       expect(await res.text()).toBe("post 1");
+    });
+  });
+
+  describe("Error handler", () => {
+    const app = new Spectra();
+    const api = new Spectra();
+
+    api.get("/", () => {
+      throw new Error("Failed");
+    });
+
+    api.get("/async", async () => {
+      throw new Error("Failed");
+    });
+
+    app.route("/api", api);
+
+    app.onError((c, err) => {
+      return c.json({ error: err.message }, 500);
+    });
+
+    test("Should handle error", async () => {
+      const res = await app.fetch(new Request("http://localhost/api"));
+      expect(res.status).toBe(500);
+      expect(await res.json()).toEqual({ error: "Failed" });
+    });
+
+    test("Should handle error - async handler", async () => {
+      const res = await app.fetch(new Request("http://localhost/api/async"));
+      expect(res.status).toBe(500);
+      expect(await res.json()).toEqual({ error: "Failed" });
     });
   });
 });
