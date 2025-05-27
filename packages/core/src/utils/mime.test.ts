@@ -8,6 +8,9 @@ describe("Mime", () => {
     expect(getMimeType("index.json")).toBe("application/json");
     expect(getMimeType("image.png")).toBe("image/png");
     expect(getMimeType("foo.bar.gif")).toBe("image/gif");
+    expect(getMimeType("manifest.webmanifest")).toBe(
+      "application/manifest+json"
+    );
     expect(getMimeType("index")).toBeUndefined();
     expect(getMimeType("index.random")).toBeUndefined();
   });
