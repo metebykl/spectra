@@ -1,0 +1,15 @@
+"documentation":
+  - changed-files:
+      - any-glob-to-any-file: ["docs/**/*", "examples/**/*"]
+
+"@spectrajs/core":
+  - changed-files:
+      - any-glob-to-any-file: packages/core/**/*
+
+"@spectrajs/node":
+  - changed-files:
+      - any-glob-to-any-file: packages/node/**/*
+
+"@spectrajs/swagger":
+  - changed-files:
+      - any-glob-to-any-file: packages/swagger/**/*
